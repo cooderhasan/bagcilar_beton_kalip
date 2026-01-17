@@ -1,0 +1,142 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String?
+  role      String   @default("ADMIN")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SiteSettings {
+  id             Int      @id @default(1)
+  logoUrl        String?
+  footerLogoUrl  String?
+  logoHeight     Int?     @default(60) // Logo height in pixels
+  faviconUrl     String?
+  phone          String?
+  email          String?
+  address        String?
+  instagram      String?
+  facebook       String?
+  linkedin       String?
+  seoTitle       String?
+  seoDescription String?
+  seoKeywords    String? // Comma separated
+  catalogUrl     String? // PDF Catalog URL
+  updatedAt      DateTime @updatedAt
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  categoryId  String
+  category    Category @relation(fields: [categoryId], references: [id])
+  images      String[] // Array of image URLs
+  videoUrl    String?  // YouTube video URL
+  isActive    Boolean  @default(true)
+  title       Json     // { tr: string, en: string }
+  description Json     // { tr: string, en: string }
+  features    Json?    // Array of strings or object
+  seoTitle    String?  // Meta Title
+  seoDescription String? // Meta Description
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  slug        String    @unique
+  image       String?
+  title       Json      // { tr: string, en: string }
+  description Json      // { tr: string, en: string }
+  seoTitle    String?
+  seoDescription String?
+  products    Product[]
+  order       Int       @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model BlogPost {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  title     Json     // { tr: string, en: string }
+  content   Json     // { tr: string, en: string }
+  excerpt   Json?    // { tr: string, en: string }
+  image     String?
+  seoTitle    String?
+  seoDescription String?
+  published Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Reference {
+  id        String   @id @default(cuid())
+  name      String
+  image     String
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Slider {
+  id          String   @id @default(cuid())
+  title       Json     // { tr: string, en: string }
+  description Json?    // { tr: string, en: string }
+  image       String
+  link        String?
+  ctaText     Json?    // { tr: string, en: string }
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model HeroSection {
+  id              Int      @id @default(1)
+  backgroundImage String?
+  title           Json     // { tr: string, en: string }
+  subtitle        Json     // { tr: string, en: string }
+  primaryCtaText  Json     // { tr: string, en: string }
+  primaryCtaLink  String
+  secondaryCtaText Json?   // { tr: string, en: string }
+  secondaryCtaLink String?
+  updatedAt       DateTime @updatedAt
+}
+
+model Statistic {
+  id        String   @id @default(cuid())
+  value     String   // e.g., "20+", "10k+"
+  label     Json     // { tr: string, en: string }
+  icon      String?
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model FeaturedContent {
+  id          String   @id @default(cuid())
+  type        String   // "product" | "blog" | "category"
+  referenceId String   // ID of the product, blog post, or category
+  section     String   // "homepage-products" | "homepage-blog"
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

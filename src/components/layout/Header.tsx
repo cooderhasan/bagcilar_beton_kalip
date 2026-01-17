@@ -1,0 +1,409 @@
+"use client";
+
+import { useTranslations, useLocale } from 'next-intl';
+import { Link } from '@/i18n/routing';
+import LanguageSwitcher from './LanguageSwitcher';
+import { useState } from 'react';
+import { productCategories } from '@/lib/products';
+
+interface HeaderProps {
+    settings?: any;
+    categories?: any[];
+}
+
+export default function Header({ settings, categories = [] }: HeaderProps) {
+    const t = useTranslations('Navigation');
+    const locale = useLocale();
+    const tProducts = useTranslations('ProductCategories');
+    const tHeader = useTranslations('Header');
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
+    const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
+
+    // Use static fallback if dynamic categories are empty
+    const displayCategories = categories.length > 0 ? categories : productCategories;
+
+    const getCategoryTitle = (category: any) => {
+        // 1. Try dynamic title (DB)
+        if (category.title && typeof category.title === 'object') {
+            return category.title[locale] || category.title['tr'] || category.title['en'] || category.slug;
+        }
+        // 2. Try static translation (Fallback)
+        if (category.id) {
+            const translated = tProducts(category.id);
+            return translated || category.slug;
+        }
+        // 3. Fallback to slug
+        return category.slug;
+    };
+
+    const navItems = [
+        { key: 'home', href: '/' },
+        { key: 'products', href: '/products' },
+        { key: 'corporate', href: '/corporate' },
+        { key: 'references', href: '/references' },
+        { key: 'blog', href: '/blog' },
+        { key: 'contact', href: '/contact' },
+    ];
+
+    return (
+        <header className="fixed top-0 left-0 right-0 z-50 transition-all font-sans">
+            {/* Top Bar - Clean Modern Style */}
+            <div className="bg-[#1a1a2e] text-white py-2 hidden md:block">
+                <div className="container mx-auto px-4 flex justify-between items-center">
+                    {/* Left Side: Contact Info - Pill Style */}
+                    <div className="flex items-center gap-3">
+                        {/* Phone Pill */}
+                        <a href={`tel:${settings?.phone || '+905555555555'}`} className="flex items-center gap-2 bg-gradient-to-r from-orange-500 to-amber-500 rounded-full py-1.5 px-4 hover:shadow-lg hover:shadow-orange-500/25 transition-all">
+                            <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                            </svg>
+                            <span className="text-white text-xs font-medium uppercase tracking-wide">Bizi Arayın:</span>
+                            <span className="font-bold text-sm text-white">{settings?.phone || '+90 532 676 34 88'}</span>
+                        </a>
+
+                        {/* Email Pill */}
+                        <a href={`mailto:${settings?.email || 'info@bagcilar.com'}`} className="flex items-center gap-2 bg-white/10 border border-white/20 rounded-full py-1.5 px-4 hover:bg-white/20 transition-all">
+                            <svg className="w-4 h-4 text-orange-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                            <span className="text-gray-300 text-xs font-medium uppercase tracking-wide">E-Posta:</span>
+                            <span className="font-semibold text-sm text-white">{settings?.email || 'info@bagcilar.com'}</span>
+                        </a>
+                    </div>
+
+                    {/* Right Side: Social Icons + Language */}
+                    <div className="flex items-center gap-4">
+                        {/* Social Icons */}
+                        <div className="flex items-center gap-2">
+                            {settings?.instagram && (
+                                <a href={settings.instagram} target="_blank" rel="noopener noreferrer" className="w-7 h-7 rounded bg-white/10 hover:bg-orange-500 flex items-center justify-center transition-colors text-white">
+                                    <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.072 3.269.156 5.023 1.192 5.745 3.015.424 1.068.52 2.062.52 4.375s-.096 3.307-.52 4.375c-.722 1.823-2.476 2.859-5.745 3.015-1.266.06-1.646.072-4.85.072-3.204 0-3.584-.012-4.85-.072-3.269-.156-5.023-1.192-5.745-3.015-.424-1.068-.52-2.062-.52-4.375s.096-3.307.52-4.375c.722-1.823 2.476-2.859 5.745-3.015 1.266-.06 1.646-.072 4.85-.072zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" /></svg>
+                                </a>
+                            )}
+                            {settings?.facebook && (
+                                <a href={settings.facebook} target="_blank" rel="noopener noreferrer" className="w-7 h-7 rounded bg-white/10 hover:bg-orange-500 flex items-center justify-center transition-colors text-white">
+                                    <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" /></svg>
+                                </a>
+                            )}
+                            {settings?.linkedin && (
+                                <a href={settings.linkedin} target="_blank" rel="noopener noreferrer" className="w-7 h-7 rounded bg-white/10 hover:bg-orange-500 flex items-center justify-center transition-colors text-white">
+                                    <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" /></svg>
+                                </a>
+                            )}
+                            {/* X (Twitter) */}
+                            <a href="#" className="w-7 h-7 rounded bg-white/10 hover:bg-orange-500 flex items-center justify-center transition-colors text-white">
+                                <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" /></svg>
+                            </a>
+                            {/* YouTube */}
+                            <a href="#" className="w-7 h-7 rounded bg-white/10 hover:bg-orange-500 flex items-center justify-center transition-colors text-white">
+                                <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" /></svg>
+                            </a>
+                        </div>
+
+                        {/* Divider */}
+                        <div className="w-px h-4 bg-gray-600"></div>
+
+                        {/* Language Switcher */}
+                        <LanguageSwitcher />
+                    </div>
+                </div>
+            </div>
+
+            {/* Main Header - White Background */}
+            <div className="bg-white shadow-md relative z-40">
+                <div className="container mx-auto px-4">
+                    <div className="flex justify-between items-center min-h-[80px] py-2 transition-all duration-300">
+                        {/* Logo */}
+                        <Link href="/" className="shrink-0 flex items-center gap-3 group">
+                            {settings?.logoUrl ? (
+                                <img
+                                    src={settings.logoUrl}
+                                    alt="Bağcılar Beton Kalıp"
+                                    style={{ height: `${settings.logoHeight || 60}px` }}
+                                    className="w-auto object-contain"
+                                />
+                            ) : (
+                                <>
+                                    <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center text-white">
+                                        <span className="text-xl font-black">B</span>
+                                    </div>
+                                    <div className="flex flex-col leading-none">
+                                        <span className="text-gray-800 text-lg font-black tracking-wide">BAĞCILAR</span>
+                                        <span className="text-orange-500 text-[0.6rem] uppercase tracking-widest font-semibold">Beton Kalıp Sistemleri</span>
+                                    </div>
+                                </>
+                            )}
+                        </Link>
+
+                        {/* Desktop Navigation */}
+                        <nav className="hidden md:flex items-center self-stretch">
+                            {navItems.map((item) => {
+                                // Define Icons
+                                let Icon = (
+                                    <svg className="w-6 h-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                );
+
+                                if (item.key === 'home') {
+                                    Icon = (
+                                        <svg className="w-6 h-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                                        </svg>
+                                    )
+                                } else if (item.key === 'products') {
+                                    Icon = (
+                                        <svg className="w-6 h-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                                        </svg>
+                                    )
+                                    // Let's use a better icon, maybe a wall structure
+                                    Icon = (
+                                        <svg className="w-6 h-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
+                                        </svg>
+                                    )
+                                } else if (item.key === 'corporate') {
+                                    Icon = (
+                                        <svg className="w-6 h-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                        </svg>
+                                    )
+                                } else if (item.key === 'references') {
+                                    Icon = (
+                                        <svg className="w-6 h-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                    )
+                                } else if (item.key === 'blog') {
+                                    Icon = (
+                                        <svg className="w-6 h-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                                        </svg>
+                                    )
+                                } else if (item.key === 'contact') {
+                                    Icon = (
+                                        <svg className="w-6 h-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                        </svg>
+                                    )
+                                }
+
+                                if (item.key === 'products') {
+                                    return (
+                                        <div
+                                            key={item.key}
+                                            className="group relative h-full flex items-center"
+                                            onMouseEnter={() => setIsMegaMenuOpen(true)}
+                                            onMouseLeave={() => setIsMegaMenuOpen(false)}
+                                        >
+                                            <Link
+                                                href={item.href}
+                                                className="flex flex-col items-center justify-center text-gray-600 group-hover:text-orange-500 transition-colors text-base font-medium px-5 py-2"
+                                            >
+                                                <span className="text-gray-400 group-hover:text-orange-500 transition-colors duration-300 [&>svg]:w-7 [&>svg]:h-7">{Icon}</span>
+                                                <span className="flex items-center gap-1">
+                                                    {t(item.key)}
+                                                    <svg className={`w-4 h-4 transition-transform duration-300 text-gray-400 ${isMegaMenuOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                                    </svg>
+                                                </span>
+                                            </Link>
+
+                                            {/* Premium Dark Mega Menu */}
+                                            <div
+                                                className="absolute top-full left-1/2 transform -translate-x-1/2 w-[95vw] max-w-6xl transition-all duration-300 ease-out z-50 pt-4 opacity-0 invisible translate-y-4 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0"
+                                            >
+                                                <div className="bg-gradient-to-br from-[#0F172A] via-[#1E293B] to-[#0F172A] rounded-2xl shadow-2xl overflow-hidden border border-gray-700/50 backdrop-blur-xl">
+                                                    {/* Top Accent Bar */}
+                                                    <div className="h-1 bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600"></div>
+
+                                                    <div className="p-8">
+                                                        {/* Header */}
+                                                        <div className="flex items-center justify-between mb-8">
+                                                            <div>
+                                                                <h3 className="text-2xl font-black text-white tracking-tight">{tHeader('megaMenuTitle')}</h3>
+                                                                <p className="text-sm text-gray-400 mt-1">{tHeader('megaMenuSubtitle')}</p>
+                                                            </div>
+                                                            <Link href="/quote" className="flex items-center gap-2 bg-gradient-to-r from-orange-500 to-amber-500 text-white px-5 py-2.5 rounded-full font-bold text-sm hover:shadow-lg hover:shadow-orange-500/25 transition-all">
+                                                                <span>{tHeader('getQuote')}</span>
+                                                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                                                            </Link>
+                                                        </div>
+
+                                                        {/* Categories Grid */}
+                                                        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                                                            {displayCategories.map((category) => {
+                                                                // Default icon
+                                                                let CategoryIcon = (
+                                                                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                                                                    </svg>
+                                                                );
+
+                                                                // Dynamic Icon mapping based on slug (optional, keep existing if possible or default)
+                                                                if (category.slug.includes('kolon')) CategoryIcon = <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 6h16M4 10h16M4 14h16M4 18h16" /></svg>;
+                                                                else if (category.slug.includes('korkuluk')) CategoryIcon = <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 12h14M12 5v14m-7-7a7 7 0 0114 0" /></svg>;
+                                                                // ... Can add more heuristics or just use default
+
+                                                                // Localized Title
+                                                                const title = getCategoryTitle(category);
+
+                                                                return (
+                                                                    <Link
+                                                                        key={category.id}
+                                                                        href={`/products?category=${category.slug}`}
+                                                                        className="group/card relative bg-gray-800/50 hover:bg-gray-700/70 rounded-xl p-5 border border-gray-700/50 hover:border-orange-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-orange-500/10"
+                                                                    >
+                                                                        {/* Icon */}
+                                                                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-gray-700 to-gray-800 text-gray-400 group-hover/card:from-orange-500 group-hover/card:to-amber-500 group-hover/card:text-white flex items-center justify-center mb-4 transition-all duration-300 shadow-lg">
+                                                                            {CategoryIcon}
+                                                                        </div>
+                                                                        {/* Text */}
+                                                                        <h4 className="font-bold text-sm text-white group-hover/card:text-orange-400 transition-colors leading-tight">
+                                                                            {title}
+                                                                        </h4>
+                                                                        {/* Arrow */}
+                                                                        <div className="absolute top-4 right-4 opacity-0 group-hover/card:opacity-100 transition-opacity text-orange-400">
+                                                                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                                                                        </div>
+                                                                    </Link>
+                                                                );
+                                                            })}
+                                                        </div>
+
+                                                        {/* Footer */}
+                                                        <div className="mt-8 pt-6 border-t border-gray-700/50 flex items-center justify-between">
+                                                            <p className="text-xs text-gray-500">{tHeader('megaMenuFooter')}</p>
+                                                            <Link href="/products" className="flex items-center gap-2 text-sm font-bold text-orange-400 hover:text-orange-300 transition-colors">
+                                                                {t('allProducts')}
+                                                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                                                            </Link>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    );
+                                }
+                                return (
+                                    <Link
+                                        key={item.key}
+                                        href={item.href}
+                                        className="flex flex-col items-center justify-center text-gray-600 hover:text-orange-500 transition-colors text-base font-medium px-5 py-2 group"
+                                    >
+                                        <span className="text-gray-400 group-hover:text-orange-500 transition-colors duration-300 [&>svg]:w-7 [&>svg]:h-7">{Icon}</span>
+                                        {t(item.key)}
+                                    </Link>
+                                );
+                            })}
+                        </nav>
+
+                        {/* Mobile Menu Button - Dark Icon */}
+                        <div className="md:hidden flex items-center gap-4">
+                            <LanguageSwitcher />
+                            <button
+                                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                                className="text-gray-700 hover:text-primary focus:outline-none transition-colors"
+                            >
+                                <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    {mobileMenuOpen ? (
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                    ) : (
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                                    )}
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Mobile Menu */}
+            {mobileMenuOpen && (
+                <div className="md:hidden bg-primary border-t border-gray-800 absolute w-full left-0 max-h-[80vh] overflow-y-auto shadow-2xl">
+                    <div className="container mx-auto px-4 py-4 flex flex-col space-y-4">
+                        {navItems.map((item) => {
+                            if (item.key === 'products') {
+                                return (
+                                    <div key={item.key} className="border-b border-gray-800 pb-2">
+                                        <button
+                                            onClick={() => setMobileProductsOpen(!mobileProductsOpen)}
+                                            className="flex items-center justify-between w-full text-gray-300 hover:text-accent font-semibold uppercase tracking-wide"
+                                        >
+                                            {t(item.key)}
+                                            <svg className={`w-5 h-5 transition-transform ${mobileProductsOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                            </svg>
+                                        </button>
+
+                                        {mobileProductsOpen && (
+                                            <div className="mt-4 pl-4 space-y-3">
+                                                {displayCategories.map((category) => {
+                                                    const title = getCategoryTitle(category);
+
+                                                    return (
+                                                        <Link
+                                                            key={category.id}
+                                                            href={`/products?category=${category.slug}`}
+                                                            className="block text-sm text-gray-400 hover:text-white"
+                                                            onClick={() => setMobileMenuOpen(false)}
+                                                        >
+                                                            • {title}
+                                                        </Link>
+                                                    );
+                                                })}
+                                                <Link
+                                                    href="/products"
+                                                    className="block text-sm font-bold text-accent pt-2"
+                                                    onClick={() => setMobileMenuOpen(false)}
+                                                >
+                                                    {t('allProducts')} →
+                                                </Link>
+                                            </div>
+                                        )}
+                                    </div>
+                                )
+                            }
+                            return (
+                                <Link
+                                    key={item.key}
+                                    href={item.href}
+                                    className="text-gray-300 hover:text-accent font-semibold uppercase tracking-wide block"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                >
+                                    {t(item.key)}
+                                </Link>
+                            )
+                        })}
+
+                        {/* Mobile Contact Info */}
+                        <div className="mt-8 pt-8 border-t border-gray-800">
+                            <div className="flex flex-col gap-4">
+                                <a href="tel:+905555555555" className="flex items-center gap-3 text-white">
+                                    <span className="w-10 h-10 rounded-full bg-accent flex items-center justify-center">
+                                        <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                        </svg>
+                                    </span>
+                                    <div>
+                                        <div className="text-xs text-gray-400 uppercase tracking-wider">{tHeader('callUs')}</div>
+                                        <div className="font-bold">+90 555 555 55 55</div>
+                                    </div>
+                                </a>
+                                <Link
+                                    href="/quote"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className="bg-white text-primary font-bold py-3 px-4 rounded text-center block"
+                                >
+                                    {tHeader('getQuote')}
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </header>
+    );
+}

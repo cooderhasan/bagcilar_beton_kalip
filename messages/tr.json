@@ -1,0 +1,172 @@
+{
+    "Metadata": {
+        "title": "Bağcılar Beton Kalıp | İnşaat Kalıp Sistemleri",
+        "description": "Profesyonel beton kalıp sistemleri, perde kolon, döşeme kalıpları ve özel proje çözümleri."
+    },
+    "Navigation": {
+        "home": "Ana Sayfa",
+        "corporate": "Kurumsal",
+        "products": "Beton Kalıp Modellerimiz",
+        "references": "Referanslar",
+        "sectors": "Sektörler",
+        "projects": "Projeler",
+        "blog": "Blog",
+        "contact": "İletişim",
+        "allProducts": "Tüm Modeller"
+    },
+    "Common": {
+        "getQuote": "Teklif Al",
+        "readMore": "Devamını Oku",
+        "contactUs": "Bize Ulaşın"
+    },
+    "Header": {
+        "callUs": "Bizi Arayın",
+        "email": "E-Posta",
+        "megaMenuTitle": "Kalıp Sistemleri",
+        "megaMenuSubtitle": "Profesyonel beton kalıp çözümlerimizi keşfedin",
+        "megaMenuFooter": "Tüm kategorileri görüntüleyin veya özel proje teklifi alın.",
+        "getQuote": "Teklif Al"
+    },
+    "HomePage": {
+        "title": "Bağcılar Beton Kalıp",
+        "description": "Profesyonel İnşaat ve Beton Kalıp Çözümleri",
+        "ctaSection": {
+            "title": "Projenize Güçlü Temellerle Başlayın"
+        }
+    },
+    "Footer": {
+        "menu": "Menü",
+        "contact": "İletişim",
+        "social": "Bizi Takip Edin",
+        "legal": "Yasal",
+        "privacy": "Gizlilik Politikası",
+        "terms": "Kullanım Şartları",
+        "rights": "Tüm hakları saklıdır.",
+        "address": "İstanbul, Türkiye"
+    },
+    "Hero": {
+        "title": "Bağcılar Beton Kalıp Sistemleri",
+        "subtitle": "İnşaat projeleriniz için güvenilir, dayanıklı ve modern kalıp çözümleri.",
+        "cta": "Teklif Al",
+        "secondaryCta": "Projelerimiz"
+    },
+    "ProductCategories": {
+        "title": "Beton Kalıp Modellerimiz",
+        "desc": "Her türlü inşaat ve peyzaj projesi için geniş ürün yelpazesi.",
+        "special-design": "Özel Tasarım Kalıplar",
+        "special-design-desc": "Projenize özel üretilen benzersiz kalıp çözümleri.",
+        "column": "Kolon Kalıpları",
+        "column-desc": "Yuvarlak ve kare kolon dökümleri için profesyonel kalıplar.",
+        "railing": "Korkuluk Kalıpları",
+        "railing-desc": "Dekoratif beton korkuluk ve balüstrad kalıpları.",
+        "door-arch": "Kapı Kemer Kalıpları",
+        "door-arch-desc": "Kapı ve pencere üstü kemer döküm kalıpları.",
+        "barrier": "Bariyer Kalıpları",
+        "barrier-desc": "Otoyol ve güvenlik bariyeri üretim kalıpları.",
+        "garden-wall": "Bahçe Duvar Kalıpları",
+        "garden-wall-desc": "Estetik bahçe ve çevre duvarı kalıpları.",
+        "concrete-fence": "Beton Çit Kalıpları",
+        "concrete-fence-desc": "Panel ve modüler beton çit sistemleri.",
+        "plywood": "Plywood Yüzeyli Kalıplar",
+        "plywood-desc": "Film kaplı yüksek kaliteli döşeme kalıpları.",
+        "beam": "Hatıl Kalıpları",
+        "beam-desc": "Standart ve özel ölçü hatıl kalıpları.",
+        "auxiliary": "Beton Kalıp Yardımcı Ürünleri",
+        "auxiliary-desc": "Kalıp yağı, tie-rod ve montaj aksesuarları."
+    },
+    "Products": {
+        "stone-pattern": "Taş Desenli Duvar Kalıbı",
+        "stone-pattern-desc": "Doğal taş görünümü veren estetik bahçe duvar kalıbı.",
+        "brick-pattern": "Tuğla Desenli Duvar Kalıbı",
+        "brick-pattern-desc": "Klasik tuğla örgü desenli modüler kalıp."
+    },
+    "Contact": {
+        "title": "İletişim",
+        "subtitle": "Projeleriniz için bizimle iletişime geçin.",
+        "info": {
+            "title": "İletişim Bilgileri",
+            "address": "Adres",
+            "phone": "Telefon",
+            "email": "E-posta",
+            "workingHours": "Çalışma Saatleri",
+            "workingHoursValue": "Pzt - Cmt: 09:00 - 18:00"
+        },
+        "form": {
+            "title": "Bize Yazın",
+            "name": "Adınız Soyadınız",
+            "email": "E-posta Adresiniz",
+            "subject": "Konu",
+            "message": "Mesajınız",
+            "submit": "Gönder",
+            "success": "Mesajınız başarıyla gönderildi."
+        }
+    },
+    "Corporate": {
+        "title": "Kurumsal",
+        "about": {
+            "title": "Hakkımızda",
+            "content": "Bağcılar Beton Kalıp olarak, yılların verdiği tecrübe ve uzman kadromuzla inşaat sektörüne profesyonel kalıp çözümleri sunuyoruz. Kalite, güven ve müşteri memnuniyeti odaklı çalışma prensibimizle, projelerinizin sağlam temeller üzerine yükselmesini sağlıyoruz."
+        },
+        "vision": {
+            "title": "Vizyonumuz",
+            "content": "İnşaat kalıp sistemleri sektöründe yenilikçi yaklaşımlarımız ve kaliteli hizmet anlayışımızla Türkiye'nin lider markası olmak ve uluslararası pazarda ülkemizi başarıyla temsil etmektir."
+        },
+        "mission": {
+            "title": "Misyonumuz",
+            "content": "Müşterilerimize en modern, güvenli ve ekonomik kalıp çözümlerini sunarak, inşaat projelerinin hızına ve kalitesine değer katmak; iş güvenliği ve çevreye duyarlılık ilkelerinden ödün vermeden sürdürülebilir büyüme sağlamaktır."
+        },
+        "quality": {
+            "title": "Kalite Politikamız",
+            "content": "Tüm ürün ve hizmetlerimizde uluslararası kalite standartlarına uymak, sürekli gelişim felsefesiyle üretim süreçlerimizi iyileştirmek ve müşteri beklentilerini en üst düzeyde karşılamaktır."
+        },
+        "values": {
+            "title": "Değerlerimiz",
+            "items": {
+                "1": "Güvenilirlik",
+                "2": "Kalite Odaklılık",
+                "3": "İnovasyon",
+                "4": "Müşteri Memnuniyeti"
+            }
+        }
+    },
+    "Blog": {
+        "title": "Sektörel Blog",
+        "subtitle": "İnşaat dünyasından haberler, teknik bilgiler ve ipuçları.",
+        "readMore": "Devamını Oku",
+        "latestPosts": "Son Yazılar",
+        "relatedPosts": "İlginizi Çekebilir",
+        "posts": {
+            "post-1": {
+                "title": "Projeniz İçin Doğru Beton Kalıbı Nasıl Seçilir?",
+                "summary": "İnşaat projenizin tipine, yüksekliğine ve bütçesine göre en uygun kalıp sistemini seçme rehberi.",
+                "content": "Beton kalıp seçimi, bir inşaat projesinin başarısında kritik rol oynar. Doğru kalıp sistemi, hem maliyetleri düşürür hem de inşaat hızını artırır. Perde, kolon veya döşeme kalıpları arasından seçim yaparken projenizin statik gereksinimlerini ve işçilik olanaklarını göz önünde bulundurmalısınız. Çelik kalıplar uzun ömürlü ve pürüzsüz yüzeyler sağlarken, plywood sistemler hafiflik ve esneklik sunar."
+            },
+            "post-2": {
+                "title": "Çelik Kalıp Sistemlerinin Avantajları",
+                "summary": "Uzun ömürlü, dayanıklı ve mükemmel yüzey kalitesi sağlayan çelik kalıpların neden tercih edilmesi gerektiğini inceliyoruz.",
+                "content": "Çelik kalıp sistemleri, özellikle çok tekrarlı projelerde ve yüksek yüzey kalitesi istenen durumlarda vazgeçilmezdir. Ahşap kalıplara göre çok daha dayanıklı olan çelik sistemler, yüzlerce dökümde bile formunu korur. Ayrıca montaj ve demontaj kolaylığı sayesinde işçilik maliyetlerini önemli ölçüde azaltır. Sürdürülebilirlik açısından da çelik kalıplar, geri dönüştürülebilir olmalarıyla çevre dostu bir seçenektir."
+            },
+            "post-3": {
+                "title": "Yüksek Yapılarda Kalıp Güvenliği",
+                "summary": "Yüksek katlı bina inşaatlarında tırmanır kalıp sistemleri ve iş güvenliği önlemleri.",
+                "content": "Yüksek katlı inşaatlarda iş güvenliği her şeyden önce gelir. Tırmanır kalıp sistemleri, hem güvenli bir çalışma platformu sunar hem de rüzgar gibi dış etkenlere karşı koruma sağlar. Bu sistemler, vinç kullanımını minimize ederek inşaat sürecini hızlandırır. Çalışanların düşme riskine karşı korkuluk sistemleri ve rüzgar perdeleri ile donatılmış kalıplar tercih edilmelidir."
+            }
+        }
+    },
+    "WhyUs": {
+        "title": "Neden Biz?",
+        "item1Title": "Tecrübe",
+        "item1Desc": "Sektörde yılların verdiği tecrübe ve uzmanlık.",
+        "item2Title": "Yüksek Kalite",
+        "item2Desc": "Dayanıklı ve uzun ömürlü malzeme garantisi.",
+        "item3Title": "Zamanında Teslim",
+        "item3Desc": "Projelerinizin aksamaması için hızlı lojistik."
+    },
+    "References": {
+        "title": "Referanslarımız",
+        "subtitle": "Güçlü iş birlikleri ve tamamlanan başarılı projelerimizden bazıları.",
+        "ctaTitle": "Siz de Başarı Hikayemize Katılın",
+        "ctaDescription": "Projelerinizde kaliteli ve güvenilir kalıp sistemleri kullanmak için hemen bizimle iletişime geçin.",
+        "ctaButton": "Teklif Alın"
+    }
+}

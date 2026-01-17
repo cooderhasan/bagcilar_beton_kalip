@@ -1,0 +1,172 @@
+{
+    "Metadata": {
+        "title": "Bagcilar Concrete Formwork | Construction Formwork Systems",
+        "description": "Professional concrete formwork systems, wall column, slab formworks and special project solutions."
+    },
+    "Navigation": {
+        "home": "Home",
+        "corporate": "Corporate",
+        "products": "Concrete Formwork Models",
+        "references": "References",
+        "sectors": "Sektörler",
+        "projects": "Projects",
+        "blog": "Blog",
+        "contact": "Contact",
+        "allProducts": "All Models"
+    },
+    "Common": {
+        "getQuote": "Get Quote",
+        "readMore": "Read More",
+        "contactUs": "Contact Us"
+    },
+    "Header": {
+        "callUs": "Call Us",
+        "email": "Email",
+        "megaMenuTitle": "Formwork Systems",
+        "megaMenuSubtitle": "Discover our professional concrete formwork solutions",
+        "megaMenuFooter": "View all categories or get a custom project quote.",
+        "getQuote": "Get Quote"
+    },
+    "HomePage": {
+        "title": "Bagcilar Concrete Formwork",
+        "description": "Professional Construction and Concrete Formwork Solutions",
+        "ctaSection": {
+            "title": "Start Your Project With Strong Foundations"
+        }
+    },
+    "Footer": {
+        "menu": "Menu",
+        "contact": "Contact",
+        "social": "Follow Us",
+        "legal": "Legal",
+        "privacy": "Privacy Policy",
+        "terms": "Terms of Service",
+        "rights": "All rights reserved.",
+        "address": "Istanbul, Turkey"
+    },
+    "Hero": {
+        "title": "Bagcilar Concrete Formwork",
+        "subtitle": "Reliable, durable and modern formwork solutions for your construction projects.",
+        "cta": "Get Quote",
+        "secondaryCta": "Our Projects"
+    },
+    "ProductCategories": {
+        "title": "Our Concrete Formwork Models",
+        "desc": "Wide range of products for all construction and landscape projects.",
+        "special-design": "Special Design Formworks",
+        "special-design-desc": "Unique formwork solutions custom-made for your project.",
+        "column": "Column Formworks",
+        "column-desc": "Professional molds for round and square column castings.",
+        "railing": "Railing/Balustrade Formworks",
+        "railing-desc": "Decorative concrete railing and balustrade molds.",
+        "door-arch": "Door & Arch Formworks",
+        "door-arch-desc": "Arch casting molds for doors and windows.",
+        "barrier": "Barrier Formworks",
+        "barrier-desc": "Highway and security barrier production molds.",
+        "garden-wall": "Garden Wall Formworks",
+        "garden-wall-desc": "Aesthetic garden and perimeter wall molds.",
+        "concrete-fence": "Concrete Fence Formworks",
+        "concrete-fence-desc": "Panel and modular concrete fence systems.",
+        "plywood": "Plywood Surface Formworks",
+        "plywood-desc": "Film-coated high-quality slab formworks.",
+        "beam": "Beam/Lintel Formworks",
+        "beam-desc": "Standard and custom size lintel molds.",
+        "auxiliary": "Auxiliary Products",
+        "auxiliary-desc": "Mold oil, tie-rods and mounting accessories."
+    },
+    "Products": {
+        "stone-pattern": "Stone Pattern Wall Mold",
+        "stone-pattern-desc": "Aesthetic garden wall mold giving natural stone appearance.",
+        "brick-pattern": "Brick Pattern Wall Mold",
+        "brick-pattern-desc": "Classic brick pattern modular mold."
+    },
+    "Contact": {
+        "title": "Contact",
+        "subtitle": "Get in touch with us for your projects.",
+        "info": {
+            "title": "Contact Info",
+            "address": "Address",
+            "phone": "Phone",
+            "email": "Email",
+            "workingHours": "Working Hours",
+            "workingHoursValue": "Mon - Sat: 09:00 - 18:00"
+        },
+        "form": {
+            "title": "Write to Us",
+            "name": "Full Name",
+            "email": "Email Address",
+            "subject": "Subject",
+            "message": "Message",
+            "submit": "Send Message",
+            "success": "Message sent successfully."
+        }
+    },
+    "Corporate": {
+        "title": "Corporate",
+        "about": {
+            "title": "About Us",
+            "content": "As Bagcilar Concrete Formwork, we offer professional formwork solutions to the construction industry with years of experience and our expert staff. With our working principle focused on quality, trust, and customer satisfaction, we ensure that your projects rise on solid foundations."
+        },
+        "vision": {
+            "title": "Our Vision",
+            "content": "To be the leading brand in Turkey in the construction formwork systems sector with our innovative approaches and quality service understanding, and to successfully represent our country in the international market."
+        },
+        "mission": {
+            "title": "Our Mission",
+            "content": "To add value to the speed and quality of construction projects by offering the most modern, safe, and economical formwork solutions to our clients; to ensure sustainable growth without compromising on occupational safety and environmental sensitivity principles."
+        },
+        "quality": {
+            "title": "Quality Policy",
+            "content": "To comply with international quality standards in all our products and services, to improve our production processes with a philosophy of continuous improvement, and to meet customer expectations at the highest level."
+        },
+        "values": {
+            "title": "Our Values",
+            "items": {
+                "1": "Reliability",
+                "2": "Quality Focus",
+                "3": "Innovation",
+                "4": "Customer Satisfaction"
+            }
+        }
+    },
+    "Blog": {
+        "title": "Industry Blog",
+        "subtitle": "News, technical information and tips from the construction world.",
+        "readMore": "Read More",
+        "latestPosts": "Latest Posts",
+        "relatedPosts": "You Might Be Interested",
+        "posts": {
+            "post-1": {
+                "title": "How to Choose the Right Concrete Formwork for Your Project?",
+                "summary": "A guide to selecting the most suitable formwork system based on your project type, height, and budget.",
+                "content": "Choosing the right concrete formwork plays a critical role in the success of a construction project. The right formwork system both reduces costs and speeds up construction. When choosing between wall, column or slab formworks, you must consider the static requirements of your project and labor capabilities. Steel formworks provide long life and smooth surfaces, while plywood systems offer lightness and flexibility."
+            },
+            "post-2": {
+                "title": "Advantages of Steel Formwork Systems",
+                "summary": "We examine why steel formworks, which provide long life, durability, and excellent surface quality, should be preferred.",
+                "content": "Steel formwork systems are indispensable especially in highly repetitive projects and where high surface quality is desired. Steel systems, which are much more durable than wooden formworks, maintain their form even after hundreds of castings. Also, thanks to the ease of assembly and disassembly, they significantly reduce labor costs. In terms of sustainability, steel formworks are an environmentally friendly option as they are recyclable."
+            },
+            "post-3": {
+                "title": "Formwork Safety in High-Rise Structures",
+                "summary": "Climbing formwork systems and occupational safety measures in high-rise building construction.",
+                "content": "Safety comes first in high-rise construction. Climbing formwork systems provide both a safe working platform and protection against external factors such as wind. These systems speed up the construction process by minimizing crane usage. Formworks equipped with railing systems and wind screens to protect workers against the risk of falling should be preferred."
+            }
+        }
+    },
+    "WhyUs": {
+        "title": "Why Choose Us?",
+        "item1Title": "Experience",
+        "item1Desc": "Years of experience and expertise in the sector.",
+        "item2Title": "High Quality",
+        "item2Desc": "Durable and long-lasting material guarantee.",
+        "item3Title": "On-Time Delivery",
+        "item3Desc": "Fast logistics to ensure your projects proceed without delay."
+    },
+    "References": {
+        "title": "Our References",
+        "subtitle": "Some of our strong collaborations and successful projects completed.",
+        "ctaTitle": "Join Our Success Story",
+        "ctaDescription": "Contact us now to use quality and reliable formwork systems in your projects.",
+        "ctaButton": "Get Quote"
+    }
+}
