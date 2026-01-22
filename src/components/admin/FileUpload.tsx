@@ -130,7 +130,7 @@ export default function FileUpload({
                         />
                         <label
                             htmlFor={`file-upload-${label?.replace(/\s+/g, '-').toLowerCase()}`}
-                            className={`inline-flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors ${uploading ? 'opacity-50 cursor-not-allowed' : ''
+                            className={`inline-flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 text-gray-700 transition-colors ${uploading ? 'opacity-50 cursor-not-allowed' : ''
                                 }`}
                         >
                             <svg className="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">

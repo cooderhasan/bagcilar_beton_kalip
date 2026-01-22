@@ -1,4 +1,4 @@
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, getLocale } from 'next-intl/server';
 import Image from 'next/image';
 import { Link } from '@/i18n/routing';
 import { productCategories } from '@/lib/products';
@@ -10,6 +10,7 @@ export default async function HomePage() {
   const tProducts = await getTranslations('ProductCategories');
   const tWhyUs = await getTranslations('WhyUs');
   const tHome = await getTranslations('HomePage');
+  const locale = await getLocale();
 
   // Veritabanından veri çekme
   const [sliders, heroSection, statistics, categories, siteSettings, latestPosts] = await Promise.all([
@@ -248,12 +249,12 @@ export default async function HomePage() {
                   </svg>
                 </div>
                 <div>
-                  <h3 className="text-2xl font-black">PDF Katalog</h3>
-                  <p className="text-gray-400 text-sm">Tüm ürünlerimizi inceleyin</p>
+                  <h3 className="text-2xl font-black">{tHome('catalog.title')}</h3>
+                  <p className="text-gray-400 text-sm">{tHome('catalog.subtitle')}</p>
                 </div>
               </div>
               <p className="text-gray-300 mb-6">
-                Beton kalıp modellerimizi, teknik özelliklerini ve fiyat bilgilerini içeren katalogumzu indirin.
+                {tHome('catalog.description')}
               </p>
               <a
                 href={siteSettings?.catalogUrl || "/katalog.pdf"}
@@ -264,16 +265,16 @@ export default async function HomePage() {
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                 </svg>
-                Katalogu İndir
+                {tHome('catalog.button')}
               </a>
             </div>
 
             {/* Right: Latest Blog Posts */}
             <div>
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-2xl font-black text-gray-800">Son Blog Yazıları</h3>
+                <h3 className="text-2xl font-black text-gray-800">{tHome('blog.latestTitle')}</h3>
                 <Link href="/blog" className="text-orange-500 font-semibold hover:text-orange-600 transition-colors text-sm">
-                  Tümünü Gör →
+                  {tHome('blog.viewAll')}
                 </Link>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -334,7 +335,7 @@ export default async function HomePage() {
                 return (
                   <div key={stat.id} className="text-center px-4">
                     <div className="text-3xl md:text-4xl font-black text-white">{stat.value}</div>
-                    <div className="text-xs md:text-sm text-white/80 uppercase tracking-wider mt-1">{label.tr}</div>
+                    <div className="text-xs md:text-sm text-white/80 uppercase tracking-wider mt-1">{(label as any)[locale] || label.tr}</div>
                   </div>
                 );
               })
@@ -343,15 +344,15 @@ export default async function HomePage() {
                 {/* Fallback Static Stats */}
                 <div className="text-center px-4">
                   <div className="text-3xl md:text-4xl font-black text-white">20+</div>
-                  <div className="text-xs md:text-sm text-white/80 uppercase tracking-wider mt-1">Yıllık Tecrübe</div>
+                  <div className="text-xs md:text-sm text-white/80 uppercase tracking-wider mt-1">{tHome('stats.yearsExperience')}</div>
                 </div>
                 <div className="text-center px-4">
                   <div className="text-3xl md:text-4xl font-black text-white">10k+</div>
-                  <div className="text-xs md:text-sm text-white/80 uppercase tracking-wider mt-1">Mutlu Müşteri</div>
+                  <div className="text-xs md:text-sm text-white/80 uppercase tracking-wider mt-1">{tHome('stats.happyClients')}</div>
                 </div>
                 <div className="text-center px-4">
                   <div className="text-3xl md:text-4xl font-black text-white">50+</div>
-                  <div className="text-xs md:text-sm text-white/80 uppercase tracking-wider mt-1">Ürün Çeşidi</div>
+                  <div className="text-xs md:text-sm text-white/80 uppercase tracking-wider mt-1">{tHome('stats.productTypes')}</div>
                 </div>
               </>
             )}

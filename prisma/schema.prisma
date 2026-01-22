@@ -166,3 +166,41 @@ model CorporateCard {
   updatedAt DateTime @updatedAt
 }
 
+
+model ContactForm {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String?
+  message   String
+  ipAddress String?
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model QuoteRequest {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String
+  company   String?
+  message   String?
+  productInterest String?
+  ipAddress String?
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model CareerApplication {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String
+  position  String?
+  cvUrl     String?
+  message   String?
+  ipAddress String?
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}

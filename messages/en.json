@@ -33,6 +33,21 @@
         "description": "Professional Construction and Concrete Formwork Solutions",
         "ctaSection": {
             "title": "Start Your Project With Strong Foundations"
+        },
+        "catalog": {
+            "title": "PDF Catalog",
+            "subtitle": "View all our products",
+            "description": "Download our catalog containing our concrete formwork models, technical specifications, and price information.",
+            "button": "Download Catalog"
+        },
+        "blog": {
+            "latestTitle": "Latest Blog Posts",
+            "viewAll": "View All →"
+        },
+        "stats": {
+            "yearsExperience": "Years Experience",
+            "happyClients": "Happy Clients",
+            "productTypes": "Product Types"
         }
     },
     "Footer": {

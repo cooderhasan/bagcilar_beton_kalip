@@ -33,6 +33,21 @@
         "description": "Profesyonel İnşaat ve Beton Kalıp Çözümleri",
         "ctaSection": {
             "title": "Projenize Güçlü Temellerle Başlayın"
+        },
+        "catalog": {
+            "title": "PDF Katalog",
+            "subtitle": "Tüm ürünlerimizi inceleyin",
+            "description": "Beton kalıp modellerimizi, teknik özelliklerini ve fiyat bilgilerini içeren katalogumzu indirin.",
+            "button": "Katalogu İndir"
+        },
+        "blog": {
+            "latestTitle": "Son Blog Yazıları",
+            "viewAll": "Tümünü Gör →"
+        },
+        "stats": {
+            "yearsExperience": "Yıllık Tecrübe",
+            "happyClients": "Mutlu Müşteri",
+            "productTypes": "Ürün Çeşidi"
         }
     },
     "Footer": {

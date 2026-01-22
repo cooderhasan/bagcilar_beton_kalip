@@ -22,6 +22,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 }
 
 import PageHeader from '@/components/ui/PageHeader';
+import ContactForm from '@/components/forms/ContactForm';
 
 export default async function ContactPage() {
     const t = await getTranslations('Contact');
@@ -150,53 +151,7 @@ export default async function ContactPage() {
                             <div className="relative z-10">
                                 <h2 className="text-3xl font-bold text-primary mb-8">{t('form.title')}</h2>
 
-                                <form className="space-y-7">
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                        <div>
-                                            <label htmlFor="name" className="block text-sm font-bold text-gray-700 mb-2">{t('form.name')}</label>
-                                            <input
-                                                type="text"
-                                                id="name"
-                                                required
-                                                className="w-full px-5 py-3.5 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all duration-200 hover:border-gray-300"
-                                            />
-                                        </div>
-                                        <div>
-                                            <label htmlFor="email" className="block text-sm font-bold text-gray-700 mb-2">{t('form.email')}</label>
-                                            <input
-                                                type="email"
-                                                id="email"
-                                                required
-                                                className="w-full px-5 py-3.5 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all duration-200 hover:border-gray-300"
-                                            />
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <label htmlFor="subject" className="block text-sm font-bold text-gray-700 mb-2">{t('form.subject')}</label>
-                                        <input
-                                            type="text"
-                                            id="subject"
-                                            required
-                                            className="w-full px-5 py-3.5 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all duration-200 hover:border-gray-300"
-                                        />
-                                    </div>
-                                    <div>
-                                        <label htmlFor="message" className="block text-sm font-bold text-gray-700 mb-2">{t('form.message')}</label>
-                                        <textarea
-                                            id="message"
-                                            rows={6}
-                                            required
-                                            className="w-full px-5 py-3.5 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all duration-200 hover:border-gray-300 resize-none"
-                                        ></textarea>
-                                    </div>
-
-                                    <button
-                                        type="submit"
-                                        className="bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white font-bold py-4 px-10 rounded-xl transition-all duration-300 w-full md:w-auto shadow-lg hover:shadow-xl hover:scale-105 transform"
-                                    >
-                                        {t('form.submit')}
-                                    </button>
-                                </form>
+                                <ContactForm />
                             </div>
                         </div>
                     </div>
