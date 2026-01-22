@@ -8,6 +8,22 @@ const withNextIntl = createNextIntlPlugin(
 const nextConfig: NextConfig = {
   /* config options here */
   reactCompiler: false, // Disabling usually to avoid conflicts initially
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'placehold.co',
+      },
+      {
+        protocol: 'https',
+        hostname: 'localhost',
+      }
+    ],
+  },
 };
 
 export default withNextIntl(nextConfig);

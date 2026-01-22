@@ -12,12 +12,23 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     };
 }
 
+import PageHeader from '@/components/ui/PageHeader';
+
 export default function ProjectsPage() {
     const t = useTranslations('Navigation');
     return (
-        <div className="container mx-auto px-4 py-12">
-            <h1 className="text-4xl font-bold mb-4">{t('projects')}</h1>
-            <p>Content coming soon...</p>
+        <div className="bg-gray-50 min-h-screen">
+            <PageHeader
+                title={t('projects')}
+                description="Tamamladığımız ve devam eden beton kalıp projelerimiz."
+                image="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=2070"
+                breadcrumbs={[
+                    { label: t('projects') }
+                ]}
+            />
+            <div className="container mx-auto px-4 py-12">
+                <p>Content coming soon...</p>
+            </div>
         </div>
     );
 }

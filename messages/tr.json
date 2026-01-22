@@ -17,7 +17,8 @@
     "Common": {
         "getQuote": "Teklif Al",
         "readMore": "Devamını Oku",
-        "contactUs": "Bize Ulaşın"
+        "contactUs": "Bize Ulaşın",
+        "technicalSpecs": "Teknik Özellikler"
     },
     "Header": {
         "callUs": "Bizi Arayın",

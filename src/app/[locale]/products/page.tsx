@@ -2,6 +2,7 @@ import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/routing';
 import { prisma } from '@/lib/prisma';
 import Image from 'next/image';
+import PageHeader from '@/components/ui/PageHeader';
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
     const { locale } = await params;
@@ -49,41 +50,31 @@ export default async function ProductsPage({
         ? categories.find(c => c.slug === categorySlug)
         : null;
 
+
+
+    const headerTitle = selectedCategory
+        ? (selectedCategory.title as any)[locale] || (selectedCategory.title as any).tr
+        : t('title');
+
+    const headerDesc = selectedCategory
+        ? (selectedCategory.description as any)?.[locale] || (selectedCategory.description as any)?.tr
+        : t('desc');
+
+    const headerImage = selectedCategory?.image || 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2070';
+
+    const breadcrumbs = [
+        { label: t('title'), href: selectedCategory ? '/products' : undefined },
+        ...(selectedCategory ? [{ label: (selectedCategory.title as any)[locale] || (selectedCategory.title as any).tr }] : [])
+    ];
+
     return (
         <div className="bg-gray-50 min-h-screen">
-            {/* Hero Section */}
-            <section className="relative bg-gradient-to-br from-[#0F172A] via-[#1E293B] to-[#0F172A] text-white py-20">
-                <div className="absolute inset-0 w-full h-full overflow-hidden">
-                    {selectedCategory?.image ? (
-                        <>
-                            <Image
-                                src={selectedCategory.image}
-                                alt="Category Cover"
-                                fill
-                                className="object-cover opacity-40"
-                                unoptimized
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A] to-transparent/50"></div>
-                        </>
-                    ) : (
-                        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMiIvPjwvZz48L2c+PC9zdmc+')] opacity-50"></div>
-                    )}
-                </div>
-                <div className="container mx-auto px-4 relative z-10 text-center">
-                    <h1 className="text-4xl md:text-5xl font-black mb-4">
-                        {selectedCategory
-                            ? (selectedCategory.title as any)[locale] || (selectedCategory.title as any).tr
-                            : t('title')
-                        }
-                    </h1>
-                    <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-                        {selectedCategory
-                            ? (selectedCategory.description as any)?.[locale] || (selectedCategory.description as any)?.tr
-                            : t('desc')
-                        }
-                    </p>
-                </div>
-            </section>
+            <PageHeader
+                title={headerTitle}
+                description={headerDesc}
+                image={headerImage}
+                breadcrumbs={breadcrumbs}
+            />
 
             {/* Category Filter - Only show when no category is selected */}
             {!categorySlug && (

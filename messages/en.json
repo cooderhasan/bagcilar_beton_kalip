@@ -17,7 +17,8 @@
     "Common": {
         "getQuote": "Get Quote",
         "readMore": "Read More",
-        "contactUs": "Contact Us"
+        "contactUs": "Contact Us",
+        "technicalSpecs": "Technical Specifications"
     },
     "Header": {
         "callUs": "Call Us",

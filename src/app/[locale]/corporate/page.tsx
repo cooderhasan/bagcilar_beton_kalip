@@ -1,96 +1,131 @@
-import { useTranslations } from 'next-intl';
+import Image from 'next/image';
+import { prisma } from '@/lib/prisma';
+import { getTranslations } from 'next-intl/server';
+import { notFound } from 'next/navigation';
 
-export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+type Props = {
+    params: Promise<{ locale: string }>;
+};
+
+import PageHeader from '@/components/ui/PageHeader';
+
+export default async function CorporatePage({ params }: Props) {
     const { locale } = await params;
-    return {
-        title: locale === 'tr' ? 'Kurumsal | Bağcılar Beton Kalıp' : 'Corporate | Bagcilar Concrete Formwork',
-        description: locale === 'tr' ? 'Hakkımızda, vizyonumuz, misyonumuz ve kalite politikamız.' : 'About us, our vision, mission and quality policy.'
-    };
-}
 
-export default function CorporatePage() {
-    const t = useTranslations('Corporate');
+    // Fetch the corporate page content
+    const page = await prisma.page.findUnique({
+        where: { slug: 'about-us' }
+    });
+
+    // Fetch corporate cards
+    const corporateCards = await prisma.corporateCard.findMany({
+        where: { isActive: true },
+        orderBy: { order: 'asc' },
+    });
+
+    const title = (page?.title as any)?.[locale] || 'Kurumsal';
+    const aboutUsContent = (page?.content as any)?.[locale] || `
+        <p>Bağcılar Beton Kalıp olarak, inşaat sektöründe kalıp sistemleri alanında Türkiye'nin önde gelen firması olmak vizyonuyla hareket ediyoruz. Yenilikçi çözümlerimiz ve kalite odaklı yaklaşımımızla sektörde standartları belirlemeyi hedefliyoruz.</p>
+        <p>Sektördeki 20 yılı aşkın tecrübemizle, güvenilir iş ortağı olmayı sürdürerek, Türkiye genelinde ve uluslararası pazarlarda varlığımızı güçlendirmeyi hedefliyoruz. Deneyimli kadromuz ve modern üretim tesislerimizle, zamanında teslimat ve kusursuz ürün kalitesi garantisi veriyoruz.</p>
+        <p>Çevreye duyarlı üretim anlayışımızla, sürdürülebilir inşaat sektörüne katkı sağlamak önceliklerimiz arasındadır. Müşteri memnuniyetini her şeyin üstünde tutarak, uzun vadeli iş birlikleri kurmayı amaçlıyoruz.</p>
+    `;
+
+    const aboutUsImage = page?.image || 'https://images.unsplash.com/photo-1590059390492-d5495eb8a81f?q=80&w=2072';
+    const heroImage = (page as any)?.heroImage || 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=2070';
 
     return (
-        <div className="bg-white min-h-screen">
-            {/* Hero Section */}
-            <div className="relative bg-primary text-white py-24">
-                <div className="absolute inset-0 bg-black/20 z-0"></div>
-                <div className="container mx-auto px-4 relative z-10 text-center">
-                    <h1 className="text-4xl md:text-5xl font-bold mb-4">{t('title')}</h1>
-                    <div className="h-2 w-24 bg-accent mx-auto"></div>
+        <div className="bg-gray-50 min-h-screen">
+            <PageHeader
+                title={title}
+                description="İnşaat sektöründe güven, kalite ve tecrübeyle geleceği inşa ediyoruz."
+                image={heroImage}
+                breadcrumbs={[
+                    { label: title }
+                ]}
+            />
+
+            <div className="container mx-auto px-4 py-16 md:py-24">
+                {/* Hakkımızda Section */}
+                <div className="grid lg:grid-cols-2 gap-16 items-center mb-24">
+                    <div className="space-y-6">
+                        <h2 className="text-3xl font-light text-slate-900">
+                            {title}
+                        </h2>
+                        <div className="w-20 h-1 bg-blue-600" />
+
+                        {/* Dynamic Content from Admin Panel */}
+                        <div
+                            className="text-gray-600 space-y-4 leading-relaxed font-light prose prose-lg max-w-none"
+                            dangerouslySetInnerHTML={{ __html: aboutUsContent }}
+                        />
+                    </div>
+
+                    {/* Dynamic Image from Admin Panel */}
+                    <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl skew-y-1">
+                        <Image
+                            src={aboutUsImage}
+                            alt={title}
+                            fill
+                            className="object-cover"
+                        />
+                    </div>
+                </div>
+
+                {/* Corporate Cards - Dynamic from Database */}
+                <div className="grid md:grid-cols-3 gap-8">
+                    {corporateCards.length > 0 ? (
+                        corporateCards.map((card) => {
+                            const cardTitle = (card.title as any)[locale] || (card.title as any).tr;
+                            const cardContent = (card.content as any)[locale] || (card.content as any).tr;
+
+                            return (
+                                <div key={card.id} className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl transition-shadow duration-300 group">
+                                    <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mb-6 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors text-2xl">
+                                        {card.icon || '📋'}
+                                    </div>
+                                    <h3 className="text-xl font-medium text-slate-900 mb-4">{cardTitle}</h3>
+                                    <p className="text-gray-600 leading-relaxed font-light">
+                                        {cardContent}
+                                    </p>
+                                </div>
+                            );
+                        })
+                    ) : (
+                        <>
+                            {/* Default cards if none in database */}
+                            <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl transition-shadow duration-300 group">
+                                <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mb-6 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" /><circle cx="12" cy="12" r="3" /></svg>
+                                </div>
+                                <h3 className="text-xl font-medium text-slate-900 mb-4">Vizyonumuz</h3>
+                                <p className="text-gray-600 leading-relaxed font-light">
+                                    Sürekli gelişim ve müşteri memnuniyeti ilkelerimizle, her projede mükemmelliği yakalamak için çalışıyoruz.
+                                </p>
+                            </div>
+
+                            <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl transition-shadow duration-300 group">
+                                <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mb-6 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" /><circle cx="12" cy="12" r="10" /></svg>
+                                </div>
+                                <h3 className="text-xl font-medium text-slate-900 mb-4">Misyonumuz</h3>
+                                <p className="text-gray-600 leading-relaxed font-light">
+                                    Müşterilerimize en yüksek kalitede beton kalıp sistemleri sunarak, projelerinin başarıya ulaşmasına katkıda bulunmaktır.
+                                </p>
+                            </div>
+
+                            <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl transition-shadow duration-300 group">
+                                <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mb-6 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>
+                                </div>
+                                <h3 className="text-xl font-medium text-slate-900 mb-4">İnsan Kaynakları</h3>
+                                <p className="text-gray-600 leading-relaxed font-light">
+                                    Çalışanlarımızın değerini bilerek onlara adil, güvenli ve geliştirici bir çalışma ortamı sunmak en büyük önceliğimizdir.
+                                </p>
+                            </div>
+                        </>
+                    )}
                 </div>
             </div>
-
-            {/* About Us */}
-            <section className="py-20">
-                <div className="container mx-auto px-4">
-                    <div className="flex flex-col md:flex-row items-center gap-12">
-                        <div className="md:w-1/2">
-                            {/* Placeholder for About Image */}
-                            <div className="bg-gray-200 rounded-lg h-80 w-full flex items-center justify-center text-gray-400">
-                                <span className="text-lg font-semibold">About Us Image</span>
-                            </div>
-                        </div>
-                        <div className="md:w-1/2">
-                            <h2 className="text-3xl font-bold text-primary mb-6">{t('about.title')}</h2>
-                            <p className="text-lg text-gray-600 leading-relaxed">
-                                {t('about.content')}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Vision & Mission Grid */}
-            <section className="py-20 bg-gray-50">
-                <div className="container mx-auto px-4">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-                        {/* Vision */}
-                        <div className="bg-white p-10 rounded-lg shadow-sm border-t-4 border-accent">
-                            <h2 className="text-2xl font-bold text-primary mb-4">{t('vision.title')}</h2>
-                            <p className="text-gray-600">{t('vision.content')}</p>
-                        </div>
-                        {/* Mission */}
-                        <div className="bg-white p-10 rounded-lg shadow-sm border-t-4 border-primary">
-                            <h2 className="text-2xl font-bold text-primary mb-4">{t('mission.title')}</h2>
-                            <p className="text-gray-600">{t('mission.content')}</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Quality Policy */}
-            <section className="py-20">
-                <div className="container mx-auto px-4 text-center max-w-4xl">
-                    <div className="mb-8 inline-block p-4 rounded-full bg-primary/5 text-primary">
-                        <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                    </div>
-                    <h2 className="text-3xl font-bold text-primary mb-6">{t('quality.title')}</h2>
-                    <p className="text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto">
-                        {t('quality.content')}
-                    </p>
-                </div>
-            </section>
-
-            {/* Values */}
-            <section className="py-20 bg-primary text-white">
-                <div className="container mx-auto px-4">
-                    <div className="text-center mb-12">
-                        <h2 className="text-3xl font-bold text-white mb-2">{t('values.title')}</h2>
-                        <div className="h-1 w-16 bg-accent mx-auto"></div>
-                    </div>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                        {[1, 2, 3, 4].map((item) => (
-                            <div key={item} className="text-center p-6 border border-white/10 rounded hover:bg-white/5 transition-colors">
-                                <h3 className="text-xl font-bold text-accent">{t(`values.items.${item}`)}</h3>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
         </div>
     );
 }

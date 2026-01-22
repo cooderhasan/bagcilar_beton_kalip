@@ -86,8 +86,10 @@ export default function Footer({ settings }: FooterProps) {
 
                     <h3 className="text-white font-bold uppercase mb-4 text-sm">{tFooter('legal')}</h3>
                     <ul className="space-y-2 text-sm">
-                        <li><a href="#" className="hover:text-accent">{tFooter('privacy')}</a></li>
-                        <li><a href="#" className="hover:text-accent">{tFooter('terms')}</a></li>
+                        <li><Link href="/legal/privacy-policy" className="hover:text-accent">{tFooter('privacy')}</Link></li>
+                        <li><Link href="/legal/terms-of-use" className="hover:text-accent">{tFooter('terms')}</Link></li>
+                        <li><Link href="/legal/kvkk" className="hover:text-accent">KVKK</Link></li>
+                        <li><Link href="/legal/cookie-policy" className="hover:text-accent">Çerez Politikası</Link></li>
                     </ul>
                 </div>
             </div>

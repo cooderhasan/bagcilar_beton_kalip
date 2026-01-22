@@ -32,14 +32,14 @@ export default function ProductGallery({ images, title }: ProductGalleryProps) {
         <div className="space-y-4">
             {/* Main Image */}
             <div
-                className="group relative aspect-square bg-white rounded-3xl overflow-hidden shadow-2xl shadow-gray-200 border border-gray-100 cursor-zoom-in"
+                className="group relative aspect-[4/3] bg-white rounded-3xl overflow-hidden shadow-2xl shadow-gray-200 border border-gray-100 cursor-zoom-in"
                 onClick={() => setIsLightboxOpen(true)}
             >
                 <Image
                     src={images[selectedIndex]}
                     alt={`${title} - Görsel ${selectedIndex + 1}`}
                     fill
-                    className="object-contain p-6 transition-transform duration-500"
+                    className="object-contain p-2 transition-transform duration-500"
                     unoptimized
                 />
 

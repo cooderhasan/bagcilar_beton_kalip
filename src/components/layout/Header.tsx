@@ -235,17 +235,89 @@ export default function Header({ settings, categories = [] }: HeaderProps) {
                                                         {/* Categories Grid */}
                                                         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                                                             {displayCategories.map((category) => {
-                                                                // Default icon
-                                                                let CategoryIcon = (
-                                                                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-                                                                    </svg>
-                                                                );
+                                                                // Construction-specific icons based on category
+                                                                let CategoryIcon;
 
-                                                                // Dynamic Icon mapping based on slug (optional, keep existing if possible or default)
-                                                                if (category.slug.includes('kolon')) CategoryIcon = <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 6h16M4 10h16M4 14h16M4 18h16" /></svg>;
-                                                                else if (category.slug.includes('korkuluk')) CategoryIcon = <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 12h14M12 5v14m-7-7a7 7 0 0114 0" /></svg>;
-                                                                // ... Can add more heuristics or just use default
+                                                                // Match by slug for precise icon assignment
+                                                                if (category.slug === 'column' || category.slug.includes('kolon')) {
+                                                                    // Column icon - vertical pillars
+                                                                    CategoryIcon = (
+                                                                        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 3v18m6-18v18M4 6h16M4 18h16" />
+                                                                        </svg>
+                                                                    );
+                                                                } else if (category.slug === 'railing' || category.slug.includes('korkuluk')) {
+                                                                    // Railing icon - horizontal bars
+                                                                    CategoryIcon = (
+                                                                        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 8h16M4 12h16M4 16h16" />
+                                                                        </svg>
+                                                                    );
+                                                                } else if (category.slug === 'door-arch' || category.slug.includes('kemer')) {
+                                                                    // Door/Arch icon
+                                                                    CategoryIcon = (
+                                                                        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7v10M16 7v10M8 7a4 4 0 018 0M5 21h14" />
+                                                                        </svg>
+                                                                    );
+                                                                } else if (category.slug === 'barrier' || category.slug.includes('bariyer')) {
+                                                                    // Barrier icon - road barrier
+                                                                    CategoryIcon = (
+                                                                        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 10h18M3 14h18M6 6l3 12M18 6l-3 12" />
+                                                                        </svg>
+                                                                    );
+                                                                } else if (category.slug === 'garden-wall' || category.slug.includes('bahce')) {
+                                                                    // Garden wall icon - brick pattern
+                                                                    CategoryIcon = (
+                                                                        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 7h18M3 11h18M3 15h18M3 19h18M8 7v12M16 7v12" />
+                                                                        </svg>
+                                                                    );
+                                                                } else if (category.slug === 'concrete-fence' || category.slug.includes('cit')) {
+                                                                    // Fence icon - panel fence
+                                                                    CategoryIcon = (
+                                                                        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 3v18M10 3v18M15 3v18M20 3v18M3 8h18M3 16h18" />
+                                                                        </svg>
+                                                                    );
+                                                                } else if (category.slug === 'plywood' || category.slug.includes('plywood')) {
+                                                                    // Plywood/Panel icon
+                                                                    CategoryIcon = (
+                                                                        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 4h16v16H4V4zm4 4h8v8H8V8z" />
+                                                                        </svg>
+                                                                    );
+                                                                } else if (category.slug === 'beam' || category.slug.includes('hatil')) {
+                                                                    // Beam/Lintel icon - horizontal beam
+                                                                    CategoryIcon = (
+                                                                        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 12h16M4 8h16M4 16h16" />
+                                                                        </svg>
+                                                                    );
+                                                                } else if (category.slug === 'auxiliary' || category.slug.includes('yardimci')) {
+                                                                    // Tools/Auxiliary icon
+                                                                    CategoryIcon = (
+                                                                        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                                        </svg>
+                                                                    );
+                                                                } else if (category.slug === 'special-design' || category.slug.includes('ozel')) {
+                                                                    // Special design icon - star/custom
+                                                                    CategoryIcon = (
+                                                                        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                                                                        </svg>
+                                                                    );
+                                                                } else {
+                                                                    // Default construction icon - building blocks
+                                                                    CategoryIcon = (
+                                                                        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                                                        </svg>
+                                                                    );
+                                                                }
 
                                                                 // Localized Title
                                                                 const title = getCategoryTitle(category);

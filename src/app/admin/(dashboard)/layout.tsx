@@ -51,6 +51,15 @@ export default async function AdminLayout({
                     <Link href="/admin/blog" className="block px-4 py-2 rounded hover:bg-slate-800 transition-colors">
                         Blog
                     </Link>
+                    <Link href="/admin/pages" className="block px-4 py-2 rounded hover:bg-slate-800 transition-colors">
+                        Sayfalar (Yasal/Kurumsal)
+                    </Link>
+                    <Link href="/admin/references" className="block px-4 py-2 rounded hover:bg-slate-800 transition-colors">
+                        Referanslar
+                    </Link>
+                    <Link href="/admin/corporate-cards" className="block px-4 py-2 rounded hover:bg-slate-800 transition-colors">
+                        Kurumsal Kartlar
+                    </Link>
 
                     <div className="pt-2 pb-1 px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">
                         Genel

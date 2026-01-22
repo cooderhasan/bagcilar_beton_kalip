@@ -12,7 +12,10 @@ import { getTranslations } from 'next-intl/server';
 import { getSiteSettings } from '@/actions/settings';
 import { PrismaClient } from '@prisma/client';
 
+import { Inter } from 'next/font/google';
+
 const prisma = new PrismaClient();
+const inter = Inter({ subsets: ['latin'] });
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -147,7 +150,7 @@ export default async function LocaleLayout({
       <head>
         <JsonLd data={organizationSchema} />
       </head>
-      <body className="antialiased font-sans bg-gray-50 text-slate-900" suppressHydrationWarning>
+      <body className={`${inter.className} antialiased font-sans bg-gray-50 text-slate-900`} suppressHydrationWarning>
         <NextIntlClientProvider messages={messages}>
           <div className="flex flex-col min-h-screen">
             <Header settings={settings} categories={serializedCategories} />

@@ -2,7 +2,7 @@ import { getTranslations } from 'next-intl/server';
 import Image from 'next/image';
 import { Link } from '@/i18n/routing';
 import { productCategories } from '@/lib/products';
-import { blogPosts } from '@/lib/blog';
+
 import { prisma } from '@/lib/prisma';
 
 export default async function HomePage() {
@@ -12,7 +12,7 @@ export default async function HomePage() {
   const tHome = await getTranslations('HomePage');
 
   // Veritabanından veri çekme
-  const [sliders, heroSection, statistics, categories, siteSettings] = await Promise.all([
+  const [sliders, heroSection, statistics, categories, siteSettings, latestPosts] = await Promise.all([
     prisma.slider.findMany({
       where: { isActive: true },
       orderBy: { order: 'asc' },
@@ -27,7 +27,12 @@ export default async function HomePage() {
         }
       }
     }),
-    prisma.siteSettings.findFirst()
+    prisma.siteSettings.findFirst(),
+    prisma.blogPost.findMany({
+      where: { published: true },
+      orderBy: { createdAt: 'desc' },
+      take: 2
+    })
   ]);
 
   // Hero section için fallback
@@ -272,29 +277,41 @@ export default async function HomePage() {
                 </Link>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {blogPosts.slice(0, 2).map((post) => (
-                  <Link
-                    key={post.id}
-                    href={`/blog/${post.slug}`}
-                    className="group bg-gray-50 rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300"
-                  >
-                    <div className="relative aspect-[16/9] bg-gray-200">
-                      <Image
-                        src="/images/products/product-placeholder.png"
-                        alt={post.title}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-300"
-                        unoptimized
-                      />
-                    </div>
-                    <div className="p-4">
-                      <p className="text-xs text-gray-400 mb-1">{post.date}</p>
-                      <h4 className="font-bold text-gray-800 group-hover:text-orange-500 transition-colors line-clamp-2">
-                        {post.title}
-                      </h4>
-                    </div>
-                  </Link>
-                ))}
+
+                {latestPosts.map((post) => {
+                  const title = (post.title as any)?.tr || 'Başlıksız';
+
+                  return (
+                    <Link
+                      key={post.id}
+                      href={`/blog/${post.slug}`}
+                      className="group bg-gray-50 rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300"
+                    >
+                      <div className="relative aspect-[16/9] bg-gray-200">
+                        <Image
+                          src={post.image || "/images/products/product-placeholder.png"}
+                          alt={title}
+                          fill
+                          className="object-cover group-hover:scale-105 transition-transform duration-300"
+                          unoptimized
+                        />
+                      </div>
+                      <div className="p-4">
+                        <p className="text-xs text-gray-400 mb-1">
+                          {new Date(post.createdAt).toLocaleDateString('tr-TR', {
+                            day: 'numeric',
+                            month: 'long',
+                            year: 'numeric'
+                          })}
+                        </p>
+                        <h4 className="font-bold text-gray-800 group-hover:text-orange-500 transition-colors line-clamp-2">
+                          {title}
+                        </h4>
+                      </div>
+                    </Link>
+                  );
+                })}
+
               </div>
             </div>
           </div>
