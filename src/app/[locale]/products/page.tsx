@@ -12,6 +12,16 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     };
 }
 
+import { Prisma } from '@prisma/client';
+
+type CategoryWithCount = Prisma.CategoryGetPayload<{
+    include: {
+        _count: {
+            select: { products: { where: { isActive: true } } }
+        }
+    }
+}>;
+
 export default async function ProductsPage({
     params,
     searchParams
@@ -47,7 +57,7 @@ export default async function ProductsPage({
 
     // Find selected category
     const selectedCategory = categorySlug
-        ? categories.find((c: any) => c.slug === categorySlug)
+        ? categories.find((c) => c.slug === categorySlug)
         : null;
 
 
@@ -90,7 +100,7 @@ export default async function ProductsPage({
                             >
                                 Tümü ({products.length})
                             </Link>
-                            {categories.map((cat: any) => (
+                            {categories.map((cat: CategoryWithCount) => (
                                 <Link
                                     key={cat.id}
                                     href={`/products?category=${cat.slug}`}
