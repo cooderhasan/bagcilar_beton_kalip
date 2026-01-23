@@ -47,7 +47,7 @@ export default async function ProductsPage({
 
     // Find selected category
     const selectedCategory = categorySlug
-        ? categories.find(c => c.slug === categorySlug)
+        ? categories.find((c: any) => c.slug === categorySlug)
         : null;
 
 
