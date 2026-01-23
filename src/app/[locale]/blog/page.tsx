@@ -46,7 +46,7 @@ export default async function BlogPage() {
                             {locale === 'tr' ? 'Henüz blog yazısı bulunmuyor.' : 'No blog posts yet.'}
                         </div>
                     ) : (
-                        posts.map((post) => {
+                        posts.map((post: any) => {
                             const title = (post.title as any)?.[locale] || '';
                             const excerpt = (post.excerpt as any)?.[locale] || '';
 

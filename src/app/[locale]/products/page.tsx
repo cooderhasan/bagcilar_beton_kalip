@@ -120,7 +120,7 @@ export default async function ProductsPage({
                         </div>
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                            {products.map((product) => {
+                            {products.map((product: any) => {
                                 const title = (product.title as any)[locale] || (product.title as any).tr;
                                 const categoryTitle = (product.category.title as any)[locale] || (product.category.title as any).tr;
 
