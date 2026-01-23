@@ -11,6 +11,15 @@ const intlMiddleware = createMiddleware(routing);
 export default async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
+  // 0. SEO Redirect: Force WWW
+  // Redirect non-www to www to prevent duplicate content
+  if (req.headers.get("host") === "bagcilarbetonkalip.com") {
+    const url = req.nextUrl.clone();
+    url.hostname = "www.bagcilarbetonkalip.com";
+    url.protocol = "https";
+    return NextResponse.redirect(url, 301);
+  }
+
   // 1. Skip API and Webhook routes
   if (pathname.startsWith('/api') || pathname.startsWith('/_next')) {
     return NextResponse.next();
