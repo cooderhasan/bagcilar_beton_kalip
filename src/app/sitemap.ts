@@ -1,8 +1,8 @@
 import { MetadataRoute } from 'next';
 import { productCategories } from '@/lib/products';
-import { blogPosts } from '@/lib/blog';
+import { prisma } from '@/lib/prisma'; // Import prisma
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const baseUrl = 'https://bagcilarbetonkalip.com';
     const locales = ['tr', 'en'];
 
@@ -34,7 +34,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         });
     });
 
-    // Dynamic Product Categories
+    // Dynamic Product Categories (Static from file for now)
     productCategories.forEach((category) => {
         locales.forEach((locale) => {
             sitemapEntries.push({
@@ -46,17 +46,26 @@ export default function sitemap(): MetadataRoute.Sitemap {
         });
     });
 
-    // Dynamic Blog Posts
-    blogPosts.forEach((post) => {
-        locales.forEach((locale) => {
-            sitemapEntries.push({
-                url: `${baseUrl}/${locale}/blog/${post.slug}`,
-                lastModified: new Date(post.date),
-                changeFrequency: 'monthly',
-                priority: 0.7,
+    // Dynamic Blog Posts (Fetched from DB)
+    try {
+        const blogPosts = await prisma.blogPost.findMany({
+            where: { published: true },
+            select: { slug: true, updatedAt: true },
+        });
+
+        blogPosts.forEach((post) => {
+            locales.forEach((locale) => {
+                sitemapEntries.push({
+                    url: `${baseUrl}/${locale}/blog/${post.slug}`,
+                    lastModified: new Date(post.updatedAt),
+                    changeFrequency: 'monthly',
+                    priority: 0.7,
+                });
             });
         });
-    });
+    } catch (error) {
+        console.error("Error fetching blog posts for sitemap:", error);
+    }
 
     return sitemapEntries;
 }
