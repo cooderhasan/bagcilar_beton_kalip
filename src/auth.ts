@@ -6,6 +6,7 @@ import { getUserFromDb } from "./auth.logic"
 export const { handlers, auth, signIn, signOut } = NextAuth({
     ...authConfig,
     debug: true,
+    trustHost: true,
     session: { strategy: "jwt" },
     providers: [
         Credentials({
