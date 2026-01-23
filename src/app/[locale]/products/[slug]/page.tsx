@@ -11,7 +11,7 @@ export async function generateStaticParams() {
         select: { slug: true }
     });
 
-    return products.map((product) => ({
+    return products.map((product: { slug: string }) => ({
         slug: product.slug,
     }));
 }
