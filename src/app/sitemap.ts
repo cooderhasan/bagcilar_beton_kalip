@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next';
-import { productCategories } from '@/lib/products';
+
 import { prisma } from '@/lib/prisma'; // Import prisma
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -34,17 +34,26 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         });
     });
 
-    // Dynamic Product Categories (Static from file for now)
-    productCategories.forEach((category: any) => {
-        locales.forEach((locale: any) => {
-            sitemapEntries.push({
-                url: `${baseUrl}/${locale}/products/${category.slug}`,
-                lastModified: new Date(),
-                changeFrequency: 'weekly',
-                priority: 0.9,
+    // Dynamic Products (Fetched from DB)
+    try {
+        const products = await prisma.product.findMany({
+            where: { isActive: true },
+            select: { slug: true, updatedAt: true },
+        });
+
+        products.forEach((product: any) => {
+            locales.forEach((locale: any) => {
+                sitemapEntries.push({
+                    url: `${baseUrl}/${locale}/products/${product.slug}`,
+                    lastModified: new Date(product.updatedAt),
+                    changeFrequency: 'weekly',
+                    priority: 0.9,
+                });
             });
         });
-    });
+    } catch (error) {
+        console.error("Error fetching products for sitemap:", error);
+    }
 
     // Dynamic Blog Posts (Fetched from DB)
     try {
