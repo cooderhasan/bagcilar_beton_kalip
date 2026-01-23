@@ -100,7 +100,7 @@ export default async function LocaleLayout({
   });
 
   // Serialize dates to avoid "Date object not supported" error in Client Component
-  const serializedCategories = categories.map(cat => ({
+  const serializedCategories = categories.map((cat: any) => ({
     ...cat,
     createdAt: cat.createdAt.toISOString(),
     updatedAt: cat.updatedAt.toISOString(),
