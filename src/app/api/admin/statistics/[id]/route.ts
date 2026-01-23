@@ -3,8 +3,9 @@ import { prisma } from '@/lib/prisma';
 
 export async function PUT(
     request: Request,
-    { params }: { params: { id: string } }
+    props: { params: Promise<{ id: string }> }
 ) {
+    const params = await props.params;
     try {
         const body = await request.json();
         const statistic = await prisma.statistic.update({
@@ -25,8 +26,9 @@ export async function PUT(
 
 export async function DELETE(
     request: Request,
-    { params }: { params: { id: string } }
+    props: { params: Promise<{ id: string }> }
 ) {
+    const params = await props.params;
     try {
         await prisma.statistic.delete({
             where: { id: params.id },

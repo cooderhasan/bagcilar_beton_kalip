@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
-export default function EditSliderPage({ params }: { params: { id: string } }) {
+export default function EditSliderPage({ params }: { params: Promise<{ id: string }> }) {
+    const { id } = use(params);
     const router = useRouter();
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
@@ -27,7 +28,7 @@ export default function EditSliderPage({ params }: { params: { id: string } }) {
 
     const fetchSlider = async () => {
         try {
-            const response = await fetch(`/api/admin/sliders/${params.id}`);
+            const response = await fetch(`/api/admin/sliders/${id}`);
             if (response.ok) {
                 const slider = await response.json();
                 setFormData({
@@ -55,7 +56,7 @@ export default function EditSliderPage({ params }: { params: { id: string } }) {
         setSaving(true);
 
         try {
-            const response = await fetch(`/api/admin/sliders/${params.id}`, {
+            const response = await fetch(`/api/admin/sliders/${id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
