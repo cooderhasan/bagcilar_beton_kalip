@@ -48,7 +48,7 @@ export default async function ReferencesPage() {
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {references.map((item) => (
+                        {references.map((item: any) => (
                             <div key={item.id} className="bg-white rounded-xl shadow-sm border border-gray-100 p-8 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group flex flex-col items-center justify-center text-center">
                                 <div className="relative w-48 h-32 mb-6">
                                     <Image
