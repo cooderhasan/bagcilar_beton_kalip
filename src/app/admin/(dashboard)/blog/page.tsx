@@ -43,7 +43,7 @@ export default async function AdminBlogPage() {
                                 </td>
                             </tr>
                         ) : (
-                            posts.map((post) => {
+                            posts.map((post: any) => {
                                 const title = post.title as { tr: string, en: string };
                                 return (
                                     <tr key={post.id} className="hover:bg-slate-50 transition-colors">
@@ -73,8 +73,8 @@ export default async function AdminBlogPage() {
                                         </td>
                                         <td className="px-6 py-4">
                                             <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${post.published
-                                                    ? 'bg-emerald-100 text-emerald-800'
-                                                    : 'bg-amber-100 text-amber-800'
+                                                ? 'bg-emerald-100 text-emerald-800'
+                                                : 'bg-amber-100 text-amber-800'
                                                 }`}>
                                                 {post.published ? 'Yayında' : 'Taslak'}
                                             </span>

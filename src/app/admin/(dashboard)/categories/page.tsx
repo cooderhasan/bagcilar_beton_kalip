@@ -44,7 +44,7 @@ export default async function AdminCategoriesPage() {
                                 </td>
                             </tr>
                         ) : (
-                            categories.map((category) => {
+                            categories.map((category: any) => {
                                 const title = category.title as { tr: string, en: string };
                                 return (
                                     <tr key={category.id} className="hover:bg-slate-50 transition-colors">

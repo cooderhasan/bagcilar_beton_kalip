@@ -107,7 +107,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
             order: Number(formData.get('order')),
             images: images,
             videoUrl: formData.get('videoUrl') || null,
-            features: features.filter(f => f.trim() !== ''),
+            features: features.filter((f: any) => f.trim() !== ''),
             seoTitle: formData.get('seoTitle'),
             seoDescription: formData.get('seoDescription'),
         };
@@ -214,7 +214,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
                                     <label className="block text-sm font-medium text-slate-700 mb-1">Kategori</label>
                                     <select name="categoryId" required defaultValue={product.categoryId} className="w-full border border-gray-300 rounded-lg px-4 py-2 bg-white text-gray-900">
                                         <option value="">Seçiniz...</option>
-                                        {categories.map(cat => (
+                                        {categories.map((cat: any) => (
                                             <option key={cat.id} value={cat.id}>
                                                 {(cat.title as any)?.tr || 'İsimsiz'}
                                             </option>

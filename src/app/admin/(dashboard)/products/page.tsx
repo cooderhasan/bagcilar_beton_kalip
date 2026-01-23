@@ -44,7 +44,7 @@ export default async function AdminProductsPage() {
                                 </td>
                             </tr>
                         ) : (
-                            products.map((product) => {
+                            products.map((product: any) => {
                                 // Parse JSON title safely
                                 const title = product.title as { tr: string, en: string };
 

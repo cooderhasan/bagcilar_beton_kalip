@@ -90,7 +90,7 @@ export default function PagesManager() {
                                 </td>
                             </tr>
                         ) : (
-                            pages.map((page) => (
+                            pages.map((page: any) => (
                                 <tr key={page.id} className="hover:bg-gray-50">
                                     <td className="px-6 py-4">
                                         <div className="font-medium text-gray-900">{page.title?.tr || page.slug}</div>

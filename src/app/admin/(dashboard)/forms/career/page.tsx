@@ -38,7 +38,7 @@ export default async function CareerApplicationsPage() {
                                     </td>
                                 </tr>
                             ) : (
-                                apps.map((app) => (
+                                apps.map((app: any) => (
                                     <tr key={app.id} className="hover:bg-gray-50/50 transition-colors group">
                                         <td className="px-6 py-4 whitespace-nowrap text-gray-400 text-xs">
                                             {new Date(app.createdAt).toLocaleDateString('tr-TR')} <br />

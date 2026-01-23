@@ -76,7 +76,7 @@ export default function ReferencesPage() {
                         <p className="text-gray-500">Henüz referans eklenmemiş.</p>
                     </div>
                 ) : (
-                    references.map((ref) => (
+                    references.map((ref: any) => (
                         <div key={ref.id} className="bg-white rounded-lg shadow overflow-hidden group">
                             <div className="relative h-48 bg-gray-100">
                                 <Image

@@ -57,7 +57,7 @@ export default function ProductForm({ categories }: { categories: Category[] }) 
             order: Number(formData.get("order")),
             images: images, // Use state instead of form input
             videoUrl: formData.get("videoUrl") || null,
-            features: features.filter(f => f.trim() !== ""), // Clean empty features
+            features: features.filter((f: any) => f.trim() !== ""), // Clean empty features
             seoTitle: formData.get("seoTitle"),
             seoDescription: formData.get("seoDescription"),
         };
@@ -132,7 +132,7 @@ export default function ProductForm({ categories }: { categories: Category[] }) 
                                 <label className="block text-sm font-medium text-slate-700 mb-1">Kategori</label>
                                 <select name="categoryId" required className="w-full border rounded-lg px-4 py-2 bg-white text-gray-900">
                                     <option value="">Seçiniz...</option>
-                                    {categories.map(cat => (
+                                    {categories.map((cat: any) => (
                                         <option key={cat.id} value={cat.id}>
                                             {(cat.title as any)?.tr || "İsimsiz"}
                                         </option>

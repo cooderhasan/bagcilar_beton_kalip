@@ -8,7 +8,7 @@ export default async function QuoteRequestsPage() {
 
     // Helper to get product name
     const getProductName = (id: string) => {
-        const cat = productCategories.find(c => c.id === id)
+        const cat = productCategories.find((c: any) => c.id === id)
         return cat ? cat.id.toUpperCase() : id // Fallback to ID if translation not avail server side easily without passing 't'
         // For better UX we might want to store the actual name or fetch translations here, but ID is readable enough for admin usually
     }
@@ -45,7 +45,7 @@ export default async function QuoteRequestsPage() {
                                     </td>
                                 </tr>
                             ) : (
-                                requests.map((req) => (
+                                requests.map((req: any) => (
                                     <tr key={req.id} className="hover:bg-gray-50/50 transition-colors group">
                                         <td className="px-6 py-4 whitespace-nowrap text-gray-400 text-xs">
                                             {new Date(req.createdAt).toLocaleDateString('tr-TR')} <br />

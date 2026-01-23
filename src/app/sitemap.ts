@@ -23,8 +23,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     let sitemapEntries: MetadataRoute.Sitemap = [];
 
     // Static Routes
-    routes.forEach((route) => {
-        locales.forEach((locale) => {
+    routes.forEach((route: any) => {
+        locales.forEach((locale: any) => {
             sitemapEntries.push({
                 url: `${baseUrl}/${locale}${route}`,
                 lastModified: new Date(),
@@ -35,8 +35,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     });
 
     // Dynamic Product Categories (Static from file for now)
-    productCategories.forEach((category) => {
-        locales.forEach((locale) => {
+    productCategories.forEach((category: any) => {
+        locales.forEach((locale: any) => {
             sitemapEntries.push({
                 url: `${baseUrl}/${locale}/products/${category.slug}`,
                 lastModified: new Date(),
@@ -53,8 +53,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             select: { slug: true, updatedAt: true },
         });
 
-        blogPosts.forEach((post) => {
-            locales.forEach((locale) => {
+        blogPosts.forEach((post: any) => {
+            locales.forEach((locale: any) => {
                 sitemapEntries.push({
                     url: `${baseUrl}/${locale}/blog/${post.slug}`,
                     lastModified: new Date(post.updatedAt),

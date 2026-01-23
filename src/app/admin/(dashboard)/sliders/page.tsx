@@ -110,7 +110,7 @@ export default function SlidersPage() {
                             </tr>
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
-                            {sliders.map((slider) => (
+                            {sliders.map((slider: any) => (
                                 <tr key={slider.id} className="hover:bg-gray-50">
                                     <td className="px-6 py-4 whitespace-nowrap">
                                         <img

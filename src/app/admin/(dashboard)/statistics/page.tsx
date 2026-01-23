@@ -214,7 +214,7 @@ export default function StatisticsPage() {
                         <p className="text-gray-500 text-center py-8">Henüz istatistik eklenmemiş</p>
                     ) : (
                         <div className="space-y-3">
-                            {statistics.map((stat) => (
+                            {statistics.map((stat: any) => (
                                 <div
                                     key={stat.id}
                                     className="border border-gray-200 rounded-lg p-4 hover:border-orange-300 transition-colors"

@@ -55,7 +55,7 @@ export default async function AdminLayout({
                     <div>
                         <div className="px-4 text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-4">Ana Sayfa</div>
                         <div className="space-y-1">
-                            {navigation.map((item) => (
+                            {navigation.map((item: any) => (
                                 <Link
                                     key={item.href}
                                     href={item.href}
@@ -71,7 +71,7 @@ export default async function AdminLayout({
                     <div>
                         <div className="px-4 text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-4">İçerik Yönetimi</div>
                         <div className="space-y-1">
-                            {contentNav.map((item) => (
+                            {contentNav.map((item: any) => (
                                 <Link
                                     key={item.href}
                                     href={item.href}
@@ -105,7 +105,7 @@ export default async function AdminLayout({
                     <div>
                         <div className="px-4 text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-4">Sistem</div>
                         <div className="space-y-1">
-                            {generalNav.map((item) => (
+                            {generalNav.map((item: any) => (
                                 <Link
                                     key={item.href}
                                     href={item.href}

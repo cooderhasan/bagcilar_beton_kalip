@@ -267,7 +267,7 @@ export default function CorporateCardsPage() {
                         <p className="text-gray-500 text-center py-8">Henüz kart eklenmemiş</p>
                     ) : (
                         <div className="space-y-3">
-                            {cards.map((card) => (
+                            {cards.map((card: any) => (
                                 <div
                                     key={card.id}
                                     className="border border-gray-200 rounded-lg p-4 hover:border-orange-300 transition-colors"

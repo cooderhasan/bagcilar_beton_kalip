@@ -39,7 +39,7 @@ export default async function ContactFormsPage() {
                                     </td>
                                 </tr>
                             ) : (
-                                messages.map((msg) => (
+                                messages.map((msg: any) => (
                                     <tr key={msg.id} className="hover:bg-gray-50/50 transition-colors group">
                                         <td className="px-6 py-4 whitespace-nowrap text-gray-400 text-xs">
                                             {new Date(msg.createdAt).toLocaleDateString('tr-TR')} <br />
