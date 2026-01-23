@@ -17,6 +17,7 @@ export default async function middleware(req: NextRequest) {
     const url = req.nextUrl.clone();
     url.hostname = "www.bagcilarbetonkalip.com";
     url.protocol = "https";
+    url.port = ""; // Ensure standard port (443)
     return NextResponse.redirect(url, 301);
   }
 
