@@ -14,11 +14,10 @@ export default async function middleware(req: NextRequest) {
   // 0. SEO Redirect: Force WWW
   // Redirect non-www to www to prevent duplicate content
   if (req.headers.get("host") === "bagcilarbetonkalip.com") {
-    const url = req.nextUrl.clone();
-    url.hostname = "www.bagcilarbetonkalip.com";
-    url.protocol = "https";
-    url.port = ""; // Ensure standard port (443)
-    return NextResponse.redirect(url, 301);
+    return NextResponse.redirect(
+      `https://www.bagcilarbetonkalip.com${req.nextUrl.pathname}${req.nextUrl.search}`,
+      301
+    );
   }
 
   // 1. Skip API and Webhook routes
