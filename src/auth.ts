@@ -14,7 +14,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                 password: { label: "Password", type: "password" },
             },
             authorize: async (credentials) => {
-                return await getUserFromDb(credentials);
+                const user = await getUserFromDb(credentials);
+                return user as any;
             },
         }),
     ],
