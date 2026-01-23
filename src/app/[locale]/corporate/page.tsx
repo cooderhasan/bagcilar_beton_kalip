@@ -74,7 +74,7 @@ export default async function CorporatePage({ params }: Props) {
                 {/* Corporate Cards - Dynamic from Database */}
                 <div className="grid md:grid-cols-3 gap-8">
                     {corporateCards.length > 0 ? (
-                        corporateCards.map((card) => {
+                        corporateCards.map((card: any) => {
                             const cardTitle = (card.title as any)[locale] || (card.title as any).tr;
                             const cardContent = (card.content as any)[locale] || (card.content as any).tr;
 
