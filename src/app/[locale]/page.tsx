@@ -55,7 +55,7 @@ export default async function HomePage() {
         // Slider varsa slider göster
         <section className="relative h-[85vh] w-full bg-gray-900 flex items-center">
           {/* Şu an tek slider gösteriyoruz, ileride carousel yapılabilir */}
-          {sliders.map((slider: any, index) => {
+          {sliders.map((slider: any, index: number) => {
             const title = slider.title as { tr: string; en: string };
             const description = slider.description as { tr: string; en: string } | null;
             const ctaText = slider.ctaText as { tr: string; en: string } | null;
