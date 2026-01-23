@@ -90,7 +90,7 @@ export default async function ProductsPage({
                             >
                                 Tümü ({products.length})
                             </Link>
-                            {categories.map((cat) => (
+                            {categories.map((cat: any) => (
                                 <Link
                                     key={cat.id}
                                     href={`/products?category=${cat.slug}`}
