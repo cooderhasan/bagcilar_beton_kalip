@@ -6,7 +6,7 @@ async function main() {
     console.log('Checking for users...')
     const users = await prisma.user.findMany()
     console.log('Total users:', users.length)
-    users.forEach(u => {
+    users.forEach((u: any) => {
         console.log(`User: ${u.email}, Role: ${u.role}, Name: ${u.name}`)
     })
 
