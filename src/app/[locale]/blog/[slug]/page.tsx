@@ -110,7 +110,7 @@ export default async function BlogPostPage({
                 <div className="mt-16 pt-8 border-t border-gray-100">
                     <h3 className="text-2xl font-bold text-primary mb-6">{t('relatedPosts')}</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {relatedPosts.map(otherPost => {
+                        {relatedPosts.map((otherPost: any) => {
                             const otherTitle = (otherPost.title as any)?.[locale] || '';
                             return (
                                 <Link key={otherPost.id} href={`/blog/${otherPost.slug}`} className="block p-6 border border-gray-100 rounded hover:shadow-lg transition-shadow">
