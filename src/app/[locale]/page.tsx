@@ -55,7 +55,7 @@ export default async function HomePage() {
         // Slider varsa slider göster
         <section className="relative h-[85vh] w-full bg-gray-900 flex items-center">
           {/* Şu an tek slider gösteriyoruz, ileride carousel yapılabilir */}
-          {sliders.map((slider, index) => {
+          {sliders.map((slider: any, index) => {
             const title = slider.title as { tr: string; en: string };
             const description = slider.description as { tr: string; en: string } | null;
             const ctaText = slider.ctaText as { tr: string; en: string } | null;
@@ -157,7 +157,7 @@ export default async function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {categories.map((category) => {
+            {categories.map((category: any) => {
               const title = (category.title as any).tr;
               const description = (category.description as any)?.tr;
 
@@ -279,7 +279,7 @@ export default async function HomePage() {
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
-                {latestPosts.map((post) => {
+                {latestPosts.map((post: any) => {
                   const title = (post.title as any)?.tr || 'Başlıksız';
 
                   return (
@@ -330,7 +330,7 @@ export default async function HomePage() {
 
             {/* Dynamic Statistics */}
             {statistics.length > 0 ? (
-              statistics.slice(0, 3).map((stat) => {
+              statistics.slice(0, 3).map((stat: any) => {
                 const label = stat.label as { tr: string; en: string };
                 return (
                   <div key={stat.id} className="text-center px-4">
