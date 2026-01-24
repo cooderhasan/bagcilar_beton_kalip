@@ -56,6 +56,10 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       description: t('description'),
       images: ['/images/og-image.jpg'],
     },
+    icons: {
+      icon: (await getSiteSettings()).settings?.faviconUrl || '/favicon.ico', // Fallback to a file if exists, but dynamic takes precedence
+      shortcut: (await getSiteSettings()).settings?.faviconUrl || '/favicon.ico',
+    },
     robots: {
       index: true,
       follow: true,

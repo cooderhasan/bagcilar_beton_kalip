@@ -9,6 +9,7 @@ export default function SettingsPage() {
     const [saving, setSaving] = useState(false)
     const [settings, setSettings] = useState<any>(null)
     const [message, setMessage] = useState<{ text: string, type: 'success' | 'error' } | null>(null)
+    const [activeTab, setActiveTab] = useState<'general' | 'social' | 'seo' | 'files'>('general')
 
     useEffect(() => {
         loadSettings()
@@ -38,8 +39,15 @@ export default function SettingsPage() {
 
     if (loading) return <div className="p-8">Yükleniyor...</div>
 
+    const tabs = [
+        { id: 'general', label: 'Genel Bilgiler' },
+        { id: 'social', label: 'Sosyal Medya' },
+        { id: 'seo', label: 'SEO Ayarları' },
+        { id: 'files', label: 'Dosyalar & Görünüm' },
+    ]
+
     return (
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-5xl mx-auto">
             <h1 className="text-2xl font-bold mb-6 text-gray-800">Site Ayarları</h1>
 
             {message && (
@@ -48,12 +56,31 @@ export default function SettingsPage() {
                 </div>
             )}
 
-            <form action={handleSubmit} className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 space-y-6">
+            {/* Tabs Navigation */}
+            <div className="flex border-b border-gray-200 mb-6 overflow-x-auto">
+                {tabs.map((tab) => (
+                    <button
+                        key={tab.id}
+                        onClick={() => setActiveTab(tab.id as any)}
+                        className={`px-6 py-3 text-sm font-medium transition-colors relative whitespace-nowrap ${activeTab === tab.id
+                                ? 'text-orange-600'
+                                : 'text-gray-500 hover:text-gray-700'
+                            }`}
+                    >
+                        {tab.label}
+                        {activeTab === tab.id && (
+                            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-orange-600" />
+                        )}
+                    </button>
+                ))}
+            </div>
 
-                {/* İletişim Bilgileri */}
-                <section>
+            <form action={handleSubmit} className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+
+                {/* Genel Bilgiler Tab */}
+                <div className={activeTab === 'general' ? 'block space-y-6' : 'hidden'}>
                     <h2 className="text-lg font-semibold text-gray-700 mb-4 pb-2 border-b">İletişim Bilgileri</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label className="block text-sm font-medium text-gray-600 mb-1">Telefon</label>
                             <input name="phone" defaultValue={settings?.phone || ""} className="w-full !text-slate-900 !bg-white border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none placeholder:text-gray-400" placeholder="+90 555 123 4567" />
@@ -67,12 +94,12 @@ export default function SettingsPage() {
                             <textarea name="address" defaultValue={settings?.address || ""} className="w-full !text-slate-900 !bg-white border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none h-24 placeholder:text-gray-400" placeholder="Adres detayları..." />
                         </div>
                     </div>
-                </section>
+                </div>
 
-                {/* Sosyal Medya */}
-                <section>
+                {/* Sosyal Medya Tab */}
+                <div className={activeTab === 'social' ? 'block space-y-6' : 'hidden'}>
                     <h2 className="text-lg font-semibold text-gray-700 mb-4 pb-2 border-b">Sosyal Medya Linkleri</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label className="block text-sm font-medium text-gray-600 mb-1">Instagram</label>
                             <input name="instagram" defaultValue={settings?.instagram || ""} className="w-full !text-slate-900 !bg-white border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none placeholder:text-gray-400" placeholder="https://instagram.com/..." />
@@ -94,115 +121,121 @@ export default function SettingsPage() {
                             <input name="youtube" defaultValue={settings?.youtube || ""} className="w-full !text-slate-900 !bg-white border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none placeholder:text-gray-400" placeholder="https://youtube.com/..." />
                         </div>
                     </div>
-                </section>
+                </div>
 
-                {/* SEO Ayarları */}
-                <section>
+                {/* SEO Tab */}
+                <div className={activeTab === 'seo' ? 'block space-y-6' : 'hidden'}>
                     <h2 className="text-lg font-semibold text-gray-700 mb-4 pb-2 border-b">SEO Ayarları</h2>
-                    <div className="space-y-4">
+                    <div className="space-y-6">
                         <div>
                             <label className="block text-sm font-medium text-gray-600 mb-1">Site Başlığı (Title)</label>
                             <input name="seoTitle" defaultValue={settings?.seoTitle || ""} className="w-full !text-slate-900 !bg-white border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none placeholder:text-gray-400" />
+                            <p className="text-xs text-gray-500 mt-1">Tarayıcı sekmesinde ve Google aramalarında görünen başlık.</p>
                         </div>
                         <div>
                             <label className="block text-sm font-medium text-gray-600 mb-1">Site Açıklaması (Description)</label>
-                            <textarea name="seoDescription" defaultValue={settings?.seoDescription || ""} className="w-full !text-slate-900 !bg-white border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none h-20 placeholder:text-gray-400" />
+                            <textarea name="seoDescription" defaultValue={settings?.seoDescription || ""} className="w-full !text-slate-900 !bg-white border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none h-24 placeholder:text-gray-400" />
+                            <p className="text-xs text-gray-500 mt-1">Google aramalarında başlığın altında görünen açıklama metni.</p>
                         </div>
                         <div>
                             <label className="block text-sm font-medium text-gray-600 mb-1">Anahtar Kelimeler (Keywords)</label>
                             <input name="seoKeywords" defaultValue={settings?.seoKeywords || ""} className="w-full !text-slate-900 !bg-white border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none placeholder:text-gray-400" placeholder="beton, kalıp, inşaat..." />
+                            <p className="text-xs text-gray-500 mt-1">Virgül ile ayırarak yazınız.</p>
                         </div>
                     </div>
-                </section>
+                </div>
 
-                {/* Dosyalar ve Katalog */}
-                <section>
-                    <h2 className="text-lg font-semibold text-gray-700 mb-4 pb-2 border-b">Dosyalar</h2>
-                    <div className="space-y-6">
-                        {/* Katalog */}
-                        <div>
+                {/* Dosyalar Tab */}
+                <div className={activeTab === 'files' ? 'block space-y-6' : 'hidden'}>
+                    <h2 className="text-lg font-semibold text-gray-700 mb-4 pb-2 border-b">Dosyalar ve Görünüm</h2>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        {/* Header Logo Section */}
+                        <div className="space-y-4">
+                            <h3 className="font-medium text-gray-900">Header Logo</h3>
                             <FileUpload
-                                label="E-Katalog (PDF)"
-                                value={settings?.catalogUrl || ""}
-                                onChange={(url) => setSettings({ ...settings, catalogUrl: url })}
-                                accept="application/pdf"
+                                label="Logo Dosyası"
+                                value={settings?.logoUrl || ""}
+                                onChange={(url) => setSettings({ ...settings, logoUrl: url })}
+                                accept="image/*"
                             />
-                            <input type="hidden" name="catalogUrl" value={settings?.catalogUrl || ""} />
-                        </div>
+                            <input type="hidden" name="logoUrl" value={settings?.logoUrl || ""} />
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <FileUpload
-                                    label="Header Logo"
-                                    value={settings?.logoUrl || ""}
-                                    onChange={(url) => setSettings({ ...settings, logoUrl: url })}
-                                    accept="image/*"
-                                />
-                                <input type="hidden" name="logoUrl" value={settings?.logoUrl || ""} />
-
-                                {/* Logo Height */}
-                                <div className="mt-3">
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Logo Yüksekliği (px)</label>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-600 mb-1">Yükseklik (px)</label>
                                     <input
                                         type="number"
                                         name="logoHeight"
                                         value={settings?.logoHeight || 60}
                                         onChange={(e) => setSettings({ ...settings, logoHeight: parseInt(e.target.value) || 60 })}
-                                        min={30}
-                                        max={150}
-                                        className="w-full !text-slate-900 !bg-white border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none placeholder:text-gray-400"
-                                        placeholder="60"
+                                        className="w-full border border-gray-300 rounded-lg px-3 py-2 outline-none focus:border-orange-500"
                                     />
-                                    <p className="text-xs text-gray-500 mt-1">Önerilen: 50-80 px arası</p>
                                 </div>
-
-                                {/* Header Padding */}
-                                <div className="mt-3">
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Header Dikey Boşluk (Padding - px)</label>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-600 mb-1">Dikey Boşluk (px)</label>
                                     <input
                                         type="number"
                                         name="headerPadding"
                                         value={settings?.headerPadding !== undefined ? settings.headerPadding : 8}
                                         onChange={(e) => setSettings({ ...settings, headerPadding: parseInt(e.target.value) || 0 })}
-                                        min={0}
-                                        max={100}
-                                        className="w-full !text-slate-900 !bg-white border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none placeholder:text-gray-400"
-                                        placeholder="8"
+                                        className="w-full border border-gray-300 rounded-lg px-3 py-2 outline-none focus:border-orange-500"
                                     />
-                                    <p className="text-xs text-gray-500 mt-1">Logonun üst ve altındaki boşluk (varsayılan: 8)</p>
                                 </div>
                             </div>
+                        </div>
 
-                            {/* Footer Logo */}
+                        {/* Other Files */}
+                        <div className="space-y-6">
                             <div>
+                                <h3 className="font-medium text-gray-900 mb-3">Footer Logo (Transparan)</h3>
                                 <FileUpload
-                                    label="Footer Logo (Transparan)"
+                                    label="Footer Logo Dosyası"
                                     value={settings?.footerLogoUrl || ""}
                                     onChange={(url) => setSettings({ ...settings, footerLogoUrl: url })}
                                     accept="image/*"
                                 />
                                 <input type="hidden" name="footerLogoUrl" value={settings?.footerLogoUrl || ""} />
                             </div>
+
                             <div>
+                                <h3 className="font-medium text-gray-900 mb-3">Favicon (Tarayıcı İkonu)</h3>
                                 <FileUpload
-                                    label="Favicon"
+                                    label="Favicon Dosyası"
                                     value={settings?.faviconUrl || ""}
                                     onChange={(url) => setSettings({ ...settings, faviconUrl: url })}
                                     accept="image/*"
                                 />
                                 <input type="hidden" name="faviconUrl" value={settings?.faviconUrl || ""} />
                             </div>
+
+                            <div>
+                                <h3 className="font-medium text-gray-900 mb-3">E-Katalog</h3>
+                                <FileUpload
+                                    label="PDF Katalog Dosyası"
+                                    value={settings?.catalogUrl || ""}
+                                    onChange={(url) => setSettings({ ...settings, catalogUrl: url })}
+                                    accept="application/pdf"
+                                />
+                                <input type="hidden" name="catalogUrl" value={settings?.catalogUrl || ""} />
+                            </div>
                         </div>
                     </div>
-                </section>
+                </div>
 
-                <div className="pt-4 border-t flex justify-end">
+                {/* Submit Logic (Hidden Inputs for inactive tabs to ensure all data is submitted) */}
+                {/* 
+                    Note: Since we are using a single form that wraps all tabs, and we are just hiding divs,
+                    all inputs exist in the DOM and will be submitted. No need for duplicate hidden inputs.
+                */}
+
+                <div className="pt-6 border-t mt-6 flex justify-end sticky bottom-0 bg-white p-4 -mx-6 -mb-6 rounded-b-xl shadow-[0_-4px_12px_rgba(0,0,0,0.05)] border-t border-gray-100">
                     <button
                         type="submit"
                         disabled={saving}
-                        className="bg-orange-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-orange-700 transition-colors disabled:opacity-50"
+                        className="bg-orange-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-orange-700 transition-all transform active:scale-95 disabled:opacity-50 disabled:scale-100 shadow-lg shadow-orange-500/30"
                     >
-                        {saving ? 'Kaydediliyor...' : 'Ayarları Kaydet'}
+                        {saving ? 'Kaydediliyor...' : 'Tüm Ayarları Kaydet'}
                     </button>
                 </div>
             </form>
