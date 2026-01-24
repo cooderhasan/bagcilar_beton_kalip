@@ -25,7 +25,7 @@ export default function FAQPage() {
     async function loadFaqs() {
         const res = await getAllFAQs();
         if (res.success && res.faqs) {
-            setFaqs(res.faqs as FAQ[]);
+            setFaqs(res.faqs as unknown as FAQ[]);
         }
         setLoading(false);
     }
@@ -129,8 +129,8 @@ export default function FAQPage() {
                                         <button
                                             onClick={() => handleToggle(faq.id)}
                                             className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${faq.isActive
-                                                    ? "bg-green-100 text-green-800"
-                                                    : "bg-gray-100 text-gray-800"
+                                                ? "bg-green-100 text-green-800"
+                                                : "bg-gray-100 text-gray-800"
                                                 }`}
                                         >
                                             {faq.isActive ? "Aktif" : "Pasif"}
