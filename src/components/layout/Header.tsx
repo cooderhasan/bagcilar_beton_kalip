@@ -206,7 +206,7 @@ export default function Header({ settings, categories = [] }: HeaderProps) {
                                         >
                                             <Link
                                                 href={item.href}
-                                                className="flex flex-col items-center justify-center text-gray-600 group-hover:text-orange-500 transition-colors text-base font-medium px-5 py-2"
+                                                className="flex flex-col items-center justify-center text-gray-600 group-hover:text-orange-500 transition-colors text-sm lg:text-base font-medium px-2 md:px-3 lg:px-5 py-2 whitespace-nowrap"
                                             >
                                                 <span className="text-gray-400 group-hover:text-orange-500 transition-colors duration-300 [&>svg]:w-7 [&>svg]:h-7">{Icon}</span>
                                                 <span className="flex items-center gap-1">
@@ -369,7 +369,7 @@ export default function Header({ settings, categories = [] }: HeaderProps) {
                                     <Link
                                         key={item.key}
                                         href={item.href}
-                                        className="flex flex-col items-center justify-center text-gray-600 hover:text-orange-500 transition-colors text-base font-medium px-5 py-2 group"
+                                        className="flex flex-col items-center justify-center text-gray-600 hover:text-orange-500 transition-colors text-sm lg:text-base font-medium px-2 md:px-3 lg:px-5 py-2 group whitespace-nowrap"
                                     >
                                         <span className="text-gray-400 group-hover:text-orange-500 transition-colors duration-300 [&>svg]:w-7 [&>svg]:h-7">{Icon}</span>
                                         {t(item.key)}
