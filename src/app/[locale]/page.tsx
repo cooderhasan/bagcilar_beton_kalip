@@ -471,58 +471,61 @@ export default async function HomePage() {
       </section>
 
       {/* STATS - Dynamic from Database */}
+      {/* STATS + CTA COMBINED - Compact Row */}
       <section className="py-10 bg-gradient-to-r from-orange-500 to-amber-500">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-0 divide-x-0 md:divide-x divide-white/30">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-0 lg:divide-x divide-white/20">
+
             {/* Title */}
-            <div className="text-center px-4 flex items-center justify-center">
-              <h2 className="text-xl md:text-2xl font-black text-white">{tWhyUs('title')}</h2>
+            <div className="w-full lg:w-auto lg:pr-10 text-center lg:text-left flex-shrink-0">
+              <h2 className="text-2xl md:text-3xl font-black text-white leading-tight">{tWhyUs('title')}</h2>
+              <p className="text-white/80 text-sm mt-1 hidden lg:block">{tHome('ctaSection.title')}</p>
             </div>
 
             {/* Dynamic Statistics */}
-            {statistics.length > 0 ? (
-              statistics.slice(0, 3).map((stat: any) => {
-                const label = stat.label as { tr: string; en: string };
-                return (
-                  <div key={stat.id} className="text-center px-4">
-                    <div className="text-3xl md:text-4xl font-black text-white">{stat.value}</div>
-                    <div className="text-xs md:text-sm text-white/80 uppercase tracking-wider mt-1">{(label as any)[locale] || label.tr}</div>
+            <div className="flex-1 w-full grid grid-cols-2 md:grid-cols-3 gap-y-8 gap-x-4 lg:px-10 lg:divide-x divide-white/20 justify-center">
+              {statistics.length > 0 ? (
+                statistics.slice(0, 3).map((stat: any) => {
+                  const label = stat.label as { tr: string; en: string };
+                  return (
+                    <div key={stat.id} className="text-center px-2">
+                      <div className="text-3xl md:text-4xl font-black text-white">{stat.value}</div>
+                      <div className="text-xs font-bold text-white/90 uppercase tracking-wide mt-1">{(label as any)[locale] || label.tr}</div>
+                    </div>
+                  );
+                })
+              ) : (
+                <>
+                  <div className="text-center px-2">
+                    <div className="text-3xl md:text-4xl font-black text-white">20+</div>
+                    <div className="text-xs font-bold text-white/90 uppercase tracking-wide mt-1">{tHome('stats.yearsExperience')}</div>
                   </div>
-                );
-              })
-            ) : (
-              <>
-                {/* Fallback Static Stats */}
-                <div className="text-center px-4">
-                  <div className="text-3xl md:text-4xl font-black text-white">20+</div>
-                  <div className="text-xs md:text-sm text-white/80 uppercase tracking-wider mt-1">{tHome('stats.yearsExperience')}</div>
-                </div>
-                <div className="text-center px-4">
-                  <div className="text-3xl md:text-4xl font-black text-white">10k+</div>
-                  <div className="text-xs md:text-sm text-white/80 uppercase tracking-wider mt-1">{tHome('stats.happyClients')}</div>
-                </div>
-                <div className="text-center px-4">
-                  <div className="text-3xl md:text-4xl font-black text-white">50+</div>
-                  <div className="text-xs md:text-sm text-white/80 uppercase tracking-wider mt-1">{tHome('stats.productTypes')}</div>
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-      </section>
+                  <div className="text-center px-2">
+                    <div className="text-3xl md:text-4xl font-black text-white">10k+</div>
+                    <div className="text-xs font-bold text-white/90 uppercase tracking-wide mt-1">{tHome('stats.happyClients')}</div>
+                  </div>
+                  <div className="text-center px-2 col-span-2 md:col-span-1">
+                    <div className="text-3xl md:text-4xl font-black text-white">50+</div>
+                    <div className="text-xs font-bold text-white/90 uppercase tracking-wide mt-1">{tHome('stats.productTypes')}</div>
+                  </div>
+                </>
+              )}
+            </div>
 
-      {/* CTA Section */}
-      <section className="py-20 bg-concrete">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-primary mb-8">
-            {tHome('ctaSection.title')}
-          </h2>
-          <Link
-            href="/quote"
-            className="inline-block bg-primary hover:bg-gray-800 text-white font-bold py-4 px-12 rounded transition duration-300 text-lg uppercase tracking-wider"
-          >
-            {tHero('cta')}
-          </Link>
+            {/* CTA Button */}
+            <div className="w-full lg:w-auto lg:pl-10 text-center flex-shrink-0">
+              <Link
+                href="/quote"
+                className="inline-flex items-center justify-center gap-2 bg-white text-orange-600 hover:bg-orange-50 font-bold py-4 px-8 rounded-xl transition duration-300 text-sm md:text-base uppercase tracking-wider shadow-lg lg:w-auto w-full group"
+              >
+                <span>{tHero('cta')}</span>
+                <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </Link>
+            </div>
+
+          </div>
         </div>
       </section>
 
