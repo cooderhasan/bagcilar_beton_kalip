@@ -41,6 +41,8 @@ model SiteSettings {
   catalogUrl     String? // PDF Catalog URL
   homeIntroTitle Json?   // { tr: string, en: string }
   homeIntroContent Json? // { tr: string, en: string }
+  homeServicesTitle Json? // { tr: string, en: string }
+  homeServicesContent Json? // { tr: string, en: string }
   updatedAt      DateTime @updatedAt
 }
 

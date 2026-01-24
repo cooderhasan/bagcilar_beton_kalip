@@ -93,7 +93,6 @@ async function main() {
     // Seed Blog - always ensure 2 default blog posts exist
     const blogs = [
         {
-            id: 'blog-seed-1',
             slug: 'beton-kalip-cesitleri',
             title: { tr: 'Beton Kalıp Çeşitleri ve Kullanım Alanları', en: 'Types of Concrete Formwork' },
             content: { tr: '<h2>Beton Kalıp Sistemleri</h2><p>İnşaat sektöründe beton kalıplar, projenin başarısını doğrudan etkileyen kritik unsurlardır.</p>', en: '<h2>Concrete Formwork Systems</h2><p>In the construction industry, concrete formwork is a critical element.</p>' },
@@ -102,7 +101,6 @@ async function main() {
             published: true
         },
         {
-            id: 'blog-seed-2',
             slug: 'kalip-bakim-ipuclari',
             title: { tr: 'Kalıp Bakım ve Depolama İpuçları', en: 'Formwork Maintenance Tips' },
             content: { tr: '<h2>Kalıp Ömrünü Uzatın</h2><p>Doğru bakım ve depolama yöntemleri, kalıp sistemlerinizin ömrünü önemli ölçüde uzatır.</p>', en: '<h2>Extend Formwork Lifespan</h2><p>Proper maintenance significantly extends the life of your formwork systems.</p>' },
@@ -113,7 +111,7 @@ async function main() {
     ];
     for (const blog of blogs) {
         await prisma.blogPost.upsert({
-            where: { id: blog.id },
+            where: { slug: blog.slug },
             update: {},
             create: blog
         });
