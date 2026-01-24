@@ -5,16 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import ProductGallery from '@/components/product/ProductGallery';
 
-export async function generateStaticParams() {
-    const products = await prisma.product.findMany({
-        where: { isActive: true },
-        select: { slug: true }
-    });
 
-    return products.map((product: { slug: string }) => ({
-        slug: product.slug,
-    }));
-}
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; slug: string }> }) {
     const { locale, slug } = await params;
