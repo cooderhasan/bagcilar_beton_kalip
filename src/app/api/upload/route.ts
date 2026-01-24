@@ -39,11 +39,20 @@ export async function POST(request: NextRequest) {
         const filename = `${timestamp}-${randomString}.${extension}`;
 
         // Dosyayı kaydet
-        const uploadDir = join(process.cwd(), 'public', 'uploads');
+        // public klasörü yerine root dizindeki uploads klasörüne kaydediyoruz
+        const uploadDir = join(process.cwd(), 'uploads');
+
+        // Klasör yoksa oluştur
+        try {
+            await require('fs/promises').mkdir(uploadDir, { recursive: true });
+        } catch (error) {
+            // Klasör zaten varsa hata verme
+        }
+
         const filepath = join(uploadDir, filename);
         await writeFile(filepath, buffer);
 
-        // URL'i döndür
+        // URL'i döndür - Yeni API route üzerinden sunulacak
         const url = `/uploads/${filename}`;
 
         return NextResponse.json({ url, filename }, { status: 200 });
