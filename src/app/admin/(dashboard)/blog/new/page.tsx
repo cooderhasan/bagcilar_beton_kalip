@@ -2,11 +2,16 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import RichTextEditor from "@/components/admin/RichTextEditor";
 
 export default function NewBlogPostPage() {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+
+    // Rich Text State
+    const [contentTr, setContentTr] = useState("");
+    const [contentEn, setContentEn] = useState("");
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -70,11 +75,13 @@ export default function NewBlogPostPage() {
                 <div className="space-y-4">
                     <div>
                         <label className="block text-sm font-medium mb-1">İçerik (TR)</label>
-                        <textarea name="content_tr" rows={6} className="w-full border rounded px-4 py-2 bg-white text-gray-900" />
+                        <RichTextEditor content={contentTr} onChange={setContentTr} />
+                        <input type="hidden" name="content_tr" value={contentTr} />
                     </div>
                     <div>
                         <label className="block text-sm font-medium mb-1">Content (EN)</label>
-                        <textarea name="content_en" rows={6} className="w-full border rounded px-4 py-2 bg-white text-gray-900" />
+                        <RichTextEditor content={contentEn} onChange={setContentEn} />
+                        <input type="hidden" name="content_en" value={contentEn} />
                     </div>
                 </div>
 
