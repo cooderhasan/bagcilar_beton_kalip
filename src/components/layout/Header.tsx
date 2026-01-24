@@ -130,7 +130,7 @@ export default function Header({ settings, categories = [] }: HeaderProps) {
             </div>
 
             {/* Main Header - White Background */}
-            < div className="bg-white shadow-md relative z-40" >
+            <div className="bg-white shadow-md relative z-40">
                 <div className="container mx-auto px-4">
                     <div
                         className="flex justify-between items-center min-h-[80px] transition-all duration-300"
@@ -415,7 +415,7 @@ export default function Header({ settings, categories = [] }: HeaderProps) {
                         </div>
                     </div>
                 </div>
-            </div >
+            </div>
 
             {/* Mobile Menu */}
             {
@@ -503,6 +503,6 @@ export default function Header({ settings, categories = [] }: HeaderProps) {
                     </div>
                 )
             }
-        </header >
+        </header>
     );
 }
