@@ -327,31 +327,38 @@ export default async function HomePage() {
                 <svg className="w-6 h-6 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
                 </svg>
-                {locale === 'tr' ? 'Hizmetlerimiz' : 'Our Services'}
+                {(siteSettings?.homeServicesTitle as any)?.[locale] || (locale === 'tr' ? 'Hizmetlerimiz' : 'Our Services')}
               </h3>
 
-              <ul className="space-y-3 text-gray-600 text-sm">
-                <li className="flex items-center gap-3">
-                  <span className="w-2 h-2 bg-orange-500 rounded-full flex-shrink-0"></span>
-                  {locale === 'tr' ? 'Profesyonel beton kalıp sistemleri' : 'Professional concrete formwork'}
-                </li>
-                <li className="flex items-center gap-3">
-                  <span className="w-2 h-2 bg-orange-500 rounded-full flex-shrink-0"></span>
-                  {locale === 'tr' ? 'Yüksek kalite malzeme' : 'High quality materials'}
-                </li>
-                <li className="flex items-center gap-3">
-                  <span className="w-2 h-2 bg-orange-500 rounded-full flex-shrink-0"></span>
-                  {locale === 'tr' ? 'Teknik destek hizmeti' : 'Technical support'}
-                </li>
-                <li className="flex items-center gap-3">
-                  <span className="w-2 h-2 bg-orange-500 rounded-full flex-shrink-0"></span>
-                  {locale === 'tr' ? 'Türkiye geneli teslimat' : 'Nationwide delivery'}
-                </li>
-                <li className="flex items-center gap-3">
-                  <span className="w-2 h-2 bg-orange-500 rounded-full flex-shrink-0"></span>
-                  {locale === 'tr' ? 'Kiralama hizmeti' : 'Rental service'}
-                </li>
-              </ul>
+              {(siteSettings?.homeServicesContent as any)?.[locale] ? (
+                <div
+                  className="prose prose-sm text-gray-600 leading-relaxed [&>p]:mb-3 [&>strong]:text-orange-600 [&>b]:text-orange-600 [&>ul]:space-y-2 [&>ul>li]:flex [&>ul>li]:items-center [&>ul>li]:gap-2"
+                  dangerouslySetInnerHTML={{ __html: ((siteSettings?.homeServicesContent as any)?.[locale] || '').replace(/\n/g, '<br />') }}
+                />
+              ) : (
+                <ul className="space-y-3 text-gray-600 text-sm">
+                  <li className="flex items-center gap-3">
+                    <span className="w-2 h-2 bg-orange-500 rounded-full flex-shrink-0"></span>
+                    {locale === 'tr' ? 'Profesyonel beton kalıp sistemleri' : 'Professional concrete formwork'}
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <span className="w-2 h-2 bg-orange-500 rounded-full flex-shrink-0"></span>
+                    {locale === 'tr' ? 'Yüksek kalite malzeme' : 'High quality materials'}
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <span className="w-2 h-2 bg-orange-500 rounded-full flex-shrink-0"></span>
+                    {locale === 'tr' ? 'Teknik destek hizmeti' : 'Technical support'}
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <span className="w-2 h-2 bg-orange-500 rounded-full flex-shrink-0"></span>
+                    {locale === 'tr' ? 'Türkiye geneli teslimat' : 'Nationwide delivery'}
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <span className="w-2 h-2 bg-orange-500 rounded-full flex-shrink-0"></span>
+                    {locale === 'tr' ? 'Kiralama hizmeti' : 'Rental service'}
+                  </li>
+                </ul>
+              )}
 
               <Link
                 href="/about"

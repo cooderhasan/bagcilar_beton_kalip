@@ -49,6 +49,14 @@ export async function updateSiteSettings(data: FormData) {
                 tr: data.get("homeIntroContentTr") as string,
                 en: data.get("homeIntroContentEn") as string,
             },
+            homeServicesTitle: {
+                tr: data.get("homeServicesTitleTr") as string,
+                en: data.get("homeServicesTitleEn") as string,
+            },
+            homeServicesContent: {
+                tr: data.get("homeServicesContentTr") as string,
+                en: data.get("homeServicesContentEn") as string,
+            },
         }
 
         await prisma.siteSettings.upsert({
