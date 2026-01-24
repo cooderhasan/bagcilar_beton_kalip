@@ -54,13 +54,15 @@ export default async function AdminLayout({
 
                 <nav className="flex-1 px-4 py-6 space-y-8 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-transparent">
                     <div>
-                        <div className="px-4 text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-4">Ana Sayfa</div>
+                        <div className="flex items-center gap-2 px-4 py-2 mb-3 bg-blue-500/10 border-l-4 border-blue-500 rounded-r-lg">
+                            <span className="text-xs font-bold text-blue-400 uppercase tracking-wider">Ana Sayfa</span>
+                        </div>
                         <div className="space-y-1">
                             {navigation.map((item: any) => (
                                 <Link
                                     key={item.href}
                                     href={item.href}
-                                    className="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl hover:bg-gray-800/50 hover:text-white transition-all duration-200 group"
+                                    className="flex items-center gap-3 px-4 py-3 text-[15px] font-medium rounded-xl hover:bg-gray-800/50 hover:text-white transition-all duration-200 group"
                                 >
                                     <item.icon className="w-5 h-5 text-gray-500 group-hover:text-blue-500 transition-colors" />
                                     {item.name}
@@ -70,13 +72,15 @@ export default async function AdminLayout({
                     </div>
 
                     <div>
-                        <div className="px-4 text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-4">İçerik Yönetimi</div>
+                        <div className="flex items-center gap-2 px-4 py-2 mb-3 bg-purple-500/10 border-l-4 border-purple-500 rounded-r-lg">
+                            <span className="text-xs font-bold text-purple-400 uppercase tracking-wider">İçerik Yönetimi</span>
+                        </div>
                         <div className="space-y-1">
                             {contentNav.map((item: any) => (
                                 <Link
                                     key={item.href}
                                     href={item.href}
-                                    className="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl hover:bg-gray-800/50 hover:text-white transition-all duration-200 group"
+                                    className="flex items-center gap-3 px-4 py-3 text-[15px] font-medium rounded-xl hover:bg-gray-800/50 hover:text-white transition-all duration-200 group"
                                 >
                                     <item.icon className="w-5 h-5 text-gray-500 group-hover:text-purple-500 transition-colors" />
                                     {item.name}
@@ -86,17 +90,19 @@ export default async function AdminLayout({
                     </div>
 
                     <div>
-                        <div className="px-4 text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-4">Başvurular</div>
+                        <div className="flex items-center gap-2 px-4 py-2 mb-3 bg-amber-500/10 border-l-4 border-amber-500 rounded-r-lg">
+                            <span className="text-xs font-bold text-amber-400 uppercase tracking-wider">Başvurular</span>
+                        </div>
                         <div className="space-y-1">
-                            <Link href="/admin/forms/contact" className="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl hover:bg-gray-800/50 hover:text-white transition-all duration-200 group">
+                            <Link href="/admin/forms/contact" className="flex items-center gap-3 px-4 py-3 text-[15px] font-medium rounded-xl hover:bg-gray-800/50 hover:text-white transition-all duration-200 group">
                                 <svg className="w-5 h-5 text-gray-500 group-hover:text-amber-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
                                 İletişim
                             </Link>
-                            <Link href="/admin/forms/quote" className="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl hover:bg-gray-800/50 hover:text-white transition-all duration-200 group">
+                            <Link href="/admin/forms/quote" className="flex items-center gap-3 px-4 py-3 text-[15px] font-medium rounded-xl hover:bg-gray-800/50 hover:text-white transition-all duration-200 group">
                                 <svg className="w-5 h-5 text-gray-500 group-hover:text-amber-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
                                 Teklifler
                             </Link>
-                            <Link href="/admin/forms/career" className="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl hover:bg-gray-800/50 hover:text-white transition-all duration-200 group">
+                            <Link href="/admin/forms/career" className="flex items-center gap-3 px-4 py-3 text-[15px] font-medium rounded-xl hover:bg-gray-800/50 hover:text-white transition-all duration-200 group">
                                 <svg className="w-5 h-5 text-gray-500 group-hover:text-amber-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
                                 CV / İK
                             </Link>
@@ -104,13 +110,15 @@ export default async function AdminLayout({
                     </div>
 
                     <div>
-                        <div className="px-4 text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-4">Sistem</div>
+                        <div className="flex items-center gap-2 px-4 py-2 mb-3 bg-emerald-500/10 border-l-4 border-emerald-500 rounded-r-lg">
+                            <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">Sistem</span>
+                        </div>
                         <div className="space-y-1">
                             {generalNav.map((item: any) => (
                                 <Link
                                     key={item.href}
                                     href={item.href}
-                                    className="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl hover:bg-gray-800/50 hover:text-white transition-all duration-200 group"
+                                    className="flex items-center gap-3 px-4 py-3 text-[15px] font-medium rounded-xl hover:bg-gray-800/50 hover:text-white transition-all duration-200 group"
                                 >
                                     <item.icon className="w-5 h-5 text-gray-500 group-hover:text-emerald-500 transition-colors" />
                                     {item.name}
