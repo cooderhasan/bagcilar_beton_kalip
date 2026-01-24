@@ -48,6 +48,8 @@ export async function updateSiteSettings(data: FormData) {
         })
 
         revalidatePath("/", "layout")
+        revalidatePath("/tr", "layout")
+        revalidatePath("/en", "layout")
         return { success: true, message: "Ayarlar güncellendi." }
     } catch (error) {
         console.error("Settings update error:", error)

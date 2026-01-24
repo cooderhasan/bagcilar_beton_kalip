@@ -10,11 +10,9 @@ import { Toaster } from 'react-hot-toast';
 
 import { getTranslations } from 'next-intl/server';
 import { getSiteSettings } from '@/actions/settings';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/lib/prisma';
 
 import { Inter } from 'next/font/google';
-
-const prisma = new PrismaClient();
 const inter = Inter({ subsets: ['latin'] });
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
