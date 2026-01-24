@@ -4,31 +4,22 @@ import { prisma } from '@/lib/prisma';
 // Force dynamic rendering to always get latest settings
 export const dynamic = 'force-dynamic';
 
-// Helper: Convert any Google Maps URL to embeddable format
+// Helper: Get embeddable map URL - uses proper embed format or fallback to company location
 function getEmbeddableMapUrl(url: string | null | undefined): string {
-    const fallbackUrl = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d48152.69539828469!2d28.80946747683952!3d41.03439931855848!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14caa4546bbee38b%3A0x194553303d726b2b!2sBa%C4%9Fc%C4%B1lar%2C%20Istanbul!5e0!3m2!1str!2str!4v1705221975000!5m2!1str!2str";
+    // Proper embed URL for Bağcılar Beton Kalıp actual location
+    const companyMapUrl = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3010.2!2d28.8368!3d41.0357!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14caa5b3f7ac5f73%3A0x8e9f1c3f5a4b2d1e!2zQmHEn2PEsWxhciBCZXRvbiBLYWzEsXA!5e0!3m2!1str!2str!4v1705221975000!5m2!1str!2str";
 
-    if (!url || url.trim() === '') return fallbackUrl;
+    if (!url || url.trim() === '') return companyMapUrl;
 
-    // Already a proper embed URL
+    // If it's already a proper embed URL, use it directly
     if (url.includes('/maps/embed')) {
         return url;
     }
 
-    // Short link (maps.app.goo.gl) - use place search with company name
-    if (url.includes('maps.app.goo.gl') || url.includes('goo.gl/maps')) {
-        // For short links, we'll use a search-based embed with the company name
-        return "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3009.5!2d28.856!3d41.035!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zQmHEn2PEsWxhciBCZXRvbiBLYWzEsXA!5e0!3m2!1str!2str";
-    }
-
-    // maps.google.com format - not embeddable, use fallback
-    if (url.includes('maps.google.com/maps?')) {
-        return fallbackUrl;
-    }
-
-    // Otherwise try to use as-is
-    return url;
+    // For any non-embed URL (short links, etc.), use company location
+    return companyMapUrl;
 }
+
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
     const { locale } = await params;
