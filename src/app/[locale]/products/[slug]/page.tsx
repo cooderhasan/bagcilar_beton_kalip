@@ -60,7 +60,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
 
     const title = ((product.title as any)?.[locale] || (product.title as any)?.tr) || 'Ürün';
     const description = ((product.description as any)?.[locale] || (product.description as any)?.tr) || '';
-    const categoryTitle = ((product.category.title as any)?.[locale] || (product.category.title as any)?.tr) || 'Kategori';
+    const categoryTitle = ((product.category?.title as any)?.[locale] || (product.category?.title as any)?.tr) || 'Kategori';
     const features = product.features as string[] || [];
     const videoEmbedId = getYouTubeEmbedId((product as any).videoUrl);
 
@@ -69,6 +69,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
     const whatsappPhone = siteSettings?.phone?.replace(/[^0-9]/g, '') || '905326763488';
 
     const tCommon = await getTranslations({ locale, namespace: 'Common' });
+    const categorySlug = product.category?.slug || '#';
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50 pb-20 pt-8">
@@ -92,7 +93,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                         </li>
                         <li className="text-gray-300">/</li>
                         <li>
-                            <Link href={`/products?category=${product.category.slug}`} className="hover:text-orange-500 transition-all duration-200">
+                            <Link href={`/products?category=${categorySlug}`} className="hover:text-orange-500 transition-all duration-200">
                                 {categoryTitle}
                             </Link>
                         </li>
@@ -147,7 +148,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                         <div className="bg-white rounded-3xl shadow-lg border border-gray-100 p-6 md:p-8">
                             <div className="flex items-center gap-2 mb-5">
                                 <Link
-                                    href={`/products?category=${product.category.slug}`}
+                                    href={`/products?category=${categorySlug}`}
                                     className="inline-flex items-center gap-1.5 bg-gradient-to-r from-orange-500 to-orange-600 text-white px-4 py-1.5 rounded-full text-xs font-bold tracking-wide hover:from-orange-600 hover:to-orange-700 transition-all duration-200 shadow-md hover:shadow-lg"
                                 >
                                     <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

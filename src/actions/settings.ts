@@ -47,7 +47,8 @@ export async function updateSiteSettings(data: FormData) {
                 // If it contains an iframe tag, try to extract src
                 if (rawUrl.includes("<iframe")) {
                     const match = rawUrl.match(/src=["'](.*?)["']/);
-                    return match ? match[1] : rawUrl;
+                    const extracted = match ? match[1] : rawUrl;
+                    return extracted.replace(/&amp;/g, '&');
                 }
                 return rawUrl;
             })(),
