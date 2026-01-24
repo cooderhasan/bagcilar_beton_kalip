@@ -3,15 +3,16 @@ import { notFound } from "next/navigation";
 import EditForm from "./EditForm";
 
 interface PageProps {
-    params: {
+    params: Promise<{
         id: string;
-    };
+    }>;
 }
 
-export default async function EditBlogPage({ params }: PageProps) {
+export default async function EditBlogPage(props: PageProps) {
+    const params = await props.params;
     const post = await prisma.blogPost.findUnique({
         where: {
-            id: parseInt(params.id),
+            id: params.id,
         },
     });
 
