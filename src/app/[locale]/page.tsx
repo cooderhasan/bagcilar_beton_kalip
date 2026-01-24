@@ -332,29 +332,49 @@ export default async function HomePage() {
 
               {(siteSettings?.homeServicesContent as any)?.[locale] ? (
                 <div
-                  className="prose prose-sm text-gray-600 leading-relaxed [&>p]:mb-3 [&>strong]:text-orange-600 [&>b]:text-orange-600 [&>ul]:space-y-2 [&>ul>li]:flex [&>ul>li]:items-center [&>ul>li]:gap-2"
+                  className="prose prose-sm text-gray-600 leading-relaxed [&>p]:mb-3 [&>strong]:text-orange-600 [&>b]:text-orange-600 [&_ul]:list-none [&_ul]:pl-0 [&_ul]:space-y-3 [&_li]:flex [&_li]:items-start [&_li]:gap-3 [&_li::before]:content-['✓'] [&_li::before]:flex [&_li::before]:items-center [&_li::before]:justify-center [&_li::before]:w-6 [&_li::before]:h-6 [&_li::before]:rounded-full [&_li::before]:bg-orange-500 [&_li::before]:text-white [&_li::before]:text-[10px] [&_li::before]:font-bold [&_li::before]:flex-shrink-0"
                   dangerouslySetInnerHTML={{ __html: ((siteSettings?.homeServicesContent as any)?.[locale] || '').replace(/\n/g, '<br />') }}
                 />
               ) : (
                 <ul className="space-y-3 text-gray-600 text-sm">
                   <li className="flex items-center gap-3">
-                    <span className="w-2 h-2 bg-orange-500 rounded-full flex-shrink-0"></span>
+                    <div className="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center flex-shrink-0 text-white">
+                      <svg className="w-3.5 h-3.5 font-bold" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
                     {locale === 'tr' ? 'Profesyonel beton kalıp sistemleri' : 'Professional concrete formwork'}
                   </li>
                   <li className="flex items-center gap-3">
-                    <span className="w-2 h-2 bg-orange-500 rounded-full flex-shrink-0"></span>
+                    <div className="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center flex-shrink-0 text-white">
+                      <svg className="w-3.5 h-3.5 font-bold" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
                     {locale === 'tr' ? 'Yüksek kalite malzeme' : 'High quality materials'}
                   </li>
                   <li className="flex items-center gap-3">
-                    <span className="w-2 h-2 bg-orange-500 rounded-full flex-shrink-0"></span>
+                    <div className="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center flex-shrink-0 text-white">
+                      <svg className="w-3.5 h-3.5 font-bold" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
                     {locale === 'tr' ? 'Teknik destek hizmeti' : 'Technical support'}
                   </li>
                   <li className="flex items-center gap-3">
-                    <span className="w-2 h-2 bg-orange-500 rounded-full flex-shrink-0"></span>
+                    <div className="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center flex-shrink-0 text-white">
+                      <svg className="w-3.5 h-3.5 font-bold" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
                     {locale === 'tr' ? 'Türkiye geneli teslimat' : 'Nationwide delivery'}
                   </li>
                   <li className="flex items-center gap-3">
-                    <span className="w-2 h-2 bg-orange-500 rounded-full flex-shrink-0"></span>
+                    <div className="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center flex-shrink-0 text-white">
+                      <svg className="w-3.5 h-3.5 font-bold" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
                     {locale === 'tr' ? 'Kiralama hizmeti' : 'Rental service'}
                   </li>
                 </ul>
