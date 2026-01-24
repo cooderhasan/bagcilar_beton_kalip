@@ -41,7 +41,16 @@ export async function updateSiteSettings(data: FormData) {
             headerPadding: parseInt(data.get("headerPadding") as string) || 0,
             faviconUrl: data.get("faviconUrl") as string,
             catalogUrl: data.get("catalogUrl") as string,
-            contactMapUrl: data.get("contactMapUrl") as string,
+            contactMapUrl: (() => {
+                const rawUrl = data.get("contactMapUrl") as string;
+                if (!rawUrl) return "";
+                // If it contains an iframe tag, try to extract src
+                if (rawUrl.includes("<iframe")) {
+                    const match = rawUrl.match(/src=["'](.*?)["']/);
+                    return match ? match[1] : rawUrl;
+                }
+                return rawUrl;
+            })(),
             homeIntroTitle: {
                 tr: data.get("homeIntroTitleTr") as string,
                 en: data.get("homeIntroTitleEn") as string,
