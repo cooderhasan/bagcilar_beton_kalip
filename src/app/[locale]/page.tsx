@@ -319,10 +319,10 @@ export default async function HomePage() {
       {/* ROW 2: SERVICES + BLOG + CATALOG (3 columns) */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-10 gap-6">
 
-            {/* LEFT: Services */}
-            <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
+            {/* LEFT: Services (70% Width) */}
+            <div className="lg:col-span-7 bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
               <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
                 <svg className="w-6 h-6 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
@@ -332,11 +332,11 @@ export default async function HomePage() {
 
               {(siteSettings?.homeServicesContent as any)?.[locale] ? (
                 <div
-                  className="prose prose-sm text-gray-600 leading-relaxed [&>p]:mb-3 [&>strong]:text-orange-600 [&>b]:text-orange-600 [&_ul]:list-none [&_ul]:pl-0 [&_ul]:space-y-3 [&_li]:flex [&_li]:items-start [&_li]:gap-3 [&_li::before]:content-['✓'] [&_li::before]:flex [&_li::before]:items-center [&_li::before]:justify-center [&_li::before]:w-6 [&_li::before]:h-6 [&_li::before]:rounded-full [&_li::before]:bg-orange-500 [&_li::before]:text-white [&_li::before]:text-[10px] [&_li::before]:font-bold [&_li::before]:flex-shrink-0"
+                  className="prose prose-sm max-w-none text-gray-600 leading-relaxed [&>p]:mb-3 [&>strong]:text-orange-600 [&>b]:text-orange-600 [&_ul]:list-none [&_ul]:pl-0 [&_ul]:space-y-3 [&_ul]:grid [&_ul]:grid-cols-1 [&_ul]:md:grid-cols-2 [&_ul]:gap-x-8 [&_li]:flex [&_li]:items-start [&_li]:gap-3 [&_li::before]:content-['✓'] [&_li::before]:flex [&_li::before]:items-center [&_li::before]:justify-center [&_li::before]:w-6 [&_li::before]:h-6 [&_li::before]:rounded-full [&_li::before]:bg-orange-500 [&_li::before]:text-white [&_li::before]:text-[10px] [&_li::before]:font-bold [&_li::before]:flex-shrink-0"
                   dangerouslySetInnerHTML={{ __html: ((siteSettings?.homeServicesContent as any)?.[locale] || '').replace(/\n/g, '<br />') }}
                 />
               ) : (
-                <ul className="space-y-3 text-gray-600 text-sm">
+                <ul className="space-y-3 text-gray-600 text-sm grid grid-cols-1 md:grid-cols-2 gap-x-8">
                   <li className="flex items-center gap-3">
                     <div className="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center flex-shrink-0 text-white">
                       <svg className="w-3.5 h-3.5 font-bold" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
@@ -382,83 +382,89 @@ export default async function HomePage() {
 
               <Link
                 href="/about"
-                className="inline-flex items-center gap-2 text-orange-500 font-semibold mt-4 hover:text-orange-600 transition-colors text-sm"
+                className="inline-flex items-center gap-2 text-orange-500 font-semibold mt-6 hover:text-orange-600 transition-colors text-sm"
               >
                 {locale === 'tr' ? 'Daha Fazla →' : 'Learn More →'}
               </Link>
             </div>
 
-            {/* MIDDLE: Blog */}
-            <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-xl font-bold text-gray-800 flex items-center gap-2">
-                  <svg className="w-6 h-6 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-                  </svg>
-                  {locale === 'tr' ? 'Blog' : 'Blog'}
-                </h3>
-                <Link href="/blog" className="text-orange-500 font-semibold hover:text-orange-600 transition-colors text-xs">
-                  {locale === 'tr' ? 'Tümü →' : 'All →'}
+            {/* RIGHT SIDEBAR: Blog + Catalog (30% Width) */}
+            <div className="lg:col-span-3 flex flex-col gap-6">
+
+              {/* Blog */}
+              <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm flex-1">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-xl font-bold text-gray-800 flex items-center gap-2">
+                    <svg className="w-6 h-6 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                    </svg>
+                    {locale === 'tr' ? 'Blog' : 'Blog'}
+                  </h3>
+                  <Link href="/blog" className="text-orange-500 font-semibold hover:text-orange-600 transition-colors text-xs">
+                    {locale === 'tr' ? 'Tümü →' : 'All →'}
+                  </Link>
+                </div>
+
+                <div className="space-y-4">
+                  {latestPosts.map((post: any) => {
+                    const title = (post.title as any)?.[locale] || (post.title as any)?.tr || 'Başlıksız';
+                    return (
+                      <Link
+                        key={post.id}
+                        href={`/blog/${post.slug}`}
+                        className="group block"
+                      >
+                        <p className="text-xs text-orange-500 font-medium mb-1">
+                          {new Date(post.createdAt).toLocaleDateString('tr-TR', {
+                            day: 'numeric',
+                            month: 'long',
+                            year: 'numeric'
+                          })}
+                        </p>
+                        <h4 className="font-semibold text-gray-800 group-hover:text-orange-500 transition-colors line-clamp-2 text-sm leading-snug">
+                          {title}
+                        </h4>
+                      </Link>
+                    );
+                  })}
+                </div>
+
+                <Link
+                  href="/blog"
+                  className="inline-flex items-center gap-2 text-orange-500 font-semibold mt-4 hover:text-orange-600 transition-colors text-sm"
+                >
+                  {locale === 'tr' ? 'Tüm Haberler →' : 'All News →'}
                 </Link>
               </div>
 
-              <div className="space-y-4">
-                {latestPosts.map((post: any) => {
-                  const title = (post.title as any)?.[locale] || (post.title as any)?.tr || 'Başlıksız';
-                  return (
-                    <Link
-                      key={post.id}
-                      href={`/blog/${post.slug}`}
-                      className="group block"
-                    >
-                      <p className="text-xs text-orange-500 font-medium mb-1">
-                        {new Date(post.createdAt).toLocaleDateString('tr-TR', {
-                          day: 'numeric',
-                          month: 'long',
-                          year: 'numeric'
-                        })}
-                      </p>
-                      <h4 className="font-semibold text-gray-800 group-hover:text-orange-500 transition-colors line-clamp-2 text-sm leading-snug">
-                        {title}
-                      </h4>
-                    </Link>
-                  );
-                })}
-              </div>
-
-              <Link
-                href="/blog"
-                className="inline-flex items-center gap-2 text-orange-500 font-semibold mt-4 hover:text-orange-600 transition-colors text-sm"
-              >
-                {locale === 'tr' ? 'Tüm Haberler →' : 'All News →'}
-              </Link>
-            </div>
-
-            {/* RIGHT: Catalog */}
-            <div className="bg-gradient-to-br from-orange-500 to-amber-500 rounded-2xl p-6 text-white flex flex-col justify-between shadow-lg shadow-orange-500/20">
-              <div>
-                <div className="w-14 h-14 bg-white/20 backdrop-blur rounded-xl flex items-center justify-center mb-4">
-                  <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
+              {/* Catalog */}
+              <div className="bg-gradient-to-br from-orange-500 to-amber-500 rounded-2xl p-6 text-white flex flex-col justify-between shadow-lg shadow-orange-500/20">
+                <div>
+                  <div className="w-14 h-14 bg-white/20 backdrop-blur rounded-xl flex items-center justify-center mb-4">
+                    <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-2xl font-bold mb-2">{tHome('catalog.title')}</h3>
+                  <p className="text-white/80 text-sm mb-6">
+                    {tHome('catalog.description')}
+                  </p>
                 </div>
-                <h3 className="text-2xl font-bold mb-2">{tHome('catalog.title')}</h3>
-                <p className="text-white/80 text-sm mb-6">
-                  {tHome('catalog.description')}
-                </p>
+                <a
+                  href={siteSettings?.catalogUrl || "/katalog.pdf"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 bg-white text-orange-600 px-6 py-3 rounded-full font-bold hover:bg-orange-50 transition-colors w-full"
+                >
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                  </svg>
+                  {tHome('catalog.button')}
+                </a>
               </div>
-              <a
-                href={siteSettings?.catalogUrl || "/katalog.pdf"}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 bg-white text-orange-600 px-6 py-3 rounded-full font-bold hover:bg-orange-50 transition-colors w-full"
-              >
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                </svg>
-                {tHome('catalog.button')}
-              </a>
+
             </div>
+
           </div>
         </div>
       </section>
