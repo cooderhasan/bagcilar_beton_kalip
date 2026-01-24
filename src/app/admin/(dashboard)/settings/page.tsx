@@ -164,6 +164,10 @@ export default function SettingsPage() {
                             <div>
                                 <label className="block text-sm font-medium text-gray-600 mb-1">İçerik (Türkçe)</label>
                                 <textarea name="homeIntroContentTr" defaultValue={(settings?.homeIntroContent as any)?.tr || ""} className="w-full !text-slate-900 !bg-white border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none h-64" placeholder="Anahtar kelimeler içeren tanıtım yazısı..." />
+                                <p className="text-xs text-gray-500 mt-2 flex items-center gap-1">
+                                    <svg className="w-4 h-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                    İpucu: Kalın yazmak istediğiniz yerleri <b>&lt;b&gt;kelime&lt;/b&gt;</b> içine alabilirsiniz.
+                                </p>
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-gray-600 mb-1">İçerik (İngilizce)</label>

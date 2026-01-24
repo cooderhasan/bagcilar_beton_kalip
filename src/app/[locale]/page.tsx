@@ -238,16 +238,30 @@ export default async function HomePage() {
 
       {/* SEO CONTENT SECTION (Dynamic from Admin) */}
       {(siteSettings?.homeIntroContent as any)?.[locale] && (
-        <section className="py-16 bg-white border-t border-gray-100">
+        <section className="py-20 bg-white">
           <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-3xl font-bold text-gray-800 mb-6">
-                {(siteSettings?.homeIntroTitle as any)?.[locale] || (siteSettings?.homeIntroTitle as any)?.tr || 'Bağcılar Beton Kalıp Sistemleri'}
-              </h2>
-              <div
-                className="prose prose-lg mx-auto text-gray-600 leading-relaxed"
-                dangerouslySetInnerHTML={{ __html: ((siteSettings?.homeIntroContent as any)?.[locale] || '').replace(/\n/g, '<br />') }}
-              />
+            <div className="relative bg-gradient-to-br from-gray-50 to-white border border-gray-100 rounded-3xl p-8 md:p-12 shadow-xl shadow-gray-200/50 overflow-hidden">
+              {/* Decorative Background Elements */}
+              <div className="absolute top-0 right-0 w-64 h-64 bg-orange-500/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+              <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
+
+              <div className="relative z-10 max-w-4xl mx-auto text-center">
+                {/* Icon */}
+                <div className="w-16 h-16 mx-auto bg-white rounded-2xl shadow-md flex items-center justify-center mb-6 text-orange-500">
+                  <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                  </svg>
+                </div>
+
+                <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6 tracking-tight">
+                  {(siteSettings?.homeIntroTitle as any)?.[locale] || (siteSettings?.homeIntroTitle as any)?.tr || 'Bağcılar Beton Kalıp Sistemleri'}
+                </h2>
+
+                <div
+                  className="prose prose-lg mx-auto text-gray-600 leading-relaxed [&>p]:mb-4 [&>strong]:text-orange-600 [&>b]:text-orange-600"
+                  dangerouslySetInnerHTML={{ __html: ((siteSettings?.homeIntroContent as any)?.[locale] || '').replace(/\n/g, '<br />') }}
+                />
+              </div>
             </div>
           </div>
         </section>
