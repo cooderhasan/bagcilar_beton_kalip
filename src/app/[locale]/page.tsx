@@ -319,10 +319,10 @@ export default async function HomePage() {
       {/* ROW 2: SERVICES + BLOG + CATALOG (3 columns) */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-10 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-            {/* LEFT: Services (70% Width) */}
-            <div className="lg:col-span-7 bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
+            {/* LEFT: Services (50% Width) */}
+            <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
               <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
                 <svg className="w-6 h-6 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
@@ -388,45 +388,47 @@ export default async function HomePage() {
               </Link>
             </div>
 
-            {/* RIGHT SIDEBAR: Blog + Catalog (30% Width) */}
-            <div className="lg:col-span-3 flex flex-col gap-6">
+            {/* RIGHT SIDEBAR: Blog + Catalog (50% Width -> 2 Columns inside) */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 h-full">
 
               {/* Blog */}
-              <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm flex-1">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-xl font-bold text-gray-800 flex items-center gap-2">
-                    <svg className="w-6 h-6 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-                    </svg>
-                    {locale === 'tr' ? 'Blog' : 'Blog'}
-                  </h3>
-                  <Link href="/blog" className="text-orange-500 font-semibold hover:text-orange-600 transition-colors text-xs">
-                    {locale === 'tr' ? 'Tümü →' : 'All →'}
-                  </Link>
-                </div>
+              <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-xl font-bold text-gray-800 flex items-center gap-2">
+                      <svg className="w-6 h-6 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                      </svg>
+                      {locale === 'tr' ? 'Blog' : 'Blog'}
+                    </h3>
+                    <Link href="/blog" className="text-orange-500 font-semibold hover:text-orange-600 transition-colors text-xs">
+                      {locale === 'tr' ? 'Tümü →' : 'All →'}
+                    </Link>
+                  </div>
 
-                <div className="space-y-4">
-                  {latestPosts.map((post: any) => {
-                    const title = (post.title as any)?.[locale] || (post.title as any)?.tr || 'Başlıksız';
-                    return (
-                      <Link
-                        key={post.id}
-                        href={`/blog/${post.slug}`}
-                        className="group block"
-                      >
-                        <p className="text-xs text-orange-500 font-medium mb-1">
-                          {new Date(post.createdAt).toLocaleDateString('tr-TR', {
-                            day: 'numeric',
-                            month: 'long',
-                            year: 'numeric'
-                          })}
-                        </p>
-                        <h4 className="font-semibold text-gray-800 group-hover:text-orange-500 transition-colors line-clamp-2 text-sm leading-snug">
-                          {title}
-                        </h4>
-                      </Link>
-                    );
-                  })}
+                  <div className="space-y-4">
+                    {latestPosts.map((post: any) => {
+                      const title = (post.title as any)?.[locale] || (post.title as any)?.tr || 'Başlıksız';
+                      return (
+                        <Link
+                          key={post.id}
+                          href={`/blog/${post.slug}`}
+                          className="group block"
+                        >
+                          <p className="text-xs text-orange-500 font-medium mb-1">
+                            {new Date(post.createdAt).toLocaleDateString('tr-TR', {
+                              day: 'numeric',
+                              month: 'long',
+                              year: 'numeric'
+                            })}
+                          </p>
+                          <h4 className="font-semibold text-gray-800 group-hover:text-orange-500 transition-colors line-clamp-2 text-sm leading-snug">
+                            {title}
+                          </h4>
+                        </Link>
+                      );
+                    })}
+                  </div>
                 </div>
 
                 <Link
@@ -438,7 +440,7 @@ export default async function HomePage() {
               </div>
 
               {/* Catalog */}
-              <div className="bg-gradient-to-br from-orange-500 to-amber-500 rounded-2xl p-6 text-white flex flex-col justify-between shadow-lg shadow-orange-500/20">
+              <div className="bg-gradient-to-br from-orange-500 to-amber-500 rounded-2xl p-6 text-white flex flex-col justify-between shadow-lg shadow-orange-500/20 h-full">
                 <div>
                   <div className="w-14 h-14 bg-white/20 backdrop-blur rounded-xl flex items-center justify-center mb-4">
                     <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -462,7 +464,6 @@ export default async function HomePage() {
                   {tHome('catalog.button')}
                 </a>
               </div>
-
             </div>
 
           </div>
