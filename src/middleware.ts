@@ -5,7 +5,10 @@ import { routing } from './i18n/routing';
 import NextAuth from "next-auth";
 import { authConfig } from "./auth.config";
 
-const { auth } = NextAuth(authConfig);
+const { auth } = NextAuth({
+  ...authConfig,
+  trustHost: true,
+});
 const intlMiddleware = createMiddleware(routing);
 
 export default async function middleware(req: NextRequest) {
