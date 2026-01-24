@@ -56,9 +56,9 @@ export default async function HomePage() {
         <section className="relative h-[85vh] w-full bg-gray-900 flex items-center">
           {/* Şu an tek slider gösteriyoruz, ileride carousel yapılabilir */}
           {sliders.map((slider: any, index: number) => {
-            const title = slider.title as { tr: string; en: string };
-            const description = slider.description as { tr: string; en: string } | null;
-            const ctaText = slider.ctaText as { tr: string; en: string } | null;
+            const title = (slider.title as any)?.[locale] || (slider.title as any)?.tr;
+            const description = (slider.description as any)?.[locale] || (slider.description as any)?.tr;
+            const ctaText = (slider.ctaText as any)?.[locale] || (slider.ctaText as any)?.tr;
 
             return (
               <div key={slider.id} className={index === 0 ? 'w-full h-full' : 'hidden'}>
@@ -66,7 +66,7 @@ export default async function HomePage() {
                 <div className="absolute inset-0 w-full h-full">
                   <Image
                     src={slider.image}
-                    alt={title.tr}
+                    alt={title}
                     fill
                     className="object-cover opacity-60"
                     priority={index === 0}
@@ -79,11 +79,11 @@ export default async function HomePage() {
                 <div className="container mx-auto px-4 relative z-10 text-white h-full flex items-center">
                   <div className="max-w-3xl animate-fade-in-up">
                     <h1 className="text-5xl md:text-6xl font-bold tracking-tight leading-tight mb-6">
-                      {title.tr}
+                      {title}
                     </h1>
                     {description && (
                       <p className="text-xl md:text-2xl text-gray-200 mb-10 font-light max-w-2xl">
-                        {description.tr}
+                        {description}
                       </p>
                     )}
                     {slider.link && ctaText && (
@@ -92,7 +92,7 @@ export default async function HomePage() {
                           href={slider.link}
                           className="bg-accent hover:bg-amber-600 text-white font-bold py-4 px-8 rounded transition duration-300 text-center uppercase tracking-wider"
                         >
-                          {ctaText.tr}
+                          {ctaText}
                         </Link>
                       </div>
                     )}
@@ -122,24 +122,24 @@ export default async function HomePage() {
           <div className="container mx-auto px-4 relative z-10 text-white">
             <div className="max-w-3xl animate-fade-in-up">
               <h1 className="text-5xl md:text-6xl font-bold tracking-tight leading-tight mb-6">
-                {(heroData.title as any).tr || tHero('title')}
+                {(heroData.title as any)?.[locale] || (heroData.title as any)?.tr || tHero('title')}
               </h1>
               <p className="text-xl md:text-2xl text-gray-200 mb-10 font-light max-w-2xl">
-                {(heroData.subtitle as any).tr || tHero('subtitle')}
+                {(heroData.subtitle as any)?.[locale] || (heroData.subtitle as any)?.tr || tHero('subtitle')}
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link
                   href={heroData.primaryCtaLink}
                   className="bg-accent hover:bg-amber-600 text-white font-bold py-4 px-8 rounded transition duration-300 text-center uppercase tracking-wider"
                 >
-                  {(heroData.primaryCtaText as any).tr || tHero('cta')}
+                  {(heroData.primaryCtaText as any)?.[locale] || (heroData.primaryCtaText as any)?.tr || tHero('cta')}
                 </Link>
                 {heroData.secondaryCtaLink && (
                   <Link
                     href={heroData.secondaryCtaLink}
                     className="bg-transparent border-2 border-white hover:bg-white hover:text-primary text-white font-bold py-4 px-8 rounded transition duration-300 text-center uppercase tracking-wider"
                   >
-                    {(heroData.secondaryCtaText as any)?.tr || tHero('secondaryCta')}
+                    {(heroData.secondaryCtaText as any)?.[locale] || (heroData.secondaryCtaText as any)?.tr || tHero('secondaryCta')}
                   </Link>
                 )}
               </div>
@@ -158,8 +158,8 @@ export default async function HomePage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {categories.map((category: any) => {
-              const title = (category.title as any).tr;
-              const description = (category.description as any)?.tr;
+              const title = (category.title as any)?.[locale] || (category.title as any)?.tr;
+              const description = (category.description as any)?.[locale] || (category.description as any)?.tr;
 
               return (
                 <Link
@@ -227,7 +227,7 @@ export default async function HomePage() {
               href="/products"
               className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-amber-500 text-white px-8 py-4 rounded-full font-bold text-lg hover:shadow-lg hover:shadow-orange-500/25 transition-all"
             >
-              Tüm Ürünleri Gör
+              {locale === 'tr' ? 'Tüm Ürünleri Gör' : 'View All Products'}
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
@@ -280,7 +280,7 @@ export default async function HomePage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
                 {latestPosts.map((post: any) => {
-                  const title = (post.title as any)?.tr || 'Başlıksız';
+                  const title = (post.title as any)?.[locale] || (post.title as any)?.tr || 'Başlıksız';
 
                   return (
                     <Link

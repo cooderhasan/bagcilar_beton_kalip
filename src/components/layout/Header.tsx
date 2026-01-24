@@ -5,6 +5,21 @@ import { Link } from '@/i18n/routing';
 import LanguageSwitcher from './LanguageSwitcher';
 import { useState } from 'react';
 import { productCategories } from '@/lib/products';
+import { Instagram, Facebook, Linkedin } from 'lucide-react';
+
+// Custom X (Twitter) icon component like in yay project
+const XIcon = ({ size = 16 }: { size?: number }) => (
+    <svg viewBox="0 0 24 24" fill="currentColor" width={size} height={size}>
+        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+    </svg>
+);
+
+// Youtube Icon like in yay project
+const YoutubeIcon = ({ size = 16 }: { size?: number }) => (
+    <svg viewBox="0 0 24 24" fill="currentColor" width={size} height={size}>
+        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+    </svg>
+);
 
 interface HeaderProps {
     settings?: any;
@@ -14,6 +29,7 @@ interface HeaderProps {
 export default function Header({ settings, categories = [] }: HeaderProps) {
     const t = useTranslations('Navigation');
     const locale = useLocale();
+
     const tProducts = useTranslations('ProductCategories');
     const tHeader = useTranslations('Header');
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -72,43 +88,39 @@ export default function Header({ settings, categories = [] }: HeaderProps) {
                         </a>
                     </div>
 
-                    {/* Right Side: Social Icons + Language */}
-                    <div className="flex items-center gap-4">
-                        {/* Social Icons */}
-                        <div className="flex items-center gap-1.5">
-                            {settings?.instagram && (
-                                <a href={settings.instagram} target="_blank" rel="noopener noreferrer" className="p-1.5 text-gray-400 hover:text-white transition-colors">
-                                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.072 3.269.156 5.023 1.192 5.745 3.015.424 1.068.52 2.062.52 4.375s-.096 3.307-.52 4.375c-.722 1.823-2.476 2.859-5.745 3.015-1.266.06-1.646.072-4.85.072-3.204 0-3.584-.012-4.85-.072-3.269-.156-5.023-1.192-5.745-3.015-.424-1.068-.52-2.062-.52-4.375s.096-3.307.52-4.375c.722-1.823 2.476-2.859 5.745-3.015 1.266-.06 1.646-.072 4.85-.072zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" /></svg>
-                                </a>
-                            )}
-                            {settings?.facebook && (
-                                <a href={settings.facebook} target="_blank" rel="noopener noreferrer" className="p-1.5 text-gray-400 hover:text-white transition-colors">
-                                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" /></svg>
-                                </a>
-                            )}
-                            {settings?.linkedin && (
-                                <a href={settings.linkedin} target="_blank" rel="noopener noreferrer" className="p-1.5 text-gray-400 hover:text-white transition-colors">
-                                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" /></svg>
-                                </a>
-                            )}
-                            {/* X (Twitter) */}
-                            {settings?.twitter && (
-                                <a href={settings.twitter} target="_blank" rel="noopener noreferrer" className="p-1.5 text-gray-400 hover:text-white transition-colors">
-                                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" /></svg>
-                                </a>
-                            )}
-                            {/* YouTube */}
-                            {settings?.youtube && (
-                                <a href={settings.youtube} target="_blank" rel="noopener noreferrer" className="p-1.5 text-gray-400 hover:text-white transition-colors">
-                                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" /></svg>
-                                </a>
-                            )}
-                        </div>
+                    {/* Social Icons */}
+                    <div className="flex items-center gap-3">
+                        {settings?.instagram && (
+                            <a href={settings.instagram} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors hover:scale-110 transform duration-200">
+                                <Instagram size={18} />
+                            </a>
+                        )}
+                        {settings?.facebook && (
+                            <a href={settings.facebook} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors hover:scale-110 transform duration-200">
+                                <Facebook size={18} />
+                            </a>
+                        )}
+                        {settings?.linkedin && (
+                            <a href={settings.linkedin} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors hover:scale-110 transform duration-200">
+                                <Linkedin size={18} />
+                            </a>
+                        )}
+                        {/* X (Twitter) */}
+                        {settings?.twitter && (
+                            <a href={settings.twitter} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors hover:scale-110 transform duration-200">
+                                <XIcon size={18} />
+                            </a>
+                        )}
+                        {/* YouTube */}
+                        {settings?.youtube && (
+                            <a href={settings.youtube} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors hover:scale-110 transform duration-200">
+                                <YoutubeIcon size={18} />
+                            </a>
+                        )}
+                    </div>
 
-                        {/* Divider */}
-                        <div className="w-px h-4 bg-gray-600"></div>
-
-                        {/* Language Switcher */}
+                    {/* Language Switcher Link */}
+                    <div className="border-l border-gray-700 pl-4">
                         <LanguageSwitcher />
                     </div>
                 </div>
