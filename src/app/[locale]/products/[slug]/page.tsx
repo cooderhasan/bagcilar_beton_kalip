@@ -58,9 +58,9 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         notFound();
     }
 
-    const title = (product.title as any)[locale] || (product.title as any).tr;
-    const description = (product.description as any)[locale] || (product.description as any).tr;
-    const categoryTitle = (product.category.title as any)[locale] || (product.category.title as any).tr;
+    const title = ((product.title as any)?.[locale] || (product.title as any)?.tr) || 'Ürün';
+    const description = ((product.description as any)?.[locale] || (product.description as any)?.tr) || '';
+    const categoryTitle = ((product.category.title as any)?.[locale] || (product.category.title as any)?.tr) || 'Kategori';
     const features = product.features as string[] || [];
     const videoEmbedId = getYouTubeEmbedId((product as any).videoUrl);
 
