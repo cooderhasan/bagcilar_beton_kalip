@@ -33,6 +33,8 @@ export async function updateSiteSettings(data: FormData) {
             instagram: data.get("instagram") as string,
             facebook: data.get("facebook") as string,
             linkedin: data.get("linkedin") as string,
+            twitter: data.get("twitter") as string,
+            youtube: data.get("youtube") as string,
             logoUrl: data.get("logoUrl") as string,
             footerLogoUrl: data.get("footerLogoUrl") as string,
             logoHeight: parseInt(data.get("logoHeight") as string) || 60,

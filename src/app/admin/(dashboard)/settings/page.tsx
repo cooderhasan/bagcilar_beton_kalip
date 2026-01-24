@@ -85,6 +85,14 @@ export default function SettingsPage() {
                             <label className="block text-sm font-medium text-gray-600 mb-1">LinkedIn</label>
                             <input name="linkedin" defaultValue={settings?.linkedin || ""} className="w-full !text-slate-900 !bg-white border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none placeholder:text-gray-400" placeholder="https://linkedin.com/..." />
                         </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-600 mb-1">Twitter (X)</label>
+                            <input name="twitter" defaultValue={settings?.twitter || ""} className="w-full !text-slate-900 !bg-white border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none placeholder:text-gray-400" placeholder="https://twitter.com/..." />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-600 mb-1">YouTube</label>
+                            <input name="youtube" defaultValue={settings?.youtube || ""} className="w-full !text-slate-900 !bg-white border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none placeholder:text-gray-400" placeholder="https://youtube.com/..." />
+                        </div>
                     </div>
                 </section>
 

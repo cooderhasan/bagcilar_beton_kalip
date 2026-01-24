@@ -33,6 +33,8 @@ model SiteSettings {
   instagram      String?
   facebook       String?
   linkedin       String?
+  twitter        String?
+  youtube        String?
   seoTitle       String?
   seoDescription String?
   seoKeywords    String? // Comma separated
