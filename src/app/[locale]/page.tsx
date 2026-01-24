@@ -2,7 +2,6 @@ import { getTranslations, getLocale } from 'next-intl/server';
 import Image from 'next/image';
 import { Link } from '@/i18n/routing';
 import { productCategories } from '@/lib/products';
-import FAQAccordion from '@/components/ui/FAQAccordion';
 
 import { prisma } from '@/lib/prisma';
 
@@ -241,58 +240,128 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 3-COLUMN SECTION: SEO/BLOG/CATALOG */}
+      {/* ROW 1: SEO TEXT + FAQ (2 columns) */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+            {/* LEFT: SEO Content */}
+            <div className="bg-gradient-to-br from-gray-50 to-white border border-gray-100 rounded-2xl p-6 md:p-8">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center text-orange-500">
+                  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                  </svg>
+                </div>
+                <h2 className="text-2xl font-bold text-gray-800">
+                  {(siteSettings?.homeIntroTitle as any)?.[locale] || (locale === 'tr' ? 'Bağcılar Beton Kalıp' : 'Bagcilar Concrete Formwork')}
+                </h2>
+              </div>
+
+              {(siteSettings?.homeIntroContent as any)?.[locale] ? (
+                <div
+                  className="prose prose-sm text-gray-600 leading-relaxed [&>p]:mb-3 [&>strong]:text-orange-600 [&>b]:text-orange-600"
+                  dangerouslySetInnerHTML={{ __html: ((siteSettings?.homeIntroContent as any)?.[locale] || '').replace(/\n/g, '<br />') }}
+                />
+              ) : (
+                <p className="text-gray-600 leading-relaxed">
+                  {locale === 'tr'
+                    ? 'Beton kalıp sektöründe 20 yılı aşkın tecrübemizle, en kaliteli ürünleri en uygun fiyatlarla sunuyoruz. Türkiye genelinde hizmet vermekteyiz.'
+                    : 'With over 20 years of experience in the concrete formwork industry, we offer the highest quality products at the most affordable prices.'}
+                </p>
+              )}
+            </div>
+
+            {/* RIGHT: FAQ Inline */}
+            <div className="bg-gradient-to-br from-gray-50 to-white border border-gray-100 rounded-2xl p-6 md:p-8">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center text-orange-500">
+                  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <h2 className="text-2xl font-bold text-gray-800">
+                  {locale === 'tr' ? 'Sıkça Sorulan Sorular' : 'FAQ'}
+                </h2>
+              </div>
+
+              {/* Inline FAQ Accordion */}
+              {(faqs as any[]).length > 0 ? (
+                <div className="space-y-2">
+                  {(faqs as any[]).slice(0, 4).map((faq: any, index: number) => {
+                    const question = (faq.question as any)?.[locale] || (faq.question as any)?.tr;
+                    const answer = (faq.answer as any)?.[locale] || (faq.answer as any)?.tr;
+                    return (
+                      <details key={faq.id} className="group" open={index === 0}>
+                        <summary className="flex items-center justify-between cursor-pointer p-3 bg-white rounded-lg border border-gray-100 hover:border-orange-200 transition-colors">
+                          <span className="font-medium text-gray-800 text-sm">{question}</span>
+                          <svg className="w-4 h-4 text-gray-400 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </summary>
+                        <div className="px-3 py-2 text-sm text-gray-600">
+                          {answer}
+                        </div>
+                      </details>
+                    );
+                  })}
+                </div>
+              ) : (
+                <p className="text-gray-500 text-sm">
+                  {locale === 'tr' ? 'Henüz SSS eklenmedi.' : 'No FAQ added yet.'}
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ROW 2: SERVICES + BLOG + CATALOG (3 columns) */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-            {/* LEFT: SEO Content / Hizmetlerimiz */}
+            {/* LEFT: Services */}
             <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
               <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
                 <svg className="w-6 h-6 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
                 </svg>
-                {(siteSettings?.homeIntroTitle as any)?.[locale] || (locale === 'tr' ? 'Hizmetlerimiz' : 'Our Services')}
+                {locale === 'tr' ? 'Hizmetlerimiz' : 'Our Services'}
               </h3>
 
-              {(siteSettings?.homeIntroContent as any)?.[locale] ? (
-                <div
-                  className="prose prose-sm text-gray-600 leading-relaxed [&>p]:mb-3 [&>strong]:text-orange-600 [&>b]:text-orange-600 [&>ul]:space-y-2 [&>ul]:mt-4 [&>ul>li]:flex [&>ul>li]:items-start [&>ul>li]:gap-2"
-                  dangerouslySetInnerHTML={{ __html: ((siteSettings?.homeIntroContent as any)?.[locale] || '').replace(/\n/g, '<br />') }}
-                />
-              ) : (
-                <ul className="space-y-3 text-gray-600">
-                  <li className="flex items-center gap-3">
-                    <span className="w-2 h-2 bg-orange-500 rounded-full flex-shrink-0"></span>
-                    {locale === 'tr' ? 'Profesyonel beton kalıp sistemleri' : 'Professional concrete formwork systems'}
-                  </li>
-                  <li className="flex items-center gap-3">
-                    <span className="w-2 h-2 bg-orange-500 rounded-full flex-shrink-0"></span>
-                    {locale === 'tr' ? 'Yüksek kalite malzeme' : 'High quality materials'}
-                  </li>
-                  <li className="flex items-center gap-3">
-                    <span className="w-2 h-2 bg-orange-500 rounded-full flex-shrink-0"></span>
-                    {locale === 'tr' ? 'Teknik destek hizmeti' : 'Technical support service'}
-                  </li>
-                  <li className="flex items-center gap-3">
-                    <span className="w-2 h-2 bg-orange-500 rounded-full flex-shrink-0"></span>
-                    {locale === 'tr' ? 'Türkiye geneli teslimat' : 'Nationwide delivery'}
-                  </li>
-                </ul>
-              )}
+              <ul className="space-y-3 text-gray-600 text-sm">
+                <li className="flex items-center gap-3">
+                  <span className="w-2 h-2 bg-orange-500 rounded-full flex-shrink-0"></span>
+                  {locale === 'tr' ? 'Profesyonel beton kalıp sistemleri' : 'Professional concrete formwork'}
+                </li>
+                <li className="flex items-center gap-3">
+                  <span className="w-2 h-2 bg-orange-500 rounded-full flex-shrink-0"></span>
+                  {locale === 'tr' ? 'Yüksek kalite malzeme' : 'High quality materials'}
+                </li>
+                <li className="flex items-center gap-3">
+                  <span className="w-2 h-2 bg-orange-500 rounded-full flex-shrink-0"></span>
+                  {locale === 'tr' ? 'Teknik destek hizmeti' : 'Technical support'}
+                </li>
+                <li className="flex items-center gap-3">
+                  <span className="w-2 h-2 bg-orange-500 rounded-full flex-shrink-0"></span>
+                  {locale === 'tr' ? 'Türkiye geneli teslimat' : 'Nationwide delivery'}
+                </li>
+                <li className="flex items-center gap-3">
+                  <span className="w-2 h-2 bg-orange-500 rounded-full flex-shrink-0"></span>
+                  {locale === 'tr' ? 'Kiralama hizmeti' : 'Rental service'}
+                </li>
+              </ul>
 
               <Link
                 href="/about"
                 className="inline-flex items-center gap-2 text-orange-500 font-semibold mt-4 hover:text-orange-600 transition-colors text-sm"
               >
-                {locale === 'tr' ? 'Daha Fazla' : 'Learn More'}
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
+                {locale === 'tr' ? 'Daha Fazla →' : 'Learn More →'}
               </Link>
             </div>
 
-            {/* MIDDLE: Latest Blog Posts */}
+            {/* MIDDLE: Blog */}
             <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-xl font-bold text-gray-800 flex items-center gap-2">
@@ -334,14 +403,11 @@ export default async function HomePage() {
                 href="/blog"
                 className="inline-flex items-center gap-2 text-orange-500 font-semibold mt-4 hover:text-orange-600 transition-colors text-sm"
               >
-                {locale === 'tr' ? 'Tüm Haberler' : 'All News'}
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
+                {locale === 'tr' ? 'Tüm Haberler →' : 'All News →'}
               </Link>
             </div>
 
-            {/* RIGHT: E-Catalog Download */}
+            {/* RIGHT: Catalog */}
             <div className="bg-gradient-to-br from-orange-500 to-amber-500 rounded-2xl p-6 text-white flex flex-col justify-between shadow-lg shadow-orange-500/20">
               <div>
                 <div className="w-14 h-14 bg-white/20 backdrop-blur rounded-xl flex items-center justify-center mb-4">
@@ -369,9 +435,6 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* FAQ SECTION */}
-      <FAQAccordion faqs={faqs as any} locale={locale} />
 
       {/* STATS - Dynamic from Database */}
       <section className="py-10 bg-gradient-to-r from-orange-500 to-amber-500">
