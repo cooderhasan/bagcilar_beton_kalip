@@ -31,7 +31,7 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
         content: content,
         editorProps: {
             attributes: {
-                class: 'prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto focus:outline-none min-h-[200px] px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-900',
+                class: 'prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto focus:outline-none min-h-[200px] px-4 py-2 border border-gray-300 rounded-lg bg-white !text-gray-900 prose-p:text-gray-900 prose-headings:text-gray-900',
             },
         },
         onUpdate: ({ editor }) => {

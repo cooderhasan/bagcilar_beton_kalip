@@ -186,7 +186,7 @@ export default function FAQPage() {
                                     type="number"
                                     name="order"
                                     defaultValue={editingFaq?.order || 0}
-                                    className="w-24 border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none"
+                                    className="w-24 border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none text-gray-900 bg-white"
                                 />
                             </div>
 
@@ -202,7 +202,7 @@ export default function FAQPage() {
                                         name="questionTr"
                                         required
                                         defaultValue={(editingFaq?.question as any)?.tr || ""}
-                                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none"
+                                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none text-gray-900 bg-white"
                                         placeholder="Beton kalıp nedir?"
                                     />
                                 </div>
@@ -213,7 +213,7 @@ export default function FAQPage() {
                                         required
                                         rows={4}
                                         defaultValue={(editingFaq?.answer as any)?.tr || ""}
-                                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none resize-none"
+                                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none resize-none text-gray-900 bg-white"
                                         placeholder="Beton kalıp, betonun döküm sırasında şekil almasını sağlayan..."
                                     />
                                 </div>
@@ -230,7 +230,7 @@ export default function FAQPage() {
                                         type="text"
                                         name="questionEn"
                                         defaultValue={(editingFaq?.question as any)?.en || ""}
-                                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none"
+                                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none text-gray-900 bg-white"
                                         placeholder="What is concrete formwork?"
                                     />
                                 </div>
@@ -240,7 +240,7 @@ export default function FAQPage() {
                                         name="answerEn"
                                         rows={4}
                                         defaultValue={(editingFaq?.answer as any)?.en || ""}
-                                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none resize-none"
+                                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none resize-none text-gray-900 bg-white"
                                         placeholder="Concrete formwork is a mold that shapes the concrete during the pouring process..."
                                     />
                                 </div>
