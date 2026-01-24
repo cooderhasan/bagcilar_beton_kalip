@@ -26,8 +26,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
     if (!product) return { title: 'Not Found' };
 
-    const title = (product.title as any)[locale] || (product.title as any).tr;
-    const description = (product.description as any)[locale] || (product.description as any).tr;
+    const title = ((product.title as any)?.[locale] || (product.title as any)?.tr) || 'Ürün Detayı';
+    const description = ((product.description as any)?.[locale] || (product.description as any)?.tr) || '';
 
     return {
         title: product.seoTitle || `${title} | Bağcılar Beton Kalıp`,
@@ -106,7 +106,8 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                     <div className="lg:sticky lg:top-24 space-y-6">
                         {/* Product Gallery */}
                         <div className="group bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 p-3 hover:border-orange-200">
-                            <ProductGallery images={product.images} title={title as string} />
+                            {/* Validated images array to prevent crash */}
+                            <ProductGallery images={Array.isArray(product.images) ? product.images : []} title={(title || "Product") as string} />
                         </div>
 
                         {/* YouTube Video */}
@@ -211,7 +212,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                                     </span>
                                 </h3>
                                 <ul className="grid grid-cols-1 gap-3">
-                                    {features.map((feature, idx) => (
+                                    {Array.isArray(features) && features.map((feature, idx) => (
                                         <li key={idx} className="group flex items-start gap-3 text-sm text-gray-700 bg-white p-3 rounded-xl border border-gray-100 hover:border-orange-200 hover:shadow-md transition-all duration-200">
                                             <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-orange-100 to-orange-200 flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:from-orange-200 group-hover:to-orange-300 transition-all">
                                                 <svg className="w-3.5 h-3.5 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
