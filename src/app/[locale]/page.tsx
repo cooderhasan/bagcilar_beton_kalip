@@ -236,6 +236,23 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* SEO CONTENT SECTION (Dynamic from Admin) */}
+      {(siteSettings?.homeIntroContent as any)?.[locale] && (
+        <section className="py-16 bg-white border-t border-gray-100">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto text-center">
+              <h2 className="text-3xl font-bold text-gray-800 mb-6">
+                {(siteSettings?.homeIntroTitle as any)?.[locale] || (siteSettings?.homeIntroTitle as any)?.tr || 'Bağcılar Beton Kalıp Sistemleri'}
+              </h2>
+              <div
+                className="prose prose-lg mx-auto text-gray-600 leading-relaxed"
+                dangerouslySetInnerHTML={{ __html: ((siteSettings?.homeIntroContent as any)?.[locale] || '').replace(/\n/g, '<br />') }}
+              />
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* PDF CATALOG & BLOG SECTION */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">

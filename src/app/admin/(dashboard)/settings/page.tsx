@@ -9,7 +9,7 @@ export default function SettingsPage() {
     const [saving, setSaving] = useState(false)
     const [settings, setSettings] = useState<any>(null)
     const [message, setMessage] = useState<{ text: string, type: 'success' | 'error' } | null>(null)
-    const [activeTab, setActiveTab] = useState<'general' | 'social' | 'seo' | 'files'>('general')
+    const [activeTab, setActiveTab] = useState<'general' | 'social' | 'seo' | 'home_content' | 'files'>('general')
 
     useEffect(() => {
         loadSettings()
@@ -43,6 +43,7 @@ export default function SettingsPage() {
         { id: 'general', label: 'Genel Bilgiler' },
         { id: 'social', label: 'Sosyal Medya' },
         { id: 'seo', label: 'SEO Ayarları' },
+        { id: 'home_content', label: 'Ana Sayfa Yazısı' },
         { id: 'files', label: 'Dosyalar & Görünüm' },
     ]
 
@@ -63,8 +64,8 @@ export default function SettingsPage() {
                         key={tab.id}
                         onClick={() => setActiveTab(tab.id as any)}
                         className={`px-6 py-3 text-sm font-medium transition-colors relative whitespace-nowrap ${activeTab === tab.id
-                                ? 'text-orange-600'
-                                : 'text-gray-500 hover:text-gray-700'
+                            ? 'text-orange-600'
+                            : 'text-gray-500 hover:text-gray-700'
                             }`}
                     >
                         {tab.label}
@@ -145,8 +146,36 @@ export default function SettingsPage() {
                     </div>
                 </div>
 
+                {/* Ana Sayfa İçerik Tab */}
+                <div className={activeTab === 'home_content' ? 'block space-y-6' : 'hidden'}>
+                    <h2 className="text-lg font-semibold text-gray-700 mb-4 pb-2 border-b">Ana Sayfa SEO Metni</h2>
+                    <div className="grid grid-cols-1 gap-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-600 mb-1">Başlık (Türkçe)</label>
+                                <input name="homeIntroTitleTr" defaultValue={(settings?.homeIntroTitle as any)?.tr || ""} className="w-full !text-slate-900 !bg-white border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none" placeholder="Örn: Bağcılar Beton Kalıp Sistemleri" />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-600 mb-1">Başlık (İngilizce)</label>
+                                <input name="homeIntroTitleEn" defaultValue={(settings?.homeIntroTitle as any)?.en || ""} className="w-full !text-slate-900 !bg-white border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none" placeholder="Ex: Bagcilar Concrete Formwork Systems" />
+                            </div>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-600 mb-1">İçerik (Türkçe)</label>
+                                <textarea name="homeIntroContentTr" defaultValue={(settings?.homeIntroContent as any)?.tr || ""} className="w-full !text-slate-900 !bg-white border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none h-64" placeholder="Anahtar kelimeler içeren tanıtım yazısı..." />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-600 mb-1">İçerik (İngilizce)</label>
+                                <textarea name="homeIntroContentEn" defaultValue={(settings?.homeIntroContent as any)?.en || ""} className="w-full !text-slate-900 !bg-white border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none h-64" placeholder="Introduction text with keywords..." />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 {/* Dosyalar Tab */}
                 <div className={activeTab === 'files' ? 'block space-y-6' : 'hidden'}>
+
                     <h2 className="text-lg font-semibold text-gray-700 mb-4 pb-2 border-b">Dosyalar ve Görünüm</h2>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

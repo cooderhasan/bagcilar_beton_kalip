@@ -67,8 +67,8 @@ export default function Header({ settings, categories = [] }: HeaderProps) {
             {/* Top Bar - Clean Modern Style */}
             <div className="bg-[#1a1a2e] text-white py-2 hidden md:block">
                 <div className="container mx-auto px-4 flex justify-between items-center">
-                    {/* Left Side: Contact Info - Pill Style */}
-                    <div className="flex items-center gap-3">
+                    {/* Left Side: Contact Info */}
+                    <div className="flex items-center gap-6">
                         {/* Phone Pill */}
                         <a href={`tel:${settings?.phone || '+905555555555'}`} className="flex items-center gap-2 bg-gradient-to-r from-orange-500 to-amber-500 rounded-full py-1.5 px-4 hover:shadow-lg hover:shadow-orange-500/25 transition-all">
                             <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -88,46 +88,49 @@ export default function Header({ settings, categories = [] }: HeaderProps) {
                         </a>
                     </div>
 
-                    {/* Social Icons */}
-                    <div className="flex items-center gap-3">
-                        {settings?.instagram && (
-                            <a href={settings.instagram} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors hover:scale-110 transform duration-200">
-                                <Instagram size={18} />
-                            </a>
-                        )}
-                        {settings?.facebook && (
-                            <a href={settings.facebook} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors hover:scale-110 transform duration-200">
-                                <Facebook size={18} />
-                            </a>
-                        )}
-                        {settings?.linkedin && (
-                            <a href={settings.linkedin} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors hover:scale-110 transform duration-200">
-                                <Linkedin size={18} />
-                            </a>
-                        )}
-                        {/* X (Twitter) */}
-                        {settings?.twitter && (
-                            <a href={settings.twitter} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors hover:scale-110 transform duration-200">
-                                <XIcon size={18} />
-                            </a>
-                        )}
-                        {/* YouTube */}
-                        {settings?.youtube && (
-                            <a href={settings.youtube} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors hover:scale-110 transform duration-200">
-                                <YoutubeIcon size={18} />
-                            </a>
-                        )}
-                    </div>
+                    {/* Right Side: Social & Language */}
+                    <div className="flex items-center gap-6">
+                        {/* Social Icons */}
+                        <div className="flex items-center gap-3">
+                            {settings?.instagram && (
+                                <a href={settings.instagram} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors hover:scale-110 transform duration-200">
+                                    <Instagram size={18} />
+                                </a>
+                            )}
+                            {settings?.facebook && (
+                                <a href={settings.facebook} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors hover:scale-110 transform duration-200">
+                                    <Facebook size={18} />
+                                </a>
+                            )}
+                            {settings?.linkedin && (
+                                <a href={settings.linkedin} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors hover:scale-110 transform duration-200">
+                                    <Linkedin size={18} />
+                                </a>
+                            )}
+                            {/* X (Twitter) */}
+                            {settings?.twitter && (
+                                <a href={settings.twitter} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors hover:scale-110 transform duration-200">
+                                    <XIcon size={18} />
+                                </a>
+                            )}
+                            {/* YouTube */}
+                            {settings?.youtube && (
+                                <a href={settings.youtube} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors hover:scale-110 transform duration-200">
+                                    <YoutubeIcon size={18} />
+                                </a>
+                            )}
+                        </div>
 
-                    {/* Language Switcher Link */}
-                    <div className="border-l border-gray-700 pl-4">
-                        <LanguageSwitcher />
+                        {/* Language Switcher Link */}
+                        <div className="border-l border-gray-700 pl-6">
+                            <LanguageSwitcher />
+                        </div>
                     </div>
                 </div>
             </div>
 
             {/* Main Header - White Background */}
-            <div className="bg-white shadow-md relative z-40">
+            < div className="bg-white shadow-md relative z-40" >
                 <div className="container mx-auto px-4">
                     <div
                         className="flex justify-between items-center min-h-[80px] transition-all duration-300"
@@ -412,92 +415,94 @@ export default function Header({ settings, categories = [] }: HeaderProps) {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div >
 
             {/* Mobile Menu */}
-            {mobileMenuOpen && (
-                <div className="md:hidden bg-primary border-t border-gray-800 absolute w-full left-0 max-h-[80vh] overflow-y-auto shadow-2xl">
-                    <div className="container mx-auto px-4 py-4 flex flex-col space-y-4">
-                        {navItems.map((item) => {
-                            if (item.key === 'products') {
+            {
+                mobileMenuOpen && (
+                    <div className="md:hidden bg-primary border-t border-gray-800 absolute w-full left-0 max-h-[80vh] overflow-y-auto shadow-2xl">
+                        <div className="container mx-auto px-4 py-4 flex flex-col space-y-4">
+                            {navItems.map((item) => {
+                                if (item.key === 'products') {
+                                    return (
+                                        <div key={item.key} className="border-b border-gray-800 pb-2">
+                                            <button
+                                                onClick={() => setMobileProductsOpen(!mobileProductsOpen)}
+                                                className="flex items-center justify-between w-full text-gray-300 hover:text-accent font-semibold uppercase tracking-wide"
+                                            >
+                                                {t(item.key)}
+                                                <svg className={`w-5 h-5 transition-transform ${mobileProductsOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                                </svg>
+                                            </button>
+
+                                            {mobileProductsOpen && (
+                                                <div className="mt-4 pl-4 space-y-3">
+                                                    {displayCategories.map((category) => {
+                                                        const title = getCategoryTitle(category);
+
+                                                        return (
+                                                            <Link
+                                                                key={category.id}
+                                                                href={`/products?category=${category.slug}`}
+                                                                className="block text-sm text-gray-400 hover:text-white"
+                                                                onClick={() => setMobileMenuOpen(false)}
+                                                            >
+                                                                • {title}
+                                                            </Link>
+                                                        );
+                                                    })}
+                                                    <Link
+                                                        href="/products"
+                                                        className="block text-sm font-bold text-accent pt-2"
+                                                        onClick={() => setMobileMenuOpen(false)}
+                                                    >
+                                                        {t('allProducts')} →
+                                                    </Link>
+                                                </div>
+                                            )}
+                                        </div>
+                                    )
+                                }
                                 return (
-                                    <div key={item.key} className="border-b border-gray-800 pb-2">
-                                        <button
-                                            onClick={() => setMobileProductsOpen(!mobileProductsOpen)}
-                                            className="flex items-center justify-between w-full text-gray-300 hover:text-accent font-semibold uppercase tracking-wide"
-                                        >
-                                            {t(item.key)}
-                                            <svg className={`w-5 h-5 transition-transform ${mobileProductsOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                            </svg>
-                                        </button>
-
-                                        {mobileProductsOpen && (
-                                            <div className="mt-4 pl-4 space-y-3">
-                                                {displayCategories.map((category) => {
-                                                    const title = getCategoryTitle(category);
-
-                                                    return (
-                                                        <Link
-                                                            key={category.id}
-                                                            href={`/products?category=${category.slug}`}
-                                                            className="block text-sm text-gray-400 hover:text-white"
-                                                            onClick={() => setMobileMenuOpen(false)}
-                                                        >
-                                                            • {title}
-                                                        </Link>
-                                                    );
-                                                })}
-                                                <Link
-                                                    href="/products"
-                                                    className="block text-sm font-bold text-accent pt-2"
-                                                    onClick={() => setMobileMenuOpen(false)}
-                                                >
-                                                    {t('allProducts')} →
-                                                </Link>
-                                            </div>
-                                        )}
-                                    </div>
+                                    <Link
+                                        key={item.key}
+                                        href={item.href}
+                                        className="text-gray-300 hover:text-accent font-semibold uppercase tracking-wide block"
+                                        onClick={() => setMobileMenuOpen(false)}
+                                    >
+                                        {t(item.key)}
+                                    </Link>
                                 )
-                            }
-                            return (
-                                <Link
-                                    key={item.key}
-                                    href={item.href}
-                                    className="text-gray-300 hover:text-accent font-semibold uppercase tracking-wide block"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                >
-                                    {t(item.key)}
-                                </Link>
-                            )
-                        })}
+                            })}
 
-                        {/* Mobile Contact Info */}
-                        <div className="mt-8 pt-8 border-t border-gray-800">
-                            <div className="flex flex-col gap-4">
-                                <a href="tel:+905555555555" className="flex items-center gap-3 text-white">
-                                    <span className="w-10 h-10 rounded-full bg-accent flex items-center justify-center">
-                                        <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                                        </svg>
-                                    </span>
-                                    <div>
-                                        <div className="text-xs text-gray-400 uppercase tracking-wider">{tHeader('callUs')}</div>
-                                        <div className="font-bold">+90 555 555 55 55</div>
-                                    </div>
-                                </a>
-                                <Link
-                                    href="/quote"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                    className="bg-white text-primary font-bold py-3 px-4 rounded text-center block"
-                                >
-                                    {tHeader('getQuote')}
-                                </Link>
+                            {/* Mobile Contact Info */}
+                            <div className="mt-8 pt-8 border-t border-gray-800">
+                                <div className="flex flex-col gap-4">
+                                    <a href="tel:+905555555555" className="flex items-center gap-3 text-white">
+                                        <span className="w-10 h-10 rounded-full bg-accent flex items-center justify-center">
+                                            <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                            </svg>
+                                        </span>
+                                        <div>
+                                            <div className="text-xs text-gray-400 uppercase tracking-wider">{tHeader('callUs')}</div>
+                                            <div className="font-bold">+90 555 555 55 55</div>
+                                        </div>
+                                    </a>
+                                    <Link
+                                        href="/quote"
+                                        onClick={() => setMobileMenuOpen(false)}
+                                        className="bg-white text-primary font-bold py-3 px-4 rounded text-center block"
+                                    >
+                                        {tHeader('getQuote')}
+                                    </Link>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            )}
-        </header>
+                )
+            }
+        </header >
     );
 }

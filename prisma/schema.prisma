@@ -39,6 +39,8 @@ model SiteSettings {
   seoDescription String?
   seoKeywords    String? // Comma separated
   catalogUrl     String? // PDF Catalog URL
+  homeIntroTitle Json?   // { tr: string, en: string }
+  homeIntroContent Json? // { tr: string, en: string }
   updatedAt      DateTime @updatedAt
 }
 
