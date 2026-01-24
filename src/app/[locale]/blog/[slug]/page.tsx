@@ -3,6 +3,8 @@ import { Link } from '@/i18n/routing';
 import { notFound } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
 
+export const dynamic = 'force-dynamic';
+
 export async function generateStaticParams() {
     const posts = await prisma.blogPost.findMany({
         where: { published: true },
