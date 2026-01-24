@@ -16,6 +16,11 @@ function getEmbeddableMapUrl(url: string | null | undefined): string {
         return url;
     }
 
+    // If it's maps.google.com format with output=embed, use it (URL encode Turkish chars)
+    if (url.includes('maps.google.com/maps') && url.includes('output=embed')) {
+        return url.replace(/bağcılar beton kalıp/gi, 'Ba%C4%9Fc%C4%B1lar%20Beton%20Kal%C4%B1p');
+    }
+
     // For any non-embed URL (short links, etc.), use company location
     return companyMapUrl;
 }
