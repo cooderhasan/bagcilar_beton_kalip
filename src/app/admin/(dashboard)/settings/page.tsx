@@ -169,112 +169,111 @@ export default function SettingsPage() {
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-600 mb-1">İçerik (İngilizce)</label>
-                                    <RichTextEditor
-                                        content={homeIntroContentEn}
-                                        onChange={setHomeIntroContentEn}
-                                    />
-                                    <input type="hidden" name="homeIntroContentEn" value={homeIntroContentEn} />
-                                </div>
+                                <label className="block text-sm font-medium text-gray-600 mb-1">İçerik (Türkçe)</label>
+                                <RichTextEditor
+                                    content={homeIntroContentTr}
+                                    onChange={setHomeIntroContentTr}
+                                />
+                                <input type="hidden" name="homeIntroContentTr" value={homeIntroContentTr} />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-600 mb-1">İçerik (İngilizce)</label>
+                                <RichTextEditor
+                                    content={homeIntroContentEn}
+                                    onChange={setHomeIntroContentEn}
+                                />
+                                <input type="hidden" name="homeIntroContentEn" value={homeIntroContentEn} />
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    {/* Dosyalar Tab */}
-                    <div className={activeTab === 'files' ? 'block space-y-6' : 'hidden'}>
+                {/* Dosyalar Tab */}
+                <div className={activeTab === 'files' ? 'block space-y-6' : 'hidden'}>
+                    <h2 className="text-lg font-semibold text-gray-700 mb-4 pb-2 border-b">Dosyalar ve Görünüm</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        {/* Header Logo Section */}
+                        <div className="space-y-4">
+                            <h3 className="font-medium text-gray-900">Header Logo</h3>
+                            <FileUpload
+                                label="Logo Dosyası"
+                                value={settings?.logoUrl || ""}
+                                onChange={(url) => setSettings({ ...settings, logoUrl: url })}
+                                accept="image/*"
+                            />
+                            <input type="hidden" name="logoUrl" value={settings?.logoUrl || ""} />
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-600 mb-1">Yükseklik (px)</label>
+                                    <input
+                                        type="number"
+                                        name="logoHeight"
+                                        value={settings?.logoHeight || 60}
+                                        onChange={(e) => setSettings({ ...settings, logoHeight: parseInt(e.target.value) || 60 })}
+                                        className="w-full border border-gray-300 rounded-lg px-3 py-2 outline-none focus:border-orange-500"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-600 mb-1">Dikey Boşluk (px)</label>
+                                    <input
+                                        type="number"
+                                        name="headerPadding"
+                                        value={settings?.headerPadding !== undefined ? settings.headerPadding : 8}
+                                        onChange={(e) => setSettings({ ...settings, headerPadding: parseInt(e.target.value) || 0 })}
+                                        className="w-full border border-gray-300 rounded-lg px-3 py-2 outline-none focus:border-orange-500"
+                                    />
+                                </div>
+                            </div>
+                        </div>
 
-                        <h2 className="text-lg font-semibold text-gray-700 mb-4 pb-2 border-b">Dosyalar ve Görünüm</h2>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            {/* Header Logo Section */}
-                            <div className="space-y-4">
-                                <h3 className="font-medium text-gray-900">Header Logo</h3>
+                        {/* Other Files */}
+                        <div className="space-y-6">
+                            <div>
+                                <h3 className="font-medium text-gray-900 mb-3">Footer Logo (Transparan)</h3>
                                 <FileUpload
-                                    label="Logo Dosyası"
-                                    value={settings?.logoUrl || ""}
-                                    onChange={(url) => setSettings({ ...settings, logoUrl: url })}
+                                    label="Footer Logo Dosyası"
+                                    value={settings?.footerLogoUrl || ""}
+                                    onChange={(url) => setSettings({ ...settings, footerLogoUrl: url })}
                                     accept="image/*"
                                 />
-                                <input type="hidden" name="logoUrl" value={settings?.logoUrl || ""} />
-
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-600 mb-1">Yükseklik (px)</label>
-                                        <input
-                                            type="number"
-                                            name="logoHeight"
-                                            value={settings?.logoHeight || 60}
-                                            onChange={(e) => setSettings({ ...settings, logoHeight: parseInt(e.target.value) || 60 })}
-                                            className="w-full border border-gray-300 rounded-lg px-3 py-2 outline-none focus:border-orange-500"
-                                        />
-                                    </div>
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-600 mb-1">Dikey Boşluk (px)</label>
-                                        <input
-                                            type="number"
-                                            name="headerPadding"
-                                            value={settings?.headerPadding !== undefined ? settings.headerPadding : 8}
-                                            onChange={(e) => setSettings({ ...settings, headerPadding: parseInt(e.target.value) || 0 })}
-                                            className="w-full border border-gray-300 rounded-lg px-3 py-2 outline-none focus:border-orange-500"
-                                        />
-                                    </div>
-                                </div>
+                                <input type="hidden" name="footerLogoUrl" value={settings?.footerLogoUrl || ""} />
                             </div>
 
-                            {/* Other Files */}
-                            <div className="space-y-6">
-                                <div>
-                                    <h3 className="font-medium text-gray-900 mb-3">Footer Logo (Transparan)</h3>
-                                    <FileUpload
-                                        label="Footer Logo Dosyası"
-                                        value={settings?.footerLogoUrl || ""}
-                                        onChange={(url) => setSettings({ ...settings, footerLogoUrl: url })}
-                                        accept="image/*"
-                                    />
-                                    <input type="hidden" name="footerLogoUrl" value={settings?.footerLogoUrl || ""} />
-                                </div>
+                            <div>
+                                <h3 className="font-medium text-gray-900 mb-3">Favicon (Tarayıcı İkonu)</h3>
+                                <FileUpload
+                                    label="Favicon Dosyası"
+                                    value={settings?.faviconUrl || ""}
+                                    onChange={(url) => setSettings({ ...settings, faviconUrl: url })}
+                                    accept="image/*"
+                                />
+                                <input type="hidden" name="faviconUrl" value={settings?.faviconUrl || ""} />
+                            </div>
 
-                                <div>
-                                    <h3 className="font-medium text-gray-900 mb-3">Favicon (Tarayıcı İkonu)</h3>
-                                    <FileUpload
-                                        label="Favicon Dosyası"
-                                        value={settings?.faviconUrl || ""}
-                                        onChange={(url) => setSettings({ ...settings, faviconUrl: url })}
-                                        accept="image/*"
-                                    />
-                                    <input type="hidden" name="faviconUrl" value={settings?.faviconUrl || ""} />
-                                </div>
-
-                                <div>
-                                    <h3 className="font-medium text-gray-900 mb-3">E-Katalog</h3>
-                                    <FileUpload
-                                        label="PDF Katalog Dosyası"
-                                        value={settings?.catalogUrl || ""}
-                                        onChange={(url) => setSettings({ ...settings, catalogUrl: url })}
-                                        accept="application/pdf"
-                                    />
-                                    <input type="hidden" name="catalogUrl" value={settings?.catalogUrl || ""} />
-                                </div>
+                            <div>
+                                <h3 className="font-medium text-gray-900 mb-3">E-Katalog</h3>
+                                <FileUpload
+                                    label="PDF Katalog Dosyası"
+                                    value={settings?.catalogUrl || ""}
+                                    onChange={(url) => setSettings({ ...settings, catalogUrl: url })}
+                                    accept="application/pdf"
+                                />
+                                <input type="hidden" name="catalogUrl" value={settings?.catalogUrl || ""} />
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    {/* Submit Logic (Hidden Inputs for inactive tabs to ensure all data is submitted) */}
-                    {/* 
-                    Note: Since we are using a single form that wraps all tabs, and we are just hiding divs,
-                    all inputs exist in the DOM and will be submitted. No need for duplicate hidden inputs.
-                */}
-
-                    <div className="pt-6 border-t mt-6 flex justify-end sticky bottom-0 bg-white p-4 -mx-6 -mb-6 rounded-b-xl shadow-[0_-4px_12px_rgba(0,0,0,0.05)] border-t border-gray-100">
-                        <button
-                            type="submit"
-                            disabled={saving}
-                            className="bg-orange-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-orange-700 transition-all transform active:scale-95 disabled:opacity-50 disabled:scale-100 shadow-lg shadow-orange-500/30"
-                        >
-                            {saving ? 'Kaydediliyor...' : 'Tüm Ayarları Kaydet'}
-                        </button>
-                    </div>
+                {/* Submit Button */}
+                <div className="pt-6 border-t mt-6 flex justify-end sticky bottom-0 bg-white p-4 -mx-6 -mb-6 rounded-b-xl shadow-[0_-4px_12px_rgba(0,0,0,0.05)] border-t border-gray-100">
+                    <button
+                        type="submit"
+                        disabled={saving}
+                        className="bg-orange-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-orange-700 transition-all transform active:scale-95 disabled:opacity-50 disabled:scale-100 shadow-lg shadow-orange-500/30"
+                    >
+                        {saving ? 'Kaydediliyor...' : 'Tüm Ayarları Kaydet'}
+                    </button>
+                </div>
             </form>
         </div>
     )
