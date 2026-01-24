@@ -2,6 +2,7 @@ import { getTranslations, getLocale } from 'next-intl/server';
 import Image from 'next/image';
 import { Link } from '@/i18n/routing';
 import { productCategories } from '@/lib/products';
+import FAQAccordion from '@/components/ui/FAQAccordion';
 
 import { prisma } from '@/lib/prisma';
 
@@ -13,7 +14,7 @@ export default async function HomePage() {
   const locale = await getLocale();
 
   // Veritabanından veri çekme
-  const [sliders, heroSection, statistics, categories, siteSettings, latestPosts] = await Promise.all([
+  const [sliders, heroSection, statistics, categories, siteSettings, latestPosts, faqs] = await Promise.all([
     prisma.slider.findMany({
       where: { isActive: true },
       orderBy: { order: 'asc' },
@@ -33,6 +34,10 @@ export default async function HomePage() {
       where: { published: true },
       orderBy: { createdAt: 'desc' },
       take: 2
+    }),
+    prisma.fAQ.findMany({
+      where: { isActive: true },
+      orderBy: { order: 'asc' }
     })
   ]);
 
@@ -266,6 +271,9 @@ export default async function HomePage() {
           </div>
         </section>
       )}
+
+      {/* FAQ SECTION */}
+      <FAQAccordion faqs={faqs as any} locale={locale} />
 
       {/* PDF CATALOG & BLOG SECTION */}
       <section className="py-16 bg-white">
