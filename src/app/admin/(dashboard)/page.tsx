@@ -1,14 +1,44 @@
 import { auth } from "@/auth";
+import { prisma } from "@/lib/prisma";
+import Link from "next/link";
 
 export default async function AdminDashboard() {
     const session = await auth();
+
+    // Fetch real data from database
+    const [
+        productCount,
+        categoryCount,
+        blogCount,
+        publishedBlogCount,
+        contactCount,
+        unreadContactCount,
+        quoteCount,
+        unreadQuoteCount,
+        faqCount,
+        referenceCount
+    ] = await Promise.all([
+        prisma.product.count(),
+        prisma.category.count(),
+        prisma.blogPost.count(),
+        prisma.blogPost.count({ where: { published: true } }),
+        prisma.contactForm.count(),
+        prisma.contactForm.count({ where: { isRead: false } }),
+        prisma.quoteRequest.count(),
+        prisma.quoteRequest.count({ where: { isRead: false } }),
+        prisma.fAQ.count({ where: { isActive: true } }),
+        prisma.reference.count({ where: { isActive: true } })
+    ]);
+
+    const totalMessages = contactCount + quoteCount;
+    const unreadMessages = unreadContactCount + unreadQuoteCount;
 
     return (
         <div className="space-y-8">
             <div className="flex items-center justify-between">
                 <div>
                     <h2 className="text-2xl font-bold text-gray-800 tracking-tight">Genel Bakış</h2>
-                    <p className="text-gray-500 text-sm mt-1">Hoş geldiniz, <span className="font-medium text-gray-900">{session?.user?.name || 'Admin'}</span>. İşte bugünkü durum raporu.</p>
+                    <p className="text-gray-500 text-sm mt-1">Hoş geldiniz, <span className="font-medium text-gray-900">{session?.user?.name || 'Admin'}</span>. İşte güncel durum raporu.</p>
                 </div>
                 <div className="text-sm text-gray-500 bg-white px-4 py-2 rounded-lg border border-gray-100 shadow-sm">
                     {new Date().toLocaleDateString('tr-TR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
@@ -16,39 +46,47 @@ export default async function AdminDashboard() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow group">
+                {/* Products */}
+                <Link href="/admin/products" className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow group">
                     <div className="flex items-start justify-between mb-4">
                         <div className="p-3 bg-blue-50 rounded-xl group-hover:bg-blue-100 transition-colors">
                             <svg className="w-6 h-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
                         </div>
-                        <span className="text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded-full">+12%</span>
+                        <span className="text-xs font-medium text-blue-600 bg-blue-50 px-2 py-1 rounded-full">{categoryCount} kategori</span>
                     </div>
                     <h3 className="text-gray-500 text-xs font-bold uppercase tracking-wider mb-1">Toplam Ürün</h3>
-                    <p className="text-3xl font-black text-gray-800 tracking-tight">24</p>
-                </div>
+                    <p className="text-3xl font-black text-gray-800 tracking-tight">{productCount}</p>
+                </Link>
 
-                <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow group">
+                {/* Blog Posts */}
+                <Link href="/admin/blog" className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow group">
                     <div className="flex items-start justify-between mb-4">
                         <div className="p-3 bg-purple-50 rounded-xl group-hover:bg-purple-100 transition-colors">
                             <svg className="w-6 h-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" /></svg>
                         </div>
-                        <span className="text-xs font-medium text-gray-500 bg-gray-50 px-2 py-1 rounded-full">0 yeni</span>
+                        <span className="text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded-full">{publishedBlogCount} yayında</span>
                     </div>
                     <h3 className="text-gray-500 text-xs font-bold uppercase tracking-wider mb-1">Blog Yazıları</h3>
-                    <p className="text-3xl font-black text-gray-800 tracking-tight">8</p>
-                </div>
+                    <p className="text-3xl font-black text-gray-800 tracking-tight">{blogCount}</p>
+                </Link>
 
-                <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow group">
+                {/* Messages */}
+                <Link href="/admin/forms/contact" className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow group">
                     <div className="flex items-start justify-between mb-4">
                         <div className="p-3 bg-orange-50 rounded-xl group-hover:bg-orange-100 transition-colors">
                             <svg className="w-6 h-6 text-orange-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
                         </div>
-                        <span className="text-xs font-medium text-gray-500 bg-gray-50 px-2 py-1 rounded-full">Tümü okundu</span>
+                        {unreadMessages > 0 ? (
+                            <span className="text-xs font-medium text-red-600 bg-red-50 px-2 py-1 rounded-full">{unreadMessages} okunmamış</span>
+                        ) : (
+                            <span className="text-xs font-medium text-gray-500 bg-gray-50 px-2 py-1 rounded-full">Tümü okundu</span>
+                        )}
                     </div>
                     <h3 className="text-gray-500 text-xs font-bold uppercase tracking-wider mb-1">Mesajlar</h3>
-                    <p className="text-3xl font-black text-gray-800 tracking-tight">0</p>
-                </div>
+                    <p className="text-3xl font-black text-gray-800 tracking-tight">{totalMessages}</p>
+                </Link>
 
+                {/* System Status */}
                 <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow group">
                     <div className="flex items-start justify-between mb-4">
                         <div className="p-3 bg-emerald-50 rounded-xl group-hover:bg-emerald-100 transition-colors">
@@ -67,8 +105,56 @@ export default async function AdminDashboard() {
                 </div>
             </div>
 
+            {/* Second Row: Additional Stats */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <Link href="/admin/faq" className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                    <div className="flex items-center gap-3">
+                        <div className="p-2 bg-amber-50 rounded-lg">
+                            <svg className="w-5 h-5 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        </div>
+                        <div>
+                            <p className="text-2xl font-bold text-gray-800">{faqCount}</p>
+                            <p className="text-xs text-gray-500">SSS</p>
+                        </div>
+                    </div>
+                </Link>
+                <Link href="/admin/references" className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                    <div className="flex items-center gap-3">
+                        <div className="p-2 bg-indigo-50 rounded-lg">
+                            <svg className="w-5 h-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                        </div>
+                        <div>
+                            <p className="text-2xl font-bold text-gray-800">{referenceCount}</p>
+                            <p className="text-xs text-gray-500">Referans</p>
+                        </div>
+                    </div>
+                </Link>
+                <Link href="/admin/forms/quote" className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                    <div className="flex items-center gap-3">
+                        <div className="p-2 bg-teal-50 rounded-lg">
+                            <svg className="w-5 h-5 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                        </div>
+                        <div>
+                            <p className="text-2xl font-bold text-gray-800">{quoteCount}</p>
+                            <p className="text-xs text-gray-500">Teklif Talebi</p>
+                        </div>
+                    </div>
+                </Link>
+                <Link href="/admin/categories" className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                    <div className="flex items-center gap-3">
+                        <div className="p-2 bg-rose-50 rounded-lg">
+                            <svg className="w-5 h-5 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" /></svg>
+                        </div>
+                        <div>
+                            <p className="text-2xl font-bold text-gray-800">{categoryCount}</p>
+                            <p className="text-xs text-gray-500">Kategori</p>
+                        </div>
+                    </div>
+                </Link>
+            </div>
+
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {/* Quick Actions / Recent Activity placeholders could go here */}
+                {/* Quick Actions */}
                 <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
                     <h3 className="text-lg font-bold text-gray-800 mb-4">Hızlı Erişim</h3>
                     <div className="grid grid-cols-2 gap-4">
@@ -106,3 +192,4 @@ export default async function AdminDashboard() {
         </div>
     );
 }
+
