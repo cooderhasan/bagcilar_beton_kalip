@@ -64,6 +64,10 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
     const features = product.features as string[] || [];
     const videoEmbedId = getYouTubeEmbedId((product as any).videoUrl);
 
+    // Fetch settings for dynamic WhatsApp number
+    const siteSettings = await prisma.siteSettings.findFirst();
+    const whatsappPhone = siteSettings?.phone?.replace(/[^0-9]/g, '') || '905326763488';
+
     const tCommon = await getTranslations({ locale, namespace: 'Common' });
 
     return (
@@ -180,7 +184,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                                     {tCommon('getQuote')}
                                 </Link>
                                 <a
-                                    href="https://wa.me/905555555555"
+                                    href={`https://wa.me/${whatsappPhone}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="group flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-[#25D366] to-[#20bd5a] text-white px-8 py-4 rounded-2xl font-bold text-lg hover:from-[#20bd5a] hover:to-[#1ea952] transition-all duration-300 shadow-xl shadow-green-200 hover:shadow-2xl hover:shadow-green-300 hover:-translate-y-1"

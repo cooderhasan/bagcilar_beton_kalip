@@ -159,7 +159,7 @@ export default async function LocaleLayout({
             <main className="flex-grow pt-[130px] md:pt-[145px]">
               {children}
             </main>
-            <WhatsAppButton />
+            <WhatsAppButton phone={settings?.phone || undefined} />
             <Footer settings={settings} />
             <Toaster position="top-right" toastOptions={{ duration: 4000 }} />
           </div>

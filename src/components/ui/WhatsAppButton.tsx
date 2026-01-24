@@ -2,10 +2,12 @@
 
 import { useTranslations } from 'next-intl';
 
-export default function WhatsAppButton() {
+export default function WhatsAppButton({ phone }: { phone?: string }) {
+    const phoneNumber = phone?.replace(/[^0-9]/g, '') || '905326763488'; // Default fallback if empty
+
     return (
         <a
-            href="https://wa.me/905555555555" // Replace with actual number
+            href={`https://wa.me/${phoneNumber}`}
             target="_blank"
             rel="noopener noreferrer"
             className="fixed bottom-6 right-6 z-50 bg-[#25D366] hover:bg-[#128C7E] text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 flex items-center justify-center group animate-bounce-slow"
