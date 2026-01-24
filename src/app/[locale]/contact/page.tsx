@@ -1,6 +1,9 @@
 import { getTranslations, getLocale } from 'next-intl/server';
 import { prisma } from '@/lib/prisma';
 
+// Force dynamic rendering to always get latest settings
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
     const { locale } = await params;
 

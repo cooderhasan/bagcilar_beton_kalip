@@ -5,6 +5,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import ProductGallery from '@/components/product/ProductGallery';
 
+// Force dynamic rendering to prevent DYNAMIC_SERVER_USAGE errors
+export const dynamic = 'force-dynamic';
 
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; slug: string }> }) {
