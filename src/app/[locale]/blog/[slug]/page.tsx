@@ -38,9 +38,15 @@ export default async function BlogPostPage({
     // Enable static rendering
     setRequestLocale(locale);
 
-    const post = await prisma.blogPost.findUnique({
-        where: { slug }
-    });
+    let post;
+    try {
+        post = await prisma.blogPost.findUnique({
+            where: { slug }
+        });
+    } catch (error) {
+        console.error('Blog post fetch error:', error);
+        notFound();
+    }
 
     if (!post) {
         notFound();
