@@ -25,6 +25,7 @@ model SiteSettings {
   logoUrl        String?
   footerLogoUrl  String?
   logoHeight     Int?     @default(60) // Logo height in pixels
+  headerPadding  Int?     @default(8)  // Vertical padding in pixels
   faviconUrl     String?
   phone          String?
   email          String?

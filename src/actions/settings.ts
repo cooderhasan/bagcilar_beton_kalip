@@ -36,6 +36,7 @@ export async function updateSiteSettings(data: FormData) {
             logoUrl: data.get("logoUrl") as string,
             footerLogoUrl: data.get("footerLogoUrl") as string,
             logoHeight: parseInt(data.get("logoHeight") as string) || 60,
+            headerPadding: parseInt(data.get("headerPadding") as string) || 0,
             faviconUrl: data.get("faviconUrl") as string,
             catalogUrl: data.get("catalogUrl") as string,
         }

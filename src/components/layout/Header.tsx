@@ -113,7 +113,13 @@ export default function Header({ settings, categories = [] }: HeaderProps) {
             {/* Main Header - White Background */}
             <div className="bg-white shadow-md relative z-40">
                 <div className="container mx-auto px-4">
-                    <div className="flex justify-between items-center min-h-[80px] py-2 transition-all duration-300">
+                    <div
+                        className="flex justify-between items-center min-h-[80px] transition-all duration-300"
+                        style={{
+                            paddingTop: settings?.headerPadding !== undefined ? `${settings.headerPadding}px` : '8px',
+                            paddingBottom: settings?.headerPadding !== undefined ? `${settings.headerPadding}px` : '8px'
+                        }}
+                    >
                         {/* Logo */}
                         <Link href="/" className="shrink-0 flex items-center gap-3 group">
                             {settings?.logoUrl ? (

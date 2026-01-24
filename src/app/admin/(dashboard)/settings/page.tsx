@@ -147,6 +147,22 @@ export default function SettingsPage() {
                                     />
                                     <p className="text-xs text-gray-500 mt-1">Önerilen: 50-80 px arası</p>
                                 </div>
+
+                                {/* Header Padding */}
+                                <div className="mt-3">
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Header Dikey Boşluk (Padding - px)</label>
+                                    <input
+                                        type="number"
+                                        name="headerPadding"
+                                        value={settings?.headerPadding !== undefined ? settings.headerPadding : 8}
+                                        onChange={(e) => setSettings({ ...settings, headerPadding: parseInt(e.target.value) || 0 })}
+                                        min={0}
+                                        max={100}
+                                        className="w-full !text-slate-900 !bg-white border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none placeholder:text-gray-400"
+                                        placeholder="8"
+                                    />
+                                    <p className="text-xs text-gray-500 mt-1">Logonun üst ve altındaki boşluk (varsayılan: 8)</p>
+                                </div>
                             </div>
 
                             {/* Footer Logo */}
