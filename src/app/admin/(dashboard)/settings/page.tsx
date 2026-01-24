@@ -24,8 +24,8 @@ export default function SettingsPage() {
         const res = await getSiteSettings()
         if (res.success) {
             setSettings(res.settings)
-            setHomeIntroContentTr((res.settings.homeIntroContent as any)?.tr || "")
-            setHomeIntroContentEn((res.settings.homeIntroContent as any)?.en || "")
+            setHomeIntroContentTr((res.settings?.homeIntroContent as any)?.tr || "")
+            setHomeIntroContentEn((res.settings?.homeIntroContent as any)?.en || "")
         }
         setLoading(false)
     }
