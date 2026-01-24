@@ -103,8 +103,12 @@ export default function SettingsPage() {
                             <input name="email" defaultValue={settings?.email || ""} className="w-full !text-slate-900 !bg-white border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none placeholder:text-gray-400" placeholder="info@bagcilar.com" />
                         </div>
                         <div className="md:col-span-2">
-                            <label className="block text-sm font-medium text-gray-600 mb-1">Adres</label>
                             <textarea name="address" defaultValue={settings?.address || ""} className="w-full !text-slate-900 !bg-white border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none h-24 placeholder:text-gray-400" placeholder="Adres detayları..." />
+                        </div>
+                        <div className="md:col-span-2">
+                            <label className="block text-sm font-medium text-gray-600 mb-1">Google Maps Embed URL</label>
+                            <input name="contactMapUrl" defaultValue={settings?.contactMapUrl || ""} className="w-full !text-slate-900 !bg-white border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none placeholder:text-gray-400" placeholder="https://www.google.com/maps/embed?..." />
+                            <p className="text-xs text-gray-500 mt-1">Google Maps'ten 'Haritayı yerleştir' veya 'Embed a map' seçeneği ile aldığınız iframe içindeki src linki.</p>
                         </div>
                     </div>
                 </div>

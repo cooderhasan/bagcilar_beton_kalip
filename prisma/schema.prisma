@@ -43,6 +43,7 @@ model SiteSettings {
   homeIntroContent Json? // { tr: string, en: string }
   homeServicesTitle Json? // { tr: string, en: string }
   homeServicesContent Json? // { tr: string, en: string }
+  contactMapUrl  String? // Google Maps Embed URL
   updatedAt      DateTime @updatedAt
 }
 

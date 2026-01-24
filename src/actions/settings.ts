@@ -41,6 +41,7 @@ export async function updateSiteSettings(data: FormData) {
             headerPadding: parseInt(data.get("headerPadding") as string) || 0,
             faviconUrl: data.get("faviconUrl") as string,
             catalogUrl: data.get("catalogUrl") as string,
+            contactMapUrl: data.get("contactMapUrl") as string,
             homeIntroTitle: {
                 tr: data.get("homeIntroTitleTr") as string,
                 en: data.get("homeIntroTitleEn") as string,

@@ -128,7 +128,7 @@ export default async function ContactPage() {
                                 {/* Google Maps Embed */}
                                 <div className="mt-10 rounded-2xl overflow-hidden h-72 shadow-xl border-2 border-gray-100 hover:shadow-2xl transition-shadow duration-300">
                                     <iframe
-                                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d48152.69539828469!2d28.80946747683952!3d41.03439931855848!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14caa4546bbee38b%3A0x194553303d726b2b!2sBa%C4%9Fc%C4%B1lar%2C%20Istanbul!5e0!3m2!1sen!2str!4v1705221975000!5m2!1sen!2str"
+                                        src={settings?.contactMapUrl || "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d48152.69539828469!2d28.80946747683952!3d41.03439931855848!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14caa4546bbee38b%3A0x194553303d726b2b!2sBa%C4%9Fc%C4%B1lar%2C%20Istanbul!5e0!3m2!1sen!2str!4v1705221975000!5m2!1sen!2str"}
                                         width="100%"
                                         height="100%"
                                         style={{ border: 0 }}
