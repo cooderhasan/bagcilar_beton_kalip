@@ -14,7 +14,8 @@ export async function GET(
 
     try {
         // Root dizindeki uploads klasöründen dosyayı oku
-        const uploadDir = join(process.cwd(), 'uploads');
+        const isProd = process.env.NODE_ENV === 'production';
+        const uploadDir = isProd ? '/app/uploads' : join(process.cwd(), 'uploads');
         const filepath = join(uploadDir, filename);
 
         const fileBuffer = await readFile(filepath);

@@ -40,7 +40,8 @@ export async function POST(request: NextRequest) {
 
         // Dosyayı kaydet
         // public klasörü yerine root dizindeki uploads klasörüne kaydediyoruz
-        const uploadDir = join(process.cwd(), 'uploads');
+        const isProd = process.env.NODE_ENV === 'production';
+        const uploadDir = isProd ? '/app/uploads' : join(process.cwd(), 'uploads');
 
         // Klasör yoksa oluştur
         try {
