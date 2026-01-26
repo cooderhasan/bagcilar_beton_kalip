@@ -251,16 +251,27 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                                     </span>
                                 </h3>
                                 <ul className="grid grid-cols-1 gap-3">
-                                    {Array.isArray(features) && features.map((feature, idx) => (
-                                        <li key={idx} className="group flex items-start gap-3 text-sm text-gray-700 bg-white p-3 rounded-xl border border-gray-100 hover:border-orange-200 hover:shadow-md transition-all duration-200">
-                                            <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-orange-100 to-orange-200 flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:from-orange-200 group-hover:to-orange-300 transition-all">
-                                                <svg className="w-3.5 h-3.5 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
-                                                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                                </svg>
-                                            </div>
-                                            <span className="flex-1 leading-relaxed">{feature}</span>
-                                        </li>
-                                    ))}
+                                    {Array.isArray(features) && features.map((feature: any, idx) => {
+                                        let featureText = "";
+                                        if (typeof feature === 'string') {
+                                            featureText = feature;
+                                        } else if (typeof feature === 'object' && feature !== null) {
+                                            featureText = (feature as any)[locale] || (feature as any).tr || "";
+                                        }
+
+                                        if (!featureText) return null;
+
+                                        return (
+                                            <li key={idx} className="group flex items-start gap-3 text-sm text-gray-700 bg-white p-3 rounded-xl border border-gray-100 hover:border-orange-200 hover:shadow-md transition-all duration-200">
+                                                <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-orange-100 to-orange-200 flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:from-orange-200 group-hover:to-orange-300 transition-all">
+                                                    <svg className="w-3.5 h-3.5 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                                    </svg>
+                                                </div>
+                                                <span className="flex-1 leading-relaxed">{featureText}</span>
+                                            </li>
+                                        );
+                                    })}
                                 </ul>
                             </div>
                         )}

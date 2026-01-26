@@ -18,18 +18,18 @@ export default function ProductForm({ categories }: { categories: Category[] }) 
     const [activeTab, setActiveTab] = useState("general");
 
     // State for dynamic features list
-    const [features, setFeatures] = useState<string[]>([""]);
+    const [features, setFeatures] = useState<{ tr: string; en: string }[]>([{ tr: "", en: "" }]);
 
     // State for images
     const [images, setImages] = useState<string[]>([]);
 
-    const handleFeatureChange = (index: number, value: string) => {
+    const handleFeatureChange = (index: number, field: "tr" | "en", value: string) => {
         const newFeatures = [...features];
-        newFeatures[index] = value;
+        newFeatures[index] = { ...newFeatures[index], [field]: value };
         setFeatures(newFeatures);
     };
 
-    const addFeature = () => setFeatures([...features, ""]);
+    const addFeature = () => setFeatures([...features, { tr: "", en: "" }]);
     const removeFeature = (index: number) => {
         const newFeatures = features.filter((_, i) => i !== index);
         setFeatures(newFeatures);
@@ -57,7 +57,7 @@ export default function ProductForm({ categories }: { categories: Category[] }) 
             order: Number(formData.get("order")),
             images: images, // Use state instead of form input
             videoUrl: formData.get("videoUrl") || null,
-            features: features.filter((f: any) => f.trim() !== ""), // Clean empty features
+            features: features.filter((f) => f.tr.trim() !== "" || f.en.trim() !== ""), // Clean empty features
             seoTitle: formData.get("seoTitle"),
             seoDescription: formData.get("seoDescription"),
         };
@@ -208,20 +208,29 @@ export default function ProductForm({ categories }: { categories: Category[] }) 
 
                         <div>
                             <label className="block text-sm font-medium text-slate-700 mb-2">Teknik Özellikler (Maddeler)</label>
-                            <div className="space-y-2">
-                                {features.map((feature, idx) => (
-                                    <div key={idx} className="flex gap-2">
-                                        <input
-                                            type="text"
-                                            value={feature}
-                                            onChange={(e) => handleFeatureChange(idx, e.target.value)}
-                                            placeholder="Örn: 120x60cm boyutlarında"
-                                            className="flex-1 border rounded-lg px-4 py-2 bg-white text-gray-900 placeholder-gray-400"
-                                        />
+                            <div className="space-y-3">
+                                {features.map((feature: any, idx) => (
+                                    <div key={idx} className="flex gap-2 items-start">
+                                        <div className="flex-1 space-y-2">
+                                            <input
+                                                type="text"
+                                                value={feature.tr || ""}
+                                                onChange={(e) => handleFeatureChange(idx, "tr", e.target.value)}
+                                                placeholder="TR: 120x60cm boyutlarında"
+                                                className="w-full border rounded-lg px-4 py-2 bg-white text-gray-900 placeholder-gray-400"
+                                            />
+                                            <input
+                                                type="text"
+                                                value={feature.en || ""}
+                                                onChange={(e) => handleFeatureChange(idx, "en", e.target.value)}
+                                                placeholder="EN: 120x60cm dimensions"
+                                                className="w-full border rounded-lg px-4 py-2 bg-white text-gray-900 placeholder-gray-400"
+                                            />
+                                        </div>
                                         <button
                                             type="button"
                                             onClick={() => removeFeature(idx)}
-                                            className="p-2 text-red-500 hover:bg-red-50 rounded-lg"
+                                            className="p-2 mt-1 text-red-500 hover:bg-red-50 rounded-lg"
                                         >
                                             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
                                         </button>

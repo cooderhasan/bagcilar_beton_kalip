@@ -19,7 +19,7 @@ interface Product {
     description: any;
     images: string[];
     videoUrl: string | null;
-    features: string[];
+    features: any[];
     seoTitle: string | null;
     seoDescription: string | null;
     order: number;
@@ -38,7 +38,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
 
     const [categories, setCategories] = useState<Category[]>([]);
     const [product, setProduct] = useState<Product | null>(null);
-    const [features, setFeatures] = useState<string[]>(['']);
+    const [features, setFeatures] = useState<{ tr: string; en: string }[]>([{ tr: '', en: '' }]);
     const [images, setImages] = useState<string[]>([]);
 
     useEffect(() => {
@@ -59,7 +59,15 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
             if (prodRes.ok) {
                 const prod = await prodRes.json();
                 setProduct(prod);
-                setFeatures((prod.features as string[]) || ['']);
+
+                // Handle features (legacy string[] or new {tr, en}[])
+                const rawFeatures = (prod.features as any[]) || [];
+                const normalizedFeatures = rawFeatures.map(f => {
+                    if (typeof f === 'string') return { tr: f, en: '' };
+                    return f;
+                });
+
+                setFeatures(normalizedFeatures.length > 0 ? normalizedFeatures : [{ tr: '', en: '' }]);
                 setImages(prod.images || []);
             } else {
                 toast.error('Ürün bulunamadı');
@@ -73,13 +81,13 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
         }
     };
 
-    const handleFeatureChange = (index: number, value: string) => {
+    const handleFeatureChange = (index: number, field: "tr" | "en", value: string) => {
         const newFeatures = [...features];
-        newFeatures[index] = value;
+        newFeatures[index] = { ...newFeatures[index], [field]: value };
         setFeatures(newFeatures);
     };
 
-    const addFeature = () => setFeatures([...features, '']);
+    const addFeature = () => setFeatures([...features, { tr: '', en: '' }]);
     const removeFeature = (index: number) => {
         const newFeatures = features.filter((_, i) => i !== index);
         setFeatures(newFeatures);
@@ -107,7 +115,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
             order: Number(formData.get('order')),
             images: images,
             videoUrl: formData.get('videoUrl') || null,
-            features: features.filter((f: any) => f.trim() !== ''),
+            features: features.filter((f) => f.tr.trim() !== '' || f.en.trim() !== ''),
             seoTitle: formData.get('seoTitle'),
             seoDescription: formData.get('seoDescription'),
         };
@@ -288,20 +296,29 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
 
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 mb-2">Teknik Özellikler</label>
-                                <div className="space-y-2">
-                                    {features.map((feature, idx) => (
-                                        <div key={idx} className="flex gap-2">
-                                            <input
-                                                type="text"
-                                                value={feature}
-                                                onChange={(e) => handleFeatureChange(idx, e.target.value)}
-                                                placeholder="Örn: 120x60cm boyutlarında"
-                                                className="flex-1 border border-gray-300 rounded-lg px-4 py-2 text-gray-900 placeholder-gray-400"
-                                            />
+                                <div className="space-y-3">
+                                    {features.map((feature: any, idx) => (
+                                        <div key={idx} className="flex gap-2 items-start">
+                                            <div className="flex-1 space-y-2">
+                                                <input
+                                                    type="text"
+                                                    value={feature.tr || ""}
+                                                    onChange={(e) => handleFeatureChange(idx, "tr", e.target.value)}
+                                                    placeholder="TR: 120x60cm boyutlarında"
+                                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 text-gray-900 placeholder-gray-400"
+                                                />
+                                                <input
+                                                    type="text"
+                                                    value={feature.en || ""}
+                                                    onChange={(e) => handleFeatureChange(idx, "en", e.target.value)}
+                                                    placeholder="EN: 120x60cm dimensions"
+                                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 text-gray-900 placeholder-gray-400"
+                                                />
+                                            </div>
                                             <button
                                                 type="button"
                                                 onClick={() => removeFeature(idx)}
-                                                className="p-2 text-red-500 hover:bg-red-50 rounded-lg"
+                                                className="p-2 mt-1 text-red-500 hover:bg-red-50 rounded-lg"
                                             >
                                                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
