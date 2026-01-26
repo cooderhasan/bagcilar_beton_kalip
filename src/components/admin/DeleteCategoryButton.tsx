@@ -4,28 +4,29 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 
-export default function DeleteProductButton({ id, title }: { id: string, title?: string }) {
+export default function DeleteCategoryButton({ id, title }: { id: string, title?: string }) {
     const router = useRouter();
     const [isDeleting, setIsDeleting] = useState(false);
 
     const handleDelete = async () => {
-        if (!confirm(`${title ? `"${title}"` : 'Bu ürünü'} silmek istediğinize emin misiniz?`)) return;
+        if (!confirm(`${title ? `"${title}"` : 'Bu kategoriyi'} silmek istediğinize emin misiniz?`)) return;
 
         setIsDeleting(true);
         try {
-            const res = await fetch(`/api/admin/products/${id}`, {
+            const res = await fetch(`/api/admin/categories/${id}`, {
                 method: 'DELETE',
             });
 
             if (!res.ok) {
-                throw new Error('Silme işlemi başarısız oldu');
+                const data = await res.json();
+                throw new Error(data.error || 'Silme işlemi başarısız oldu');
             }
 
-            toast.success('Ürün başarıyla silindi');
+            toast.success('Kategori başarıyla silindi');
             router.refresh();
-        } catch (error) {
+        } catch (error: any) {
             console.error('Delete error:', error);
-            toast.error('Silinirken bir hata oluştu');
+            toast.error(error.message || 'Silinirken bir hata oluştu');
         } finally {
             setIsDeleting(false);
         }
