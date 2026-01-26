@@ -337,7 +337,7 @@ export default async function HomePage() {
               {/* Inline FAQ Accordion */}
               {(faqs as any[]).length > 0 ? (
                 <div className="space-y-2">
-                  {(faqs as any[]).slice(0, 4).map((faq: any, index: number) => {
+                  {(faqs as any[]).slice(0, 7).map((faq: any, index: number) => {
                     const question = (faq.question as any)?.[locale] || (faq.question as any)?.tr;
                     const answer = (faq.answer as any)?.[locale] || (faq.answer as any)?.tr;
                     return (
