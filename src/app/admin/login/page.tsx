@@ -125,6 +125,10 @@ export default function AdminLoginPage() {
                     <div className="mt-8 text-center">
                         <p className="text-gray-600 text-xs">
                             &copy; {new Date().getFullYear()} Güvenli Admin Sistemi. Tüm hakları saklıdır.
+                            <br />
+                            <a href="https://www.hasandurmus.com" target="_blank" rel="noopener noreferrer" className="inline-block mt-2 opacity-60 hover:opacity-100 hover:text-white transition-opacity">
+                                Coded by Hasan Durmus
+                            </a>
                         </p>
                     </div>
                 </div>

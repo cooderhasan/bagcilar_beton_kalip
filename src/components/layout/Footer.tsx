@@ -107,6 +107,11 @@ export default function Footer({ settings }: FooterProps) {
             </div>
             <div className="container mx-auto px-4 mt-8 pt-8 border-t border-gray-800 text-center text-xs">
                 &copy; {new Date().getFullYear()} Bağcılar Beton Kalıp. {tFooter('rights')}
+                <br className="md:hidden" />
+                <span className="hidden md:inline mx-2">|</span>
+                <a href="https://www.hasandurmus.com" target="_blank" rel="noopener noreferrer" className="opacity-60 hover:opacity-100 hover:text-white transition-opacity">
+                    Coded by Hasan Durmus
+                </a>
             </div>
         </footer>
     );
