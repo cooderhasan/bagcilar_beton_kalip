@@ -198,8 +198,12 @@ export default async function CategoryPage({
                             <svg className="w-24 h-24 mx-auto text-gray-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
                             </svg>
-                            <h3 className="text-xl font-bold text-gray-900 mb-2">Henüz ürün yok</h3>
-                            <p className="text-gray-600">Bu kategoride henüz ürün bulunmuyor.</p>
+                            <h3 className="text-xl font-bold text-gray-900 mb-2">
+                                {locale === 'tr' ? 'Henüz ürün yok' : 'No products yet'}
+                            </h3>
+                            <p className="text-gray-600">
+                                {locale === 'tr' ? 'Bu kategoride henüz ürün bulunmuyor.' : 'There are no products in this category yet.'}
+                            </p>
                         </div>
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -272,10 +276,12 @@ export default async function CategoryPage({
             <section className="bg-gradient-to-r from-orange-500 to-amber-500 py-16">
                 <div className="container mx-auto px-4 text-center">
                     <h2 className="text-3xl md:text-4xl font-black text-white mb-4">
-                        Özel Projeniz Mi Var?
+                        {locale === 'tr' ? 'Özel Projeniz Mi Var?' : 'Do You Have a Custom Project?'}
                     </h2>
                     <p className="text-white/80 text-lg mb-8 max-w-2xl mx-auto">
-                        İhtiyaçlarınıza özel kalıp tasarımı için uzman ekibimizle iletişime geçin.
+                        {locale === 'tr'
+                            ? 'İhtiyaçlarınıza özel kalıp tasarımı için uzman ekibimizle iletişime geçin.'
+                            : 'Contact our expert team for custom formwork design tailored to your needs.'}
                     </p>
                     <Link
                         href="/quote"
