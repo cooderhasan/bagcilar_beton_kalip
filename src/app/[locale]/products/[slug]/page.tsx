@@ -1,6 +1,7 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
+import { getCachedSiteSettings } from '@/lib/settings-cache';
 import Link from 'next/link';
 import Image from 'next/image';
 import ProductGallery from '@/components/product/ProductGallery';
@@ -78,7 +79,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
     const videoEmbedId = getYouTubeEmbedId((product as any).videoUrl);
 
     // Fetch settings for dynamic WhatsApp number
-    const siteSettings = await prisma.siteSettings.findFirst();
+    const siteSettings = await getCachedSiteSettings();
     const whatsappPhone = siteSettings?.phone?.replace(/[^0-9]/g, '') || '905326763488';
 
     const tCommon = await getTranslations({ locale, namespace: 'Common' });

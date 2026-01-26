@@ -9,8 +9,14 @@ import JsonLd from '@/components/seo/JsonLd';
 import { Toaster } from 'react-hot-toast';
 
 import { getTranslations } from 'next-intl/server';
-import { getSiteSettings } from '@/actions/settings';
+import { getCachedSiteSettings } from '@/lib/settings-cache';
 import { prisma } from '@/lib/prisma';
+import { cache } from 'react';
+
+// React cache to dedupe getSiteSettings calls within the same request
+const getSettings = cache(async () => {
+  return getCachedSiteSettings();
+});
 
 import { Inter } from 'next/font/google';
 const inter = Inter({ subsets: ['latin'] });
@@ -60,9 +66,13 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       description: t('description'),
       images: ['/images/og-image.jpg'],
     },
-    icons: {
-      icon: (await getSiteSettings()).settings?.faviconUrl || '/favicon.ico', // Fallback to a file if exists, but dynamic takes precedence
-      shortcut: (await getSiteSettings()).settings?.faviconUrl || '/favicon.ico',
+    icons: async () => {
+      const settings = await getSettings();
+      const faviconUrl = settings?.faviconUrl || '/favicon.ico';
+      return {
+        icon: faviconUrl,
+        shortcut: faviconUrl,
+      };
     },
     robots: {
       index: true,
@@ -100,7 +110,7 @@ export default async function LocaleLayout({
   // side is the easiest way to get started
   const messages = await getMessages();
 
-  const { settings } = await getSiteSettings();
+  const settings = await getSettings();
   const categories = await prisma.category.findMany({
     orderBy: { order: 'asc' },
   });

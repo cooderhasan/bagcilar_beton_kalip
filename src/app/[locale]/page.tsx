@@ -4,6 +4,7 @@ import { Link } from '@/i18n/routing';
 import { productCategories } from '@/lib/products';
 
 import { prisma } from '@/lib/prisma';
+import { getCachedSiteSettings } from '@/lib/settings-cache';
 
 const baseUrl = 'https://bagcilarbetonkalip.com';
 
@@ -77,7 +78,7 @@ export default async function HomePage() {
         }
       }
     }),
-    prisma.siteSettings.findFirst(),
+    getCachedSiteSettings(),
     prisma.blogPost.findMany({
       where: { published: true },
       orderBy: { createdAt: 'desc' },

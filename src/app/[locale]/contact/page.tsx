@@ -1,5 +1,6 @@
 import { getTranslations, getLocale } from 'next-intl/server';
 import { prisma } from '@/lib/prisma';
+import { getCachedSiteSettings } from '@/lib/settings-cache';
 
 // Force dynamic rendering to always get latest settings
 export const dynamic = 'force-dynamic';
@@ -55,7 +56,7 @@ export default async function ContactPage() {
 
     // Fetch Settings and optional Page content in parallel
     const [settings, page] = await Promise.all([
-        prisma.siteSettings.findFirst(),
+        getCachedSiteSettings(),
         prisma.page.findUnique({ where: { slug: 'contact' } })
     ]);
 
