@@ -75,6 +75,11 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       return {
         icon: faviconUrl,
         shortcut: faviconUrl,
+        apple: faviconUrl,
+        other: {
+          rel: 'apple-touch-icon-precomposed',
+          url: faviconUrl,
+        },
       };
     },
     robots: {
