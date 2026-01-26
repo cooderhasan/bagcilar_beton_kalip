@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
         }
 
         // Dosya tipi kontrolü
-        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'application/pdf'];
+        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'application/pdf', 'image/x-icon', 'image/vnd.microsoft.icon'];
         if (!allowedTypes.includes(file.type)) {
             return NextResponse.json(
                 { error: 'Sadece resim ve PDF dosyaları yüklenebilir' },

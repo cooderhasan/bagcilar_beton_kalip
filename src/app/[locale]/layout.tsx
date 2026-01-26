@@ -68,7 +68,10 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     },
     icons: async () => {
       const settings = await getSettings();
-      const faviconUrl = settings?.faviconUrl || '/favicon.ico';
+      // Add timestamp to force cache refresh
+      const faviconUrl = settings?.faviconUrl
+        ? `${settings.faviconUrl}?v=${Date.now()}`
+        : '/favicon.ico';
       return {
         icon: faviconUrl,
         shortcut: faviconUrl,

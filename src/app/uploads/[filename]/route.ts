@@ -30,6 +30,7 @@ export async function GET(
         else if (ext === 'webp') contentType = 'image/webp';
         else if (ext === 'svg') contentType = 'image/svg+xml';
         else if (ext === 'pdf') contentType = 'application/pdf';
+        else if (ext === 'ico') contentType = 'image/x-icon';
 
         return new NextResponse(fileBuffer, {
             headers: {
@@ -54,6 +55,7 @@ export async function GET(
             else if (ext === 'webp') contentType = 'image/webp';
             else if (ext === 'svg') contentType = 'image/svg+xml';
             else if (ext === 'pdf') contentType = 'application/pdf';
+            else if (ext === 'ico') contentType = 'image/x-icon';
 
             return new NextResponse(fileBuffer, {
                 headers: {
