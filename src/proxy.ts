@@ -11,7 +11,7 @@ const { auth } = NextAuth({
 });
 const intlMiddleware = createMiddleware(routing);
 
-export default async function middleware(req: NextRequest) {
+export default async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   // 0. SEO Redirect: Force WWW
