@@ -8,6 +8,7 @@ type Props = {
 };
 
 import PageHeader from '@/components/ui/PageHeader';
+import DynamicIcon from '@/components/ui/DynamicIcon';
 
 export default async function CorporatePage({ params }: Props) {
     const { locale } = await params;
@@ -81,7 +82,7 @@ export default async function CorporatePage({ params }: Props) {
                             return (
                                 <div key={card.id} className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl transition-shadow duration-300 group">
                                     <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mb-6 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors text-2xl">
-                                        {card.icon || '📋'}
+                                        <DynamicIcon name={card.icon || 'Star'} className="w-6 h-6" />
                                     </div>
                                     <h3 className="text-xl font-medium text-slate-900 mb-4">{cardTitle}</h3>
                                     <p className="text-gray-600 leading-relaxed font-light">
