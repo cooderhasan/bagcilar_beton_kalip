@@ -30,6 +30,12 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const t = await getTranslations({ locale, namespace: 'Metadata' });
   const baseUrl = 'https://bagcilarbetonkalip.com';
 
+  // Fetch settings once at the top for favicon
+  const settings = await getSettings();
+  const faviconUrl = settings?.faviconUrl
+    ? `${settings.faviconUrl}?v=${Date.now()}`
+    : '/favicon.ico';
+
   return {
     title: {
       default: t('title'),
@@ -66,21 +72,14 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       description: t('description'),
       images: ['/images/og-image.jpg'],
     },
-    icons: async () => {
-      const settings = await getSettings();
-      // Add timestamp to force cache refresh
-      const faviconUrl = settings?.faviconUrl
-        ? `${settings.faviconUrl}?v=${Date.now()}`
-        : '/favicon.ico';
-      return {
-        icon: faviconUrl,
-        shortcut: faviconUrl,
-        apple: faviconUrl,
-        other: {
-          rel: 'apple-touch-icon-precomposed',
-          url: faviconUrl,
-        },
-      };
+    icons: {
+      icon: faviconUrl,
+      shortcut: faviconUrl,
+      apple: faviconUrl,
+      other: {
+        rel: 'apple-touch-icon-precomposed',
+        url: faviconUrl,
+      },
     },
     robots: {
       index: true,
