@@ -8,7 +8,7 @@ async function main() {
     // Bu hash'i manuel olarak veya script çıktısından alıyoruz. 
     // Güvenlik için bcrypt.hash('BGC.0mxhhkmf!2025', 10) sonucunu buraya yazmak en doğrusu ama
     // seed çalışırken tekrar oluşturabiliriz.
-    const password = await bcrypt.hash('BGC.0mxhhkmf!2025', 10)
+    const password = await bcrypt.hash('BGC.vck9g08e!2025', 10)
 
     // Eski admini güncelle veya yenisini oluştur
     const user = await prisma.user.upsert({
