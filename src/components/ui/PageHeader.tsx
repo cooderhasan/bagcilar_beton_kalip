@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import Image from 'next/image';
 
+import ExpandableDescription from './ExpandableDescription';
+
 interface BreadcrumbItem {
     label: string;
     href?: string;
@@ -82,18 +84,12 @@ export default function PageHeader({ title, description, image, breadcrumbs, sim
                         </h1>
                     </div>
 
-                    {/* Description in Simple Mode */}
+                    {/* Description in Simple Mode - using ExpandableDescription */}
                     {description && (
-                        <div className="mt-4 max-w-4xl text-gray-300 font-light leading-relaxed text-sm md:text-base">
-                            {/<[a-z][\s\S]*>/i.test(description) ? (
-                                <div dangerouslySetInnerHTML={{ __html: description }} />
-                            ) : (
-                                <p>{description}</p>
-                            )}
+                        <div className="mt-4">
+                            <ExpandableDescription description={description} maxLength={300} />
                         </div>
                     )}
-
-
                 </div>
 
                 {/* Bottom Gradient Line */}
