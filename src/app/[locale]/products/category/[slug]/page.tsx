@@ -115,7 +115,7 @@ export default async function CategoryPage({
         <div className="bg-gray-50 min-h-screen">
             <PageHeader
                 title={headerTitle}
-                description={headerDesc}
+                // description={headerDesc} // Content moved below filters
                 simple={true}
                 breadcrumbs={breadcrumbs}
             />
@@ -123,7 +123,7 @@ export default async function CategoryPage({
             {/* Category Filter */}
             <section className="py-8 bg-white border-b">
                 <div className="container mx-auto px-4">
-                    <div className="flex flex-wrap gap-3">
+                    <div className="flex flex-wrap gap-3 mb-8">
                         <Link
                             href="/products"
                             className="px-4 py-2 rounded-full font-semibold transition-colors bg-gray-100 text-gray-700 hover:bg-gray-200"
@@ -147,6 +147,20 @@ export default async function CategoryPage({
                             </Link>
                         ))}
                     </div>
+
+                    {/* Category Description - Full Width Below Filters */}
+                    {headerDesc && (
+                        <div className="max-w-4xl mx-auto text-center border-t border-gray-100 pt-8">
+                            <h2 className="text-2xl font-bold text-gray-800 mb-4 hidden">{headerTitle}</h2>
+                            <div className="text-gray-600 leading-relaxed text-lg">
+                                {/<[a-z][\s\S]*>/i.test(headerDesc) ? (
+                                    <div dangerouslySetInnerHTML={{ __html: headerDesc }} />
+                                ) : (
+                                    <p>{headerDesc}</p>
+                                )}
+                            </div>
+                        </div>
+                    )}
                 </div>
             </section>
 
