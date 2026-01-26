@@ -234,7 +234,7 @@ export default async function HomePage() {
               return (
                 <Link
                   key={category.id}
-                  href={`/products?category=${category.slug}`}
+                  href={`/products/category/${category.slug}`}
                   className="group block bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1"
                 >
                   {/* Image Area */}

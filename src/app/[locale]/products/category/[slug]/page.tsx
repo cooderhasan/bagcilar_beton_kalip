@@ -3,38 +3,7 @@ import { Link } from '@/i18n/routing';
 import { prisma } from '@/lib/prisma';
 import Image from 'next/image';
 import PageHeader from '@/components/ui/PageHeader';
-
-export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
-    const { locale } = await params;
-    const baseUrl = 'https://bagcilarbetonkalip.com';
-
-    const title = locale === 'tr' ? 'Ürünlerimiz | Bağcılar Beton Kalıp' : 'Our Products | Bagcilar Concrete Formwork';
-    const description = locale === 'tr'
-        ? 'Beton kalıp sistemleri, perde, kolon, döşeme kalıpları ve aksesuarlar.'
-        : 'Concrete formwork systems, wall, column, slab formworks and accessories.';
-
-    return {
-        title,
-        description,
-        alternates: {
-            canonical: `${baseUrl}/${locale}/products`,
-        },
-        openGraph: {
-            title,
-            description,
-            url: `${baseUrl}/${locale}/products`,
-            siteName: 'Bağcılar Beton Kalıp',
-            locale: locale === 'tr' ? 'tr_TR' : 'en_US',
-            type: 'website',
-        },
-        twitter: {
-            card: 'summary_large_image',
-            title,
-            description,
-        },
-    };
-}
-
+import { notFound } from 'next/navigation';
 import { Prisma } from '@prisma/client';
 
 type CategoryWithCount = Prisma.CategoryGetPayload<{
@@ -45,20 +14,75 @@ type CategoryWithCount = Prisma.CategoryGetPayload<{
     }
 }>;
 
-export default async function ProductsPage({
+export async function generateMetadata({ params }: { params: Promise<{ locale: string; slug: string }> }) {
+    const { locale, slug } = await params;
+    const baseUrl = 'https://bagcilarbetonkalip.com';
+
+    const category = await prisma.category.findUnique({
+        where: { slug },
+    });
+
+    if (!category) {
+        return {
+            title: locale === 'tr' ? 'Kategori Bulunamadı' : 'Category Not Found',
+        };
+    }
+
+    const titleText = (category.title as any)[locale] || (category.title as any).tr;
+    const descText = (category.description as any)?.[locale] || (category.description as any)?.tr;
+
+    const title = locale === 'tr'
+        ? `${titleText} | Bağcılar Beton Kalıp`
+        : `${titleText} | Bagcilar Concrete Formwork`;
+
+    const description = descText || (locale === 'tr'
+        ? `${titleText} ve ilgili diğer beton kalıp sistemleri.`
+        : `${titleText} and related concrete formwork systems.`);
+
+    return {
+        title,
+        description,
+        alternates: {
+            canonical: `${baseUrl}/${locale}/products/category/${slug}`,
+        },
+        openGraph: {
+            title,
+            description,
+            url: `${baseUrl}/${locale}/products/category/${slug}`,
+            siteName: 'Bağcılar Beton Kalıp',
+            locale: locale === 'tr' ? 'tr_TR' : 'en_US',
+            type: 'website',
+            images: category.image ? [{ url: category.image, alt: titleText }] : [],
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title,
+            description,
+            images: category.image ? [category.image] : [],
+        },
+    };
+}
+
+export default async function CategoryPage({
     params,
-    searchParams
 }: {
-    params: Promise<{ locale: string }>;
-    searchParams: Promise<{ category?: string }>;
+    params: Promise<{ locale: string; slug: string }>;
 }) {
-    const { locale } = await params;
-    const { category: categorySlug } = await searchParams;
+    const { locale, slug } = await params;
 
     const t = await getTranslations({ locale, namespace: 'ProductCategories' });
     const tCommon = await getTranslations({ locale, namespace: 'Common' });
 
-    // Fetch categories and products
+    // 1. Fetch the specific category to validte it exists and get title/desc
+    const selectedCategory = await prisma.category.findUnique({
+        where: { slug },
+    });
+
+    if (!selectedCategory) {
+        notFound();
+    }
+
+    // 2. Fetch all categories for the filter links
     const categories = await prisma.category.findMany({
         orderBy: { order: 'asc' },
         include: {
@@ -68,36 +92,23 @@ export default async function ProductsPage({
         }
     });
 
-    // Fetch products (filtered by category if specified)
+    // 3. Fetch products filtered by this category
     const products = await prisma.product.findMany({
         where: {
             isActive: true,
-            ...(categorySlug ? { category: { slug: categorySlug } } : {})
+            category: { slug }
         },
         include: { category: true },
         orderBy: { order: 'asc' }
     });
 
-    // Find selected category
-    const selectedCategory = categorySlug
-        ? categories.find((c) => c.slug === categorySlug)
-        : null;
-
-
-
-    const headerTitle = selectedCategory
-        ? (selectedCategory.title as any)[locale] || (selectedCategory.title as any).tr
-        : t('title');
-
-    const headerDesc = selectedCategory
-        ? (selectedCategory.description as any)?.[locale] || (selectedCategory.description as any)?.tr
-        : t('desc');
-
-    const headerImage = selectedCategory?.image || 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2070';
+    const headerTitle = (selectedCategory.title as any)[locale] || (selectedCategory.title as any).tr;
+    const headerDesc = (selectedCategory.description as any)?.[locale] || (selectedCategory.description as any)?.tr;
+    // const headerImage = selectedCategory.image || 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2070';
 
     const breadcrumbs = [
-        { label: t('title'), href: selectedCategory ? '/products' : undefined },
-        ...(selectedCategory ? [{ label: (selectedCategory.title as any)[locale] || (selectedCategory.title as any).tr }] : [])
+        { label: t('title'), href: '/products' },
+        { label: headerTitle }
     ];
 
     return (
@@ -109,36 +120,35 @@ export default async function ProductsPage({
                 breadcrumbs={breadcrumbs}
             />
 
-            {/* Category Filter - Only show when no category is selected */}
-            {!categorySlug && (
-                <section className="py-8 bg-white border-b">
-                    <div className="container mx-auto px-4">
-                        <div className="flex flex-wrap gap-3">
+            {/* Category Filter */}
+            <section className="py-8 bg-white border-b">
+                <div className="container mx-auto px-4">
+                    <div className="flex flex-wrap gap-3">
+                        <Link
+                            href="/products"
+                            className="px-4 py-2 rounded-full font-semibold transition-colors bg-gray-100 text-gray-700 hover:bg-gray-200"
+                        >
+                            {/* We don't have total count here easily unless we fetch all products, 
+                                but standard practice is just "All" or fetching aggregate. 
+                                For now, let's keep it simple or fetch aggregate if needed. 
+                                Let's just say "Tümü" */}
+                            {locale === 'tr' ? 'Tümü' : 'All'}
+                        </Link>
+                        {categories.map((cat: CategoryWithCount) => (
                             <Link
-                                href="/products"
-                                className={`px-4 py-2 rounded-full font-semibold transition-colors ${!categorySlug
+                                key={cat.id}
+                                href={`/products/category/${cat.slug}`}
+                                className={`px-4 py-2 rounded-full font-semibold transition-colors ${slug === cat.slug
                                     ? 'bg-orange-500 text-white'
                                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                                     }`}
                             >
-                                Tümü ({products.length})
+                                {(cat.title as any)[locale] || (cat.title as any).tr} ({cat._count.products})
                             </Link>
-                            {categories.map((cat: CategoryWithCount) => (
-                                <Link
-                                    key={cat.id}
-                                    href={`/products/category/${cat.slug}`}
-                                    className={`px-4 py-2 rounded-full font-semibold transition-colors ${categorySlug === cat.slug
-                                        ? 'bg-orange-500 text-white'
-                                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                                        }`}
-                                >
-                                    {(cat.title as any)[locale] || (cat.title as any).tr} ({cat._count.products})
-                                </Link>
-                            ))}
-                        </div>
+                        ))}
                     </div>
-                </section>
-            )}
+                </div>
+            </section>
 
             {/* Products Grid */}
             <section className="py-16">

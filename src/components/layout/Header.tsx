@@ -350,7 +350,7 @@ export default function Header({ settings, categories = [] }: HeaderProps) {
                                                                 return (
                                                                     <Link
                                                                         key={category.id}
-                                                                        href={`/products?category=${category.slug}`}
+                                                                        href={`/products/category/${category.slug}`}
                                                                         className="group/card relative bg-gray-800/50 hover:bg-gray-700/70 rounded-xl p-5 border border-gray-700/50 hover:border-orange-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-orange-500/10"
                                                                     >
                                                                         {/* Icon */}
@@ -444,7 +444,7 @@ export default function Header({ settings, categories = [] }: HeaderProps) {
                                                         return (
                                                             <Link
                                                                 key={category.id}
-                                                                href={`/products?category=${category.slug}`}
+                                                                href={`/products/category/${category.slug}`}
                                                                 className="block text-sm text-gray-400 hover:text-white"
                                                                 onClick={() => setMobileMenuOpen(false)}
                                                             >
