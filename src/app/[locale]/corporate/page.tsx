@@ -30,7 +30,7 @@ export default async function CorporatePage({ params }: Props) {
         <p>Çevreye duyarlı üretim anlayışımızla, sürdürülebilir inşaat sektörüne katkı sağlamak önceliklerimiz arasındadır. Müşteri memnuniyetini her şeyin üstünde tutarak, uzun vadeli iş birlikleri kurmayı amaçlıyoruz.</p>
     `;
 
-    const aboutUsImage = page?.image || 'https://images.unsplash.com/photo-1590059390492-d5495eb8a81f?q=80&w=2072';
+    const aboutUsImage = page?.image || 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=2072';
     const heroImage = (page as any)?.heroImage || 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=2070';
 
     return (
