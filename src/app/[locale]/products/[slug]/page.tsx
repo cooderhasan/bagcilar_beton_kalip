@@ -5,6 +5,7 @@ import { getCachedSiteSettings } from '@/lib/settings-cache';
 import Link from 'next/link';
 import Image from 'next/image';
 import ProductGallery from '@/components/product/ProductGallery';
+import JsonLd from '@/components/seo/JsonLd';
 
 // Force dynamic rendering to prevent DYNAMIC_SERVER_USAGE errors
 export const dynamic = 'force-dynamic';
@@ -87,6 +88,29 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50 pb-20 pt-8">
+            <JsonLd data={{
+                "@context": "https://schema.org/",
+                "@type": "Product",
+                "name": title,
+                "image": Array.isArray(product.images) && product.images.length > 0 ? product.images : [],
+                "description": description || title,
+                "brand": {
+                    "@type": "Brand",
+                    "name": "Bağcılar Beton Kalıp"
+                },
+                "manufacturer": {
+                    "@type": "Organization",
+                    "name": "Bağcılar Beton Kalıp"
+                },
+                "category": categoryTitle,
+                "offers": {
+                    "@type": "Offer",
+                    "priceCurrency": "TRY",
+                    "availability": "https://schema.org/InStock",
+                    "price": "0", // Fiyat değişken olduğu için 0 veya sembolik, ya da InStock yeterli
+                    "url": `https://bagcilarbetonkalip.com/${locale}/products/${slug}`
+                }
+            }} />
             <div className="container mx-auto px-4">
                 {/* Breadcrumb - Enhanced */}
                 <nav className="mb-8">

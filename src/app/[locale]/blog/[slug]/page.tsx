@@ -2,6 +2,7 @@ import { getTranslations, setRequestLocale, getLocale } from 'next-intl/server';
 import { Link } from '@/i18n/routing';
 import { notFound } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
+import JsonLd from '@/components/seo/JsonLd';
 
 export const dynamic = 'force-dynamic';
 
@@ -96,6 +97,29 @@ export default async function BlogPostPage({
 
     return (
         <article className="min-h-screen bg-white">
+            {/* JSON-LD Schema for Blog Posting */}
+            <JsonLd data={{
+                "@context": "https://schema.org",
+                "@type": "BlogPosting",
+                "headline": title.substring(0, 110),
+                "image": post.image ? [post.image] : undefined,
+                "datePublished": post.createdAt.toISOString(),
+                "dateModified": post.updatedAt.toISOString(),
+                "author": {
+                    "@type": "Organization",
+                    "name": "Bağcılar Beton Kalıp"
+                },
+                "publisher": {
+                    "@type": "Organization",
+                    "name": "Bağcılar Beton Kalıp",
+                    "logo": {
+                        "@type": "ImageObject",
+                        "url": "https://bagcilarbetonkalip.com/logo.png"
+                    }
+                },
+                "description": summary || title
+            }} />
+
             {/* Article Header */}
             <div className="bg-primary text-white py-16">
                 <div className="container mx-auto px-4 max-w-4xl">
