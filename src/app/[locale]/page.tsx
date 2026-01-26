@@ -5,6 +5,7 @@ import { productCategories } from '@/lib/products';
 
 import { prisma } from '@/lib/prisma';
 import { getCachedSiteSettings } from '@/lib/settings-cache';
+import JsonLd from '@/components/seo/JsonLd';
 
 const baseUrl = 'https://bagcilarbetonkalip.com';
 
@@ -101,8 +102,23 @@ export default async function HomePage() {
     secondaryCtaLink: '/projects',
   };
 
+  // Prepare FAQ Schema
+  const faqSchema = faqs.length > 0 ? {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map((faq: any) => ({
+      "@type": "Question",
+      "name": (faq.question as any)?.[locale] || (faq.question as any)?.tr,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": (faq.answer as any)?.[locale] || (faq.answer as any)?.tr
+      }
+    }))
+  } : null;
+
   return (
     <main className="flex flex-col min-h-screen">
+      {faqSchema && <JsonLd data={faqSchema} />}
 
       {/* SLIDER / HERO SECTION */}
       {sliders.length > 0 ? (
