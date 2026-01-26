@@ -446,12 +446,6 @@ export default async function HomePage() {
                 </ul>
               )}
 
-              <Link
-                href="/about"
-                className="inline-flex items-center gap-2 text-orange-500 font-semibold mt-6 hover:text-orange-600 transition-colors text-sm"
-              >
-                {locale === 'tr' ? 'Daha Fazla →' : 'Learn More →'}
-              </Link>
             </div>
 
             {/* RIGHT SIDEBAR: Blog + Catalog (50% Width -> 2 Columns inside) */}
@@ -538,7 +532,7 @@ export default async function HomePage() {
 
       {/* STATS - Dynamic from Database */}
       {/* STATS + CTA COMBINED - Compact Row */}
-      <section className="py-10 bg-gradient-to-r from-orange-500 to-amber-500">
+      <section className="py-6 bg-gradient-to-r from-orange-500 to-amber-500">
         <div className="container mx-auto px-4">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-0 lg:divide-x divide-white/20">
 

@@ -121,7 +121,7 @@ export default async function BlogPostPage({
             }} />
 
             {/* Article Header */}
-            <div className="bg-primary text-white py-16">
+            <div className="bg-primary text-white py-8">
                 <div className="container mx-auto px-4 max-w-4xl">
                     <Link href="/blog" className="text-accent hover:text-white transition-colors mb-6 inline-block font-semibold">
                         &larr; {t('latestPosts')}
