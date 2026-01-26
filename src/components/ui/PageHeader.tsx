@@ -82,6 +82,17 @@ export default function PageHeader({ title, description, image, breadcrumbs, sim
                         </h1>
                     </div>
 
+                    {/* Description in Simple Mode */}
+                    {description && (
+                        <div className="mt-4 max-w-4xl text-gray-300 font-light leading-relaxed text-sm md:text-base">
+                            {/<[a-z][\s\S]*>/i.test(description) ? (
+                                <div dangerouslySetInnerHTML={{ __html: description }} />
+                            ) : (
+                                <p>{description}</p>
+                            )}
+                        </div>
+                    )}
+
 
                 </div>
 
