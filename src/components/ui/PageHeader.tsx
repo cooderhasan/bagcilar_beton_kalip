@@ -17,7 +17,7 @@ interface PageHeaderProps {
 export default function PageHeader({ title, description, image, breadcrumbs, simple = false }: PageHeaderProps) {
     if (simple) {
         return (
-            <section className="relative py-6 md:py-8 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white overflow-hidden">
+            <section className="relative min-h-[120px] flex items-center py-6 md:py-8 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white overflow-hidden">
                 {/* Decorative Elements */}
                 <div className="absolute inset-0 overflow-hidden pointer-events-none">
                     {/* Gradient Orbs */}
