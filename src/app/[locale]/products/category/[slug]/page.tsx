@@ -171,7 +171,7 @@ export default async function CategoryPage({
                                                 </svg>
                                             </span>
                                             <h2 className="text-xl font-bold text-gray-900">
-                                                {headerTitle} {tCommon('about')}
+                                                {headerTitle}
                                             </h2>
                                         </div>
 
