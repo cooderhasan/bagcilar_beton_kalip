@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma'
-import { formatDate } from '@/lib/utils' // Assuming utils exists, if not I'll use inline date formatting
+import { formatDate } from '@/lib/utils'
+import ContactDetailModal from '@/components/admin/ContactDetailModal' // Assuming utils exists, if not I'll use inline date formatting
 
 export default async function ContactFormsPage() {
     // Note: 'contactForm' might show as error in IDE until server restart, but it exists in DB
@@ -57,9 +58,7 @@ export default async function ContactFormsPage() {
                                             {msg.message}
                                         </td>
                                         <td className="px-6 py-4 text-right">
-                                            <button className="text-blue-600 hover:text-blue-700 font-medium text-xs bg-blue-50 px-3 py-1.5 rounded-lg hover:bg-blue-100 transition-colors">
-                                                Görüntüle
-                                            </button>
+                                            <ContactDetailModal message={msg} />
                                         </td>
                                     </tr>
                                 ))

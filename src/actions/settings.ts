@@ -1,9 +1,10 @@
 "use server"
 
 import { prisma } from "@/lib/prisma"
-import { revalidatePath } from "next/cache"
+import { revalidatePath, unstable_noStore } from "next/cache"
 
 export async function getSiteSettings() {
+    unstable_noStore();
     try {
         let settings = await prisma.siteSettings.findFirst()
         if (!settings) {
@@ -23,6 +24,9 @@ export async function getSiteSettings() {
 
 export async function updateSiteSettings(data: FormData) {
     try {
+        console.log("UpdateSiteSettings called. FormData keys:", Array.from(data.keys()));
+        console.log("seoTitle received:", data.get("seoTitle"));
+        console.log("seoDescription received:", data.get("seoDescription"));
         const settings = {
             phone: data.get("phone") as string,
             email: data.get("email") as string,
@@ -78,9 +82,12 @@ export async function updateSiteSettings(data: FormData) {
             create: { id: 1, ...settings },
         })
 
+        console.log("Prisma update completed. New SeoTitle:", settings.seoTitle);
+
         revalidatePath("/", "layout")
         revalidatePath("/tr", "layout")
         revalidatePath("/en", "layout")
+        revalidatePath("/admin/settings")
         return { success: true, message: "Ayarlar güncellendi." }
     } catch (error) {
         console.error("Settings update error:", error)

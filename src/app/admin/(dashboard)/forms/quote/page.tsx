@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma'
 import { productCategories } from '@/lib/products'
+import QuoteDetailModal from '@/components/admin/QuoteDetailModal'
 
 export default async function QuoteRequestsPage() {
     const requests = await prisma.quoteRequest.findMany({
@@ -68,9 +69,7 @@ export default async function QuoteRequestsPage() {
                                             {req.message || '-'}
                                         </td>
                                         <td className="px-6 py-4 text-right">
-                                            <button className="text-blue-600 hover:text-blue-700 font-medium text-xs bg-blue-50 px-3 py-1.5 rounded-lg hover:bg-blue-100 transition-colors">
-                                                Görüntüle
-                                            </button>
+                                            <QuoteDetailModal request={req} />
                                         </td>
                                     </tr>
                                 ))
