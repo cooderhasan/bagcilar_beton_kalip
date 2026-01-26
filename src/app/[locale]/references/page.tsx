@@ -34,7 +34,7 @@ export default async function ReferencesPage() {
             <PageHeader
                 title={t('title')}
                 description={t('subtitle')}
-                image="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070"
+                simple={true}
                 breadcrumbs={[
                     { label: t('title') }
                 ]}

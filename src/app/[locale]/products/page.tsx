@@ -82,7 +82,7 @@ export default async function ProductsPage({
             <PageHeader
                 title={headerTitle}
                 description={headerDesc}
-                image={headerImage}
+                simple={true}
                 breadcrumbs={breadcrumbs}
             />
 

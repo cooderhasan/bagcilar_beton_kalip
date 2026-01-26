@@ -38,7 +38,7 @@ export default async function CorporatePage({ params }: Props) {
             <PageHeader
                 title={title}
                 description="İnşaat sektöründe güven, kalite ve tecrübeyle geleceği inşa ediyoruz."
-                image={heroImage}
+                simple={true}
                 breadcrumbs={[
                     { label: title }
                 ]}

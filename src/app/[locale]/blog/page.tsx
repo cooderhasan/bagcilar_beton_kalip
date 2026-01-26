@@ -33,7 +33,7 @@ export default async function BlogPage() {
             <PageHeader
                 title={t('title')}
                 description={t('subtitle')}
-                image="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=2031"
+                simple={true}
                 breadcrumbs={[
                     { label: t('title') }
                 ]}

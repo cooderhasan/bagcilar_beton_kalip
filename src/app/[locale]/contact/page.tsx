@@ -67,7 +67,7 @@ export default async function ContactPage() {
             <PageHeader
                 title={t('title')}
                 description={t('subtitle')}
-                image={heroImage}
+                simple={true}
                 breadcrumbs={[
                     { label: t('title') }
                 ]}

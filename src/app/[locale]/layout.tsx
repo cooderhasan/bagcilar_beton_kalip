@@ -160,7 +160,7 @@ export default async function LocaleLayout({
         <NextIntlClientProvider messages={messages}>
           <div className="flex flex-col min-h-screen">
             <Header settings={settings} categories={serializedCategories} />
-            <main className="flex-grow pt-[130px] md:pt-[145px]">
+            <main className="flex-grow pt-[120px] md:pt-[130px]">
               {children}
             </main>
             <WhatsAppButton phone={settings?.phone || undefined} />
