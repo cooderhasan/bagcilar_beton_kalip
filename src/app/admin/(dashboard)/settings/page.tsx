@@ -159,6 +159,21 @@ export default function SettingsPage() {
                             <input name="seoKeywords" defaultValue={settings?.seoKeywords || ""} className="w-full !text-slate-900 !bg-white border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none placeholder:text-gray-400" placeholder="beton, kalıp, inşaat..." />
                             <p className="text-xs text-gray-500 mt-1">Virgül ile ayırarak yazınız.</p>
                         </div>
+
+                        <div className="pt-4 border-t border-gray-100">
+                            <h3 className="text-md font-semibold text-gray-800 mb-4">Doğrulama Kodları (Verification)</h3>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-600 mb-1">Google Search Console</label>
+                                    <input name="googleSiteVerification" defaultValue={settings?.googleSiteVerification || ""} className="w-full !text-slate-900 !bg-white border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none placeholder:text-gray-400" placeholder="Örn: v_sE..." />
+                                    <p className="text-xs text-gray-500 mt-1">Google tarafından verilen "content" değeri.</p>
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-600 mb-1">Bing Webmaster Tools</label>
+                                    <input name="bingSiteVerification" defaultValue={settings?.bingSiteVerification || ""} className="w-full !text-slate-900 !bg-white border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none placeholder:text-gray-400" placeholder="Örn: 1234..." />
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

@@ -44,6 +44,8 @@ model SiteSettings {
   homeServicesTitle Json? // { tr: string, en: string }
   homeServicesContent Json? // { tr: string, en: string }
   contactMapUrl  String? // Google Maps Embed URL
+  googleSiteVerification String? // Verification code for Google Search Console
+  bingSiteVerification   String? // Verification code for Bing Webmaster Tools
   updatedAt      DateTime @updatedAt
 }
 

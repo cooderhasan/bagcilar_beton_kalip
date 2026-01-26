@@ -41,6 +41,8 @@ export async function updateSiteSettings(data: FormData) {
             headerPadding: parseInt(data.get("headerPadding") as string) || 0,
             faviconUrl: data.get("faviconUrl") as string,
             catalogUrl: data.get("catalogUrl") as string,
+            googleSiteVerification: data.get("googleSiteVerification") as string,
+            bingSiteVerification: data.get("bingSiteVerification") as string,
             contactMapUrl: (() => {
                 const rawUrl = data.get("contactMapUrl") as string;
                 if (!rawUrl) return "";
