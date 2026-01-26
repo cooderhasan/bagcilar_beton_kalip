@@ -6,9 +6,32 @@ import PageHeader from '@/components/ui/PageHeader';
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
     const { locale } = await params;
+    const baseUrl = 'https://bagcilarbetonkalip.com';
+
+    const title = locale === 'tr' ? 'Ürünlerimiz | Bağcılar Beton Kalıp' : 'Our Products | Bagcilar Concrete Formwork';
+    const description = locale === 'tr'
+        ? 'Beton kalıp sistemleri, perde, kolon, döşeme kalıpları ve aksesuarlar.'
+        : 'Concrete formwork systems, wall, column, slab formworks and accessories.';
+
     return {
-        title: locale === 'tr' ? 'Ürünlerimiz | Bağcılar Beton Kalıp' : 'Our Products | Bagcilar Concrete Formwork',
-        description: locale === 'tr' ? 'Beton kalıp sistemleri, perde, kolon, döşeme kalıpları ve aksesuarlar.' : 'Concrete formwork systems, wall, column, slab formworks and accessories.'
+        title,
+        description,
+        alternates: {
+            canonical: `${baseUrl}/${locale}/products`,
+        },
+        openGraph: {
+            title,
+            description,
+            url: `${baseUrl}/${locale}/products`,
+            siteName: 'Bağcılar Beton Kalıp',
+            locale: locale === 'tr' ? 'tr_TR' : 'en_US',
+            type: 'website',
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title,
+            description,
+        },
     };
 }
 

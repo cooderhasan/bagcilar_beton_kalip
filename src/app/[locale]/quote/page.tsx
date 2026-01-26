@@ -5,9 +5,32 @@ import QuoteForm from '@/components/forms/QuoteForm';
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
     const { locale } = await params;
+    const baseUrl = 'https://bagcilarbetonkalip.com';
+
+    const title = locale === 'tr' ? 'Teklif Al | Bağcılar Beton Kalıp' : 'Get Quote | Bagcilar Concrete Formwork';
+    const description = locale === 'tr'
+        ? 'Beton kalıp ürünlerimiz için hemen teklif alın.'
+        : 'Get a quote for our concrete formwork products.';
+
     return {
-        title: locale === 'tr' ? 'Teklif Al | Bağcılar Beton Kalıp' : 'Get Quote | Bagcilar Concrete Formwork',
-        description: locale === 'tr' ? 'Beton kalıp ürünlerimiz için hemen teklif alın.' : 'Get a quote for our concrete formwork products.',
+        title,
+        description,
+        alternates: {
+            canonical: `${baseUrl}/${locale}/quote`,
+        },
+        openGraph: {
+            title,
+            description,
+            url: `${baseUrl}/${locale}/quote`,
+            siteName: 'Bağcılar Beton Kalıp',
+            locale: locale === 'tr' ? 'tr_TR' : 'en_US',
+            type: 'website',
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title,
+            description,
+        },
     };
 }
 

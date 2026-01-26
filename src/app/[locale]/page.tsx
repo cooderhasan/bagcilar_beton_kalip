@@ -5,6 +5,55 @@ import { productCategories } from '@/lib/products';
 
 import { prisma } from '@/lib/prisma';
 
+const baseUrl = 'https://bagcilarbetonkalip.com';
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
+
+  const title = locale === 'tr'
+    ? 'Bağcılar Beton Kalıp | Profesyonel Kalıp Sistemleri'
+    : 'Bagcilar Concrete Formwork | Professional Formwork Systems';
+
+  const description = locale === 'tr'
+    ? 'Türkiye\'nin önde gelen beton kalıp sistemleri üreticisi. Perde, kolon, döşeme kalıpları ve inşaat aksesuarları. 20+ yıllık tecrübe.'
+    : 'Turkey\'s leading concrete formwork systems manufacturer. Wall, column, slab formwork and construction accessories. 20+ years of experience.';
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: `${baseUrl}/${locale}`,
+      languages: {
+        'tr': `${baseUrl}/tr`,
+        'en': `${baseUrl}/en`,
+      },
+    },
+    openGraph: {
+      title,
+      description,
+      url: `${baseUrl}/${locale}`,
+      siteName: 'Bağcılar Beton Kalıp',
+      locale: locale === 'tr' ? 'tr_TR' : 'en_US',
+      type: 'website',
+      images: [
+        {
+          url: `${baseUrl}/images/og-image.jpg`,
+          width: 1200,
+          height: 630,
+          alt: 'Bağcılar Beton Kalıp - Profesyonel Kalıp Sistemleri',
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [`${baseUrl}/images/og-image.jpg`],
+    },
+  };
+}
+
+
 export default async function HomePage() {
   const tHero = await getTranslations('Hero');
   const tProducts = await getTranslations('ProductCategories');

@@ -11,6 +11,7 @@ export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; slug: string }> }) {
     const { locale, slug } = await params;
+    const baseUrl = 'https://bagcilarbetonkalip.com';
 
     const product = await prisma.product.findUnique({
         where: { slug },
@@ -19,12 +20,31 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
     if (!product) return { title: 'Not Found' };
 
-    const title = ((product.title as any)?.[locale] || (product.title as any)?.tr) || 'Ürün Detayı';
-    const description = ((product.description as any)?.[locale] || (product.description as any)?.tr) || '';
+    const title = product.seoTitle || ((product.title as any)?.[locale] || (product.title as any)?.tr) || 'Ürün Detayı';
+    const description = product.seoDescription || ((product.description as any)?.[locale] || (product.description as any)?.tr) || '';
+    const images = Array.isArray(product.images) && product.images.length > 0 ? product.images : [];
 
     return {
-        title: product.seoTitle || `${title} | Bağcılar Beton Kalıp`,
-        description: product.seoDescription || description,
+        title: `${title} | Bağcılar Beton Kalıp`,
+        description,
+        alternates: {
+            canonical: `${baseUrl}/${locale}/products/${slug}`,
+        },
+        openGraph: {
+            title: `${title} | Bağcılar Beton Kalıp`,
+            description,
+            url: `${baseUrl}/${locale}/products/${slug}`,
+            siteName: 'Bağcılar Beton Kalıp',
+            locale: locale === 'tr' ? 'tr_TR' : 'en_US',
+            type: 'website',
+            images: images.length > 0 ? [{ url: images[0] as string, alt: title }] : [],
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: `${title} | Bağcılar Beton Kalıp`,
+            description,
+            images: images.length > 0 ? [images[0] as string] : [],
+        },
     };
 }
 

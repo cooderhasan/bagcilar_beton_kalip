@@ -18,6 +18,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; slug: string }> }) {
     const { locale, slug } = await params;
+    const baseUrl = 'https://bagcilarbetonkalip.com';
 
     const post = await prisma.blogPost.findUnique({
         where: { slug }
@@ -25,9 +26,32 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
     if (!post) return { title: 'Not Found' };
 
+    const title = post.seoTitle || (post.title as any)?.[locale] || 'Blog';
+    const description = post.seoDescription || (post.excerpt as any)?.[locale] || '';
+
     return {
-        title: post.seoTitle || (post.title as any)?.[locale],
-        description: post.seoDescription || (post.excerpt as any)?.[locale],
+        title,
+        description,
+        alternates: {
+            canonical: `${baseUrl}/${locale}/blog/${slug}`,
+        },
+        openGraph: {
+            title,
+            description,
+            url: `${baseUrl}/${locale}/blog/${slug}`,
+            siteName: 'Bağcılar Beton Kalıp',
+            locale: locale === 'tr' ? 'tr_TR' : 'en_US',
+            type: 'article',
+            publishedTime: post.createdAt.toISOString(),
+            modifiedTime: post.updatedAt.toISOString(),
+            images: post.image ? [{ url: post.image, alt: title }] : [],
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title,
+            description,
+            images: post.image ? [post.image] : [],
+        },
     };
 }
 

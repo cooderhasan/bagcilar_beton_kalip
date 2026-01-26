@@ -6,10 +6,32 @@ export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
     const { locale } = await params;
-    // In a real app, fetch metadata translations
+    const baseUrl = 'https://bagcilarbetonkalip.com';
+
+    const title = locale === 'tr' ? 'Blog | Bağcılar Beton Kalıp' : 'Blog | Bagcilar Concrete Formwork';
+    const description = locale === 'tr'
+        ? 'Beton kalıp sistemleri hakkında güncel bilgiler, ipuçları ve sektör haberleri.'
+        : 'Latest information, tips and industry news about concrete formwork systems.';
+
     return {
-        title: locale === 'tr' ? 'Blog | Bağcılar Beton Kalıp' : 'Blog | Bagcilar Concrete Formwork',
-        description: locale === 'tr' ? 'Beton kalıp sistemleri hakkında güncel bilgiler, ipuçları ve sektör haberleri.' : 'Latest information, tips and industry news about concrete formwork systems.'
+        title,
+        description,
+        alternates: {
+            canonical: `${baseUrl}/${locale}/blog`,
+        },
+        openGraph: {
+            title,
+            description,
+            url: `${baseUrl}/${locale}/blog`,
+            siteName: 'Bağcılar Beton Kalıp',
+            locale: locale === 'tr' ? 'tr_TR' : 'en_US',
+            type: 'website',
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title,
+            description,
+        },
     };
 }
 
