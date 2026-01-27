@@ -148,7 +148,7 @@ export default function PageHeader({ title, description, image, breadcrumbs, sim
                     {title}
                 </h1>
                 {description && (
-                    <div className="max-w-3xl text-lg text-gray-300 font-light leading-relaxed">
+                    <div className="w-full text-lg text-gray-300 font-light leading-relaxed">
                         {/* Check if description contains HTML tags (basic check) */}
                         {/<[a-z][\s\S]*>/i.test(description) ? (
                             <div dangerouslySetInnerHTML={{ __html: description }} />

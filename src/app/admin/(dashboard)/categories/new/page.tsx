@@ -81,7 +81,7 @@ export default function NewCategoryPage() {
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 gap-4">
                         <div>
                             <label className="block text-sm font-medium text-slate-700 mb-1">Açıklama (TR)</label>
                             <textarea name="desc_tr" rows={3} className="w-full border rounded-lg px-4 py-2 bg-white text-gray-900" />

@@ -22,7 +22,7 @@ export default function ExpandableDescription({
     // If text is short enough, just show it all without toggle
     if (description.length <= maxLength) {
         return (
-            <div className="max-w-4xl text-gray-300 font-light leading-relaxed text-sm md:text-base">
+            <div className="w-full text-gray-300 font-light leading-relaxed text-sm md:text-base">
                 {isHtml ? (
                     <div dangerouslySetInnerHTML={{ __html: description }} />
                 ) : (
@@ -33,7 +33,7 @@ export default function ExpandableDescription({
     }
 
     return (
-        <div className="max-w-4xl">
+        <div className="w-full">
             <div
                 className={`text-gray-300 font-light leading-relaxed text-sm md:text-base transition-all duration-500 overflow-hidden ${isExpanded ? 'max-h-[1000px] opacity-100' : 'max-h-[85px] relative' // approx 3 lines
                     }`}
