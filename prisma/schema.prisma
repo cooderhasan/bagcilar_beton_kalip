@@ -29,7 +29,7 @@ model SiteSettings {
   faviconUrl     String?
   phone          String?
   email          String?
-  address        String?
+  address        Json?    // { tr: string, en: string }
   instagram      String?
   facebook       String?
   linkedin       String?

@@ -103,7 +103,9 @@ export default async function ContactPage() {
                                         </div>
                                         <div>
                                             <h3 className="font-bold text-gray-900 mb-2 text-lg">{t('info.address')}</h3>
-                                            <p className="text-gray-600 leading-relaxed">{settings?.address || 'İstanbul, Türkiye'}</p>
+                                            <p className="text-gray-600 leading-relaxed">
+                                                {(settings?.address as any)?.[locale] || (typeof settings?.address === 'string' ? settings.address : '') || 'İstanbul, Türkiye'}
+                                            </p>
                                         </div>
                                     </div>
 

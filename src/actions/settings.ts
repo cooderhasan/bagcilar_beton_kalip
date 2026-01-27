@@ -30,7 +30,10 @@ export async function updateSiteSettings(data: FormData) {
         const settings = {
             phone: data.get("phone") as string,
             email: data.get("email") as string,
-            address: data.get("address") as string,
+            address: {
+                tr: data.get("addressTr") as string,
+                en: data.get("addressEn") as string,
+            },
             seoTitle: data.get("seoTitle") as string,
             seoDescription: data.get("seoDescription") as string,
             seoKeywords: data.get("seoKeywords") as string,

@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { Link } from '@/i18n/routing';
 
 interface FooterProps {
@@ -11,6 +11,7 @@ export default function Footer({ settings }: FooterProps) {
     const t = useTranslations('Navigation');
     const tHome = useTranslations('HomePage');
     const tFooter = useTranslations('Footer');
+    const locale = useLocale();
 
     return (
         <footer className="bg-primary text-gray-400 py-12 border-t border-gray-800">
@@ -54,7 +55,9 @@ export default function Footer({ settings }: FooterProps) {
                 <div>
                     <h3 className="text-white font-bold uppercase mb-4 text-sm">{tFooter('contact')}</h3>
                     <ul className="space-y-2 text-sm">
-                        <li>{settings?.address || tFooter('address')}</li>
+                        <li>
+                            {(settings?.address as any)?.[locale] || (typeof settings?.address === 'string' ? settings.address : '') || tFooter('address')}
+                        </li>
                         <li><a href={`mailto:${settings?.email}`} className="hover:text-accent">{settings?.email || 'info@bagcilarbetonkalip.com'}</a></li>
                         <li><a href={`tel:${settings?.phone}`} className="hover:text-accent">{settings?.phone || '+90 555 555 55 55'}</a></li>
                     </ul>

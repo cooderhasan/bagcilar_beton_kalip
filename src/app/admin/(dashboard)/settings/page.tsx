@@ -18,6 +18,10 @@ export default function SettingsPage() {
     const [homeServicesContentTr, setHomeServicesContentTr] = useState("")
     const [homeServicesContentEn, setHomeServicesContentEn] = useState("")
 
+    // State for Address
+    const [addressTr, setAddressTr] = useState("")
+    const [addressEn, setAddressEn] = useState("")
+
     useEffect(() => {
         loadSettings()
     }, [])
@@ -30,6 +34,9 @@ export default function SettingsPage() {
             setHomeIntroContentEn((res.settings?.homeIntroContent as any)?.en || "")
             setHomeServicesContentTr((res.settings?.homeServicesContent as any)?.tr || "")
             setHomeServicesContentEn((res.settings?.homeServicesContent as any)?.en || "")
+            // Address
+            setAddressTr((res.settings?.address as any)?.tr || "")
+            setAddressEn((res.settings?.address as any)?.en || "")
         }
         setLoading(false)
     }
@@ -102,8 +109,15 @@ export default function SettingsPage() {
                             <label className="block text-sm font-medium text-gray-600 mb-1">E-posta</label>
                             <input name="email" defaultValue={settings?.email || ""} className="w-full !text-slate-900 !bg-white border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none placeholder:text-gray-400" placeholder="info@bagcilar.com" />
                         </div>
-                        <div className="md:col-span-2">
-                            <textarea name="address" defaultValue={settings?.address || ""} className="w-full !text-slate-900 !bg-white border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none h-24 placeholder:text-gray-400" placeholder="Adres detayları..." />
+                        <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-600 mb-1">Adres (Türkçe)</label>
+                                <textarea name="addressTr" value={addressTr} onChange={(e) => setAddressTr(e.target.value)} className="w-full !text-slate-900 !bg-white border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none h-24 placeholder:text-gray-400" placeholder="Adres detayları..." />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-600 mb-1">Adres (İngilizce)</label>
+                                <textarea name="addressEn" value={addressEn} onChange={(e) => setAddressEn(e.target.value)} className="w-full !text-slate-900 !bg-white border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none h-24 placeholder:text-gray-400" placeholder="Address details..." />
+                            </div>
                         </div>
                         <div className="md:col-span-2">
                             <label className="block text-sm font-medium text-gray-600 mb-1">Google Maps Embed URL</label>

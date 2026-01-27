@@ -44,7 +44,7 @@ export default async function ReferencesPage() {
             <div className="container mx-auto px-4 py-16">
                 {references.length === 0 ? (
                     <div className="text-center py-20 text-gray-500">
-                        Henüz referans eklenmemiş.
+                        {t('noReferences')}
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
