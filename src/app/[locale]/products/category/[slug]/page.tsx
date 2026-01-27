@@ -273,12 +273,12 @@ export default async function CategoryPage({
             </section>
 
             {/* CTA Section */}
-            <section className="bg-gradient-to-r from-orange-500 to-amber-500 py-16">
+            <section className="bg-gradient-to-r from-orange-500 to-amber-500 py-10">
                 <div className="container mx-auto px-4 text-center">
                     <h2 className="text-3xl md:text-4xl font-black text-white mb-4">
                         {locale === 'tr' ? 'Özel Projeniz Mi Var?' : 'Do You Have a Custom Project?'}
                     </h2>
-                    <p className="text-white/80 text-lg mb-8 max-w-2xl mx-auto">
+                    <p className="text-white/80 text-lg mb-6 max-w-2xl mx-auto">
                         {locale === 'tr'
                             ? 'İhtiyaçlarınıza özel kalıp tasarımı için uzman ekibimizle iletişime geçin.'
                             : 'Contact our expert team for custom formwork design tailored to your needs.'}
