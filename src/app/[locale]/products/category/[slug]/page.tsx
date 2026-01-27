@@ -150,7 +150,7 @@ export default async function CategoryPage({
 
                     {/* Category Description - Full Width Below Filters */}
                     {headerDesc && (
-                        <div className="max-w-5xl mx-auto mt-8">
+                        <div className="w-full mt-8">
                             <div className="relative bg-gradient-to-br from-gray-50 to-white rounded-3xl p-8 md:p-10 border border-gray-100 shadow-sm overflow-hidden group hover:shadow-md transition-shadow duration-300">
                                 {/* Decorative Icon Background */}
                                 <div className="absolute -top-6 -right-6 text-orange-50 pointer-events-none transform rotate-12 group-hover:rotate-6 transition-transform duration-700">
