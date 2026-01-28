@@ -420,7 +420,7 @@ export default function Header({ settings, categories = [] }: HeaderProps) {
             {/* Mobile Menu */}
             {
                 mobileMenuOpen && (
-                    <div className="md:hidden bg-primary border-t border-gray-800 absolute w-full left-0 max-h-[80vh] overflow-y-auto shadow-2xl">
+                    <div className="md:hidden bg-[#1a1a2e] border-t border-gray-800 absolute top-full left-0 w-full max-h-[80vh] overflow-y-auto shadow-2xl z-50">
                         <div className="container mx-auto px-4 py-4 flex flex-col space-y-4">
                             {navItems.map((item) => {
                                 if (item.key === 'products') {
@@ -428,7 +428,7 @@ export default function Header({ settings, categories = [] }: HeaderProps) {
                                         <div key={item.key} className="border-b border-gray-800 pb-2">
                                             <button
                                                 onClick={() => setMobileProductsOpen(!mobileProductsOpen)}
-                                                className="flex items-center justify-between w-full text-gray-300 hover:text-accent font-semibold uppercase tracking-wide"
+                                                className="flex items-center justify-between w-full text-gray-300 hover:text-orange-500 font-semibold uppercase tracking-wide"
                                             >
                                                 {t(item.key)}
                                                 <svg className={`w-5 h-5 transition-transform ${mobileProductsOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
