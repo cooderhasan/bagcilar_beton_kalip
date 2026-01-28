@@ -398,7 +398,7 @@ export default function Header({ settings, categories = [] }: HeaderProps) {
                         </nav>
 
                         {/* Mobile Menu Button - Dark Icon */}
-                        <div className="md:hidden flex items-center gap-4">
+                        <div className="md:hidden flex items-center gap-2 shrink-0">
                             <LanguageSwitcher variant="dark" />
                             <button
                                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}

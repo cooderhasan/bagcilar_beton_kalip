@@ -50,7 +50,7 @@ export default function LanguageSwitcher({ variant = 'light' }: { variant?: 'lig
     const hoverText = variant === 'dark' ? 'hover:text-black' : 'hover:text-white';
 
     return (
-        <div className="flex items-center gap-2 ml-4">
+        <div className="flex items-center gap-2 whitespace-nowrap shrink-0">
             <button
                 onClick={() => changeLocale('tr')}
                 disabled={isPending}
@@ -60,7 +60,7 @@ export default function LanguageSwitcher({ variant = 'light' }: { variant?: 'lig
                         : `${textColor} ${hoverText} ${hoverBg}`
                     }`}
             >
-                <TrFlag className="w-[18px] h-auto rounded-[2px] shadow-sm" />
+                <TrFlag className="w-[18px] h-auto rounded-[2px] shadow-sm shrink-0" />
                 <span>TR</span>
             </button>
             <button
@@ -72,7 +72,7 @@ export default function LanguageSwitcher({ variant = 'light' }: { variant?: 'lig
                         : `${textColor} ${hoverText} ${hoverBg}`
                     }`}
             >
-                <EnFlag className="w-[18px] h-auto rounded-[2px] shadow-sm" />
+                <EnFlag className="w-[18px] h-auto rounded-[2px] shadow-sm shrink-0" />
                 <span>EN</span>
             </button>
         </div>
