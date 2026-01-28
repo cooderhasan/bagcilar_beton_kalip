@@ -31,7 +31,7 @@ const EnFlag = ({ className }: { className?: string }) => (
     </svg>
 );
 
-export default function LanguageSwitcher() {
+export default function LanguageSwitcher({ variant = 'light' }: { variant?: 'light' | 'dark' }) {
     const locale = useLocale();
     const router = useRouter();
     const pathname = usePathname();
@@ -43,6 +43,12 @@ export default function LanguageSwitcher() {
         });
     };
 
+    const textColor = variant === 'dark' ? 'text-gray-700' : 'text-white/70';
+    const activeBg = variant === 'dark' ? 'bg-orange-600' : 'bg-orange-600';
+    const hoverBg = variant === 'dark' ? 'hover:bg-gray-100' : 'hover:bg-white/10';
+    const activeText = 'text-white';
+    const hoverText = variant === 'dark' ? 'hover:text-black' : 'hover:text-white';
+
     return (
         <div className="flex items-center gap-2 ml-4">
             <button
@@ -50,8 +56,8 @@ export default function LanguageSwitcher() {
                 disabled={isPending}
                 className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded text-xs font-bold transition-all
                     ${locale === 'tr'
-                        ? 'bg-orange-600 text-white shadow-sm'
-                        : 'text-white/70 hover:text-white hover:bg-white/10'
+                        ? `${activeBg} ${activeText} shadow-sm`
+                        : `${textColor} ${hoverText} ${hoverBg}`
                     }`}
             >
                 <TrFlag className="w-[18px] h-auto rounded-[2px] shadow-sm" />
@@ -62,8 +68,8 @@ export default function LanguageSwitcher() {
                 disabled={isPending}
                 className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded text-xs font-bold transition-all
                     ${locale === 'en'
-                        ? 'bg-orange-600 text-white shadow-sm'
-                        : 'text-white/70 hover:text-white hover:bg-white/10'
+                        ? `${activeBg} ${activeText} shadow-sm`
+                        : `${textColor} ${hoverText} ${hoverBg}`
                     }`}
             >
                 <EnFlag className="w-[18px] h-auto rounded-[2px] shadow-sm" />

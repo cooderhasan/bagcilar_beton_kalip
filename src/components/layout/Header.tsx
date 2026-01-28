@@ -399,16 +399,17 @@ export default function Header({ settings, categories = [] }: HeaderProps) {
 
                         {/* Mobile Menu Button - Dark Icon */}
                         <div className="md:hidden flex items-center gap-4">
-                            <LanguageSwitcher />
+                            <LanguageSwitcher variant="dark" />
                             <button
                                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                                className="text-gray-700 hover:text-primary focus:outline-none transition-colors"
+                                className="text-black focus:outline-none transition-colors z-[60] relative p-1"
+                                aria-label="Menu"
                             >
-                                <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg className="h-8 w-8 min-w-[32px]" fill="none" viewBox="0 0 24 24" stroke="#000000">
                                     {mobileMenuOpen ? (
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
                                     ) : (
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16M4 18h16" />
                                     )}
                                 </svg>
                             </button>
