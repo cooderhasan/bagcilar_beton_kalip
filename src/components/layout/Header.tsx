@@ -5,7 +5,7 @@ import { Link } from '@/i18n/routing';
 import LanguageSwitcher from './LanguageSwitcher';
 import { useState } from 'react';
 import { productCategories } from '@/lib/products';
-import { Instagram, Facebook, Linkedin } from 'lucide-react';
+import { Instagram, Facebook, Linkedin, Menu, X } from 'lucide-react';
 
 // Custom X (Twitter) icon component like in yay project
 const XIcon = ({ size = 16 }: { size?: number }) => (
@@ -399,19 +399,17 @@ export default function Header({ settings, categories = [] }: HeaderProps) {
 
                         {/* Mobile Menu Button - Dark Icon */}
                         <div className="md:hidden flex items-center gap-2 shrink-0">
-                            <LanguageSwitcher variant="dark" />
+                            <LanguageSwitcher variant="dark" mode="alternate" />
                             <button
                                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                                 className="text-black focus:outline-none transition-colors z-[60] relative p-1"
                                 aria-label="Menu"
                             >
-                                <svg className="h-8 w-8 min-w-[32px]" fill="none" viewBox="0 0 24 24" stroke="#000000">
-                                    {mobileMenuOpen ? (
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
-                                    ) : (
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16M4 18h16" />
-                                    )}
-                                </svg>
+                                {mobileMenuOpen ? (
+                                    <X size={32} color="#000000" strokeWidth={2.5} />
+                                ) : (
+                                    <Menu size={32} color="#000000" strokeWidth={2.5} />
+                                )}
                             </button>
                         </div>
                     </div>

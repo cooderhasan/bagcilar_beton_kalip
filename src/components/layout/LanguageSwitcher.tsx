@@ -31,7 +31,7 @@ const EnFlag = ({ className }: { className?: string }) => (
     </svg>
 );
 
-export default function LanguageSwitcher({ variant = 'light' }: { variant?: 'light' | 'dark' }) {
+export default function LanguageSwitcher({ variant = 'light', mode = 'all' }: { variant?: 'light' | 'dark', mode?: 'all' | 'alternate' }) {
     const locale = useLocale();
     const router = useRouter();
     const pathname = usePathname();
@@ -49,32 +49,41 @@ export default function LanguageSwitcher({ variant = 'light' }: { variant?: 'lig
     const activeText = 'text-white';
     const hoverText = variant === 'dark' ? 'hover:text-black' : 'hover:text-white';
 
+    // Helper to render a button
+    const renderButton = (lang: 'tr' | 'en') => {
+        const isActive = locale === lang;
+        if (mode === 'alternate' && isActive) return null; // Don't show current lang in alternate mode
+
+        return (
+            <button
+                key={lang}
+                onClick={() => changeLocale(lang)}
+                disabled={isPending}
+                className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded text-xs font-bold transition-all
+                    ${isActive
+                        ? `${activeBg} ${activeText} shadow-sm`
+                        : `${textColor} ${hoverText} ${hoverBg}`
+                    }`}
+            >
+                {lang === 'tr' ? (
+                    <>
+                        <TrFlag className="w-[18px] h-auto rounded-[2px] shadow-sm shrink-0" />
+                        <span>TR</span>
+                    </>
+                ) : (
+                    <>
+                        <EnFlag className="w-[18px] h-auto rounded-[2px] shadow-sm shrink-0" />
+                        <span>EN</span>
+                    </>
+                )}
+            </button>
+        );
+    };
+
     return (
         <div className="flex items-center gap-2 whitespace-nowrap shrink-0">
-            <button
-                onClick={() => changeLocale('tr')}
-                disabled={isPending}
-                className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded text-xs font-bold transition-all
-                    ${locale === 'tr'
-                        ? `${activeBg} ${activeText} shadow-sm`
-                        : `${textColor} ${hoverText} ${hoverBg}`
-                    }`}
-            >
-                <TrFlag className="w-[18px] h-auto rounded-[2px] shadow-sm shrink-0" />
-                <span>TR</span>
-            </button>
-            <button
-                onClick={() => changeLocale('en')}
-                disabled={isPending}
-                className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded text-xs font-bold transition-all
-                    ${locale === 'en'
-                        ? `${activeBg} ${activeText} shadow-sm`
-                        : `${textColor} ${hoverText} ${hoverBg}`
-                    }`}
-            >
-                <EnFlag className="w-[18px] h-auto rounded-[2px] shadow-sm shrink-0" />
-                <span>EN</span>
-            </button>
+            {renderButton('tr')}
+            {renderButton('en')}
         </div>
     );
 }
