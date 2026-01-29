@@ -10,6 +10,30 @@ type Props = {
 import PageHeader from '@/components/ui/PageHeader';
 import DynamicIcon from '@/components/ui/DynamicIcon';
 
+export async function generateMetadata({ params }: Props) {
+    const { locale } = await params;
+    const page = await prisma.page.findUnique({
+        where: { slug: 'about-us' }
+    });
+
+    if (!page) return { title: 'Kurumsal' };
+
+    const getLocalized = (val: any) => {
+        if (!val) return null;
+        if (typeof val === 'string') return val;
+        return val[locale] || val['tr'] || null;
+    };
+
+    const title = (page.title as any)[locale] || (page.title as any)['tr'];
+    const seoTitle = getLocalized(page.seoTitle);
+    const seoDesc = getLocalized(page.seoDescription);
+
+    return {
+        title: seoTitle || `${title} | Bağcılar Beton Kalıp`,
+        description: seoDesc
+    };
+}
+
 export default async function CorporatePage({ params }: Props) {
     const { locale } = await params;
 

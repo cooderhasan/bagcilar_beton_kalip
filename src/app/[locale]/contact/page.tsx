@@ -34,10 +34,16 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
         where: { slug: 'contact' }
     });
 
-    if (page?.seoTitle) {
+    const getLocalized = (val: any) => {
+        if (!val) return null;
+        if (typeof val === 'string') return val;
+        return val[locale] || val['tr'] || null;
+    };
+
+    if (page) {
         return {
-            title: page.seoTitle,
-            description: page.seoDescription
+            title: getLocalized(page.seoTitle) || (locale === 'tr' ? 'İletişim | Bağcılar Beton Kalıp' : 'Contact | Bagcilar Concrete Formwork'),
+            description: getLocalized(page.seoDescription) || (locale === 'tr' ? 'Bizimle iletişime geçin. Adres, telefon ve e-posta bilgilerimiz.' : 'Get in touch with us. Our address, phone and email details.')
         };
     }
 

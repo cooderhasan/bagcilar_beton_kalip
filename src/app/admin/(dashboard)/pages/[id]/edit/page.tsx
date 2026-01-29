@@ -67,8 +67,14 @@ export default function EditPage({ params }: { params: Promise<{ id: string }> }
             },
             image: imageUrl,
             heroImage: heroImageUrl,
-            seoTitle: formData.get("seoTitle"),
-            seoDescription: formData.get("seoDescription"),
+            seoTitle: {
+                tr: formData.get("seoTitle_tr"),
+                en: formData.get("seoTitle_en"),
+            },
+            seoDescription: {
+                tr: formData.get("seoDescription_tr"),
+                en: formData.get("seoDescription_en"),
+            },
             isActive: page.isActive,
         };
 
@@ -182,27 +188,52 @@ export default function EditPage({ params }: { params: Promise<{ id: string }> }
                 <div className="space-y-4 border-t pt-6">
                     <h3 className="text-lg font-medium text-gray-900">SEO Ayarları</h3>
 
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                            SEO Başlık (Meta Title)
-                        </label>
-                        <input
-                            name="seoTitle"
-                            defaultValue={page.seoTitle || ""}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 bg-white text-gray-900"
-                        />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                SEO Başlık (TR)
+                            </label>
+                            <input
+                                name="seoTitle_tr"
+                                defaultValue={(page.seoTitle as any)?.tr || (typeof page.seoTitle === 'string' ? page.seoTitle : "")}
+                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 bg-white text-gray-900"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                SEO Title (EN)
+                            </label>
+                            <input
+                                name="seoTitle_en"
+                                defaultValue={(page.seoTitle as any)?.en || ""}
+                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 bg-white text-gray-900"
+                            />
+                        </div>
                     </div>
 
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                            SEO Açıklama (Meta Description)
-                        </label>
-                        <textarea
-                            name="seoDescription"
-                            rows={3}
-                            defaultValue={page.seoDescription || ""}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 bg-white text-gray-900"
-                        />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                SEO Açıklama (TR)
+                            </label>
+                            <textarea
+                                name="seoDescription_tr"
+                                rows={3}
+                                defaultValue={(page.seoDescription as any)?.tr || (typeof page.seoDescription === 'string' ? page.seoDescription : "")}
+                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 bg-white text-gray-900"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                SEO Description (EN)
+                            </label>
+                            <textarea
+                                name="seoDescription_en"
+                                rows={3}
+                                defaultValue={(page.seoDescription as any)?.en || ""}
+                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 bg-white text-gray-900"
+                            />
+                        </div>
                     </div>
                 </div>
 

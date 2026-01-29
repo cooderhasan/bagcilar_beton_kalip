@@ -225,7 +225,6 @@ export default async function CategoryPage({
                                                     alt={title}
                                                     fill
                                                     className="object-cover group-hover:scale-110 transition-transform duration-500"
-                                                    unoptimized
                                                 />
                                             ) : (
                                                 <div className="absolute inset-0 flex items-center justify-center">

@@ -158,8 +158,8 @@ model Page {
   content        Json     // { tr: string, en: string }
   image          String?  // Page image URL (Content/About Image)
   heroImage      String?  // Hero Section Background Image
-  seoTitle       String?
-  seoDescription String?
+  seoTitle       Json?    // { tr: string, en: string }
+  seoDescription Json?    // { tr: string, en: string }
   isActive       Boolean  @default(true)
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
