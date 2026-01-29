@@ -11,18 +11,31 @@ const baseUrl = 'https://bagcilarbetonkalip.com';
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
+  const settings = await getCachedSiteSettings();
 
-  const title = locale === 'tr'
+  // Helper to fetch localized value safely
+  const getLocalized = (val: any) => {
+    if (!val) return null;
+    if (typeof val === 'string') return val;
+    return val[locale] || val['tr'] || null;
+  };
+
+  const defaultTitle = locale === 'tr'
     ? 'Bağcılar Beton Kalıp | Profesyonel Kalıp Sistemleri'
     : 'Bagcilar Concrete Formwork | Professional Formwork Systems';
 
-  const description = locale === 'tr'
+  const defaultDesc = locale === 'tr'
     ? 'Türkiye\'nin önde gelen beton kalıp sistemleri üreticisi. Perde, kolon, döşeme kalıpları ve inşaat aksesuarları. 20+ yıllık tecrübe.'
     : 'Turkey\'s leading concrete formwork systems manufacturer. Wall, column, slab formwork and construction accessories. 20+ years of experience.';
+
+  const title = getLocalized(settings?.seoTitle) || defaultTitle;
+  const description = getLocalized(settings?.seoDescription) || defaultDesc;
+  const keywords = getLocalized(settings?.seoKeywords) || '';
 
   return {
     title,
     description,
+    keywords,
     alternates: {
       canonical: `${baseUrl}/${locale}`,
       languages: {
