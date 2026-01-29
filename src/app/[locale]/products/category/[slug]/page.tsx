@@ -28,14 +28,23 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
         };
     }
 
+    const getLocalized = (val: any) => {
+        if (!val) return null;
+        if (typeof val === 'string') return val;
+        return val[locale] || val['tr'] || null;
+    };
+
     const titleText = (category.title as any)[locale] || (category.title as any).tr;
     const descText = (category.description as any)?.[locale] || (category.description as any)?.tr;
 
-    const title = locale === 'tr'
-        ? `${titleText} | Bağcılar Beton Kalıp`
-        : `${titleText} | Bagcilar Concrete Formwork`;
+    const seoTitle = getLocalized(category.seoTitle);
+    const seoDesc = getLocalized(category.seoDescription);
 
-    const description = descText || (locale === 'tr'
+    const title = seoTitle || (locale === 'tr'
+        ? `${titleText} | Bağcılar Beton Kalıp`
+        : `${titleText} | Bagcilar Concrete Formwork`);
+
+    const description = seoDesc || descText || (locale === 'tr'
         ? `${titleText} ve ilgili diğer beton kalıp sistemleri.`
         : `${titleText} and related concrete formwork systems.`);
 

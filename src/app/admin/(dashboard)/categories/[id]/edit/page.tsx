@@ -12,8 +12,8 @@ interface Category {
     title: any;
     description: any;
     image: string | null;
-    seoTitle: string | null;
-    seoDescription: string | null;
+    seoTitle: any;
+    seoDescription: any;
     order: number;
 }
 
@@ -68,8 +68,14 @@ export default function EditCategoryPage({ params }: { params: Promise<{ id: str
             slug: formData.get('slug'),
             image: image || null,
             order: Number(formData.get('order')),
-            seoTitle: formData.get('seoTitle'),
-            seoDescription: formData.get('seoDescription'),
+            seoTitle: {
+                tr: formData.get('seoTitle_tr'),
+                en: formData.get('seoTitle_en'),
+            },
+            seoDescription: {
+                tr: formData.get('seoDescription_tr'),
+                en: formData.get('seoDescription_en'),
+            },
         };
 
         try {
@@ -210,25 +216,48 @@ export default function EditCategoryPage({ params }: { params: Promise<{ id: str
 
                 <h3 className="text-lg font-semibold text-gray-900">SEO Ayarları</h3>
 
-                <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1">SEO Başlığı</label>
-                    <input
-                        name="seoTitle"
-                        defaultValue={category.seoTitle || ''}
-                        className="w-full border border-gray-300 rounded-lg px-4 py-2 text-gray-900 placeholder-gray-400"
-                        placeholder="Google'da görünecek başlık"
-                    />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label className="block text-sm font-medium text-slate-700 mb-1">SEO Başlığı (TR)</label>
+                        <input
+                            name="seoTitle_tr"
+                            defaultValue={(category.seoTitle as any)?.tr || (typeof category.seoTitle === 'string' ? category.seoTitle : '')}
+                            className="w-full border border-gray-300 rounded-lg px-4 py-2 text-gray-900 placeholder-gray-400"
+                            placeholder="Google'da görünecek başlık"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-slate-700 mb-1">SEO Title (EN)</label>
+                        <input
+                            name="seoTitle_en"
+                            defaultValue={(category.seoTitle as any)?.en || ''}
+                            className="w-full border border-gray-300 rounded-lg px-4 py-2 text-gray-900 placeholder-gray-400"
+                            placeholder="Title for search engines"
+                        />
+                    </div>
                 </div>
 
-                <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1">SEO Açıklaması</label>
-                    <textarea
-                        name="seoDescription"
-                        rows={2}
-                        defaultValue={category.seoDescription || ''}
-                        className="w-full border border-gray-300 rounded-lg px-4 py-2 text-gray-900 placeholder-gray-400"
-                        placeholder="Google'da görünecek açıklama"
-                    />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label className="block text-sm font-medium text-slate-700 mb-1">SEO Açıklaması (TR)</label>
+                        <textarea
+                            name="seoDescription_tr"
+                            rows={2}
+                            defaultValue={(category.seoDescription as any)?.tr || (typeof category.seoDescription === 'string' ? category.seoDescription : '')}
+                            className="w-full border border-gray-300 rounded-lg px-4 py-2 text-gray-900 placeholder-gray-400"
+                            placeholder="Google'da görünecek açıklama"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-slate-700 mb-1">SEO Description (EN)</label>
+                        <textarea
+                            name="seoDescription_en"
+                            rows={2}
+                            defaultValue={(category.seoDescription as any)?.en || ''}
+                            className="w-full border border-gray-300 rounded-lg px-4 py-2 text-gray-900 placeholder-gray-400"
+                            placeholder="Description for search engines"
+                        />
+                    </div>
                 </div>
 
                 <div className="flex justify-end gap-4 pt-6 border-t border-slate-200">

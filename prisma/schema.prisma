@@ -73,8 +73,8 @@ model Category {
   image       String?
   title       Json      // { tr: string, en: string }
   description Json      // { tr: string, en: string }
-  seoTitle    String?
-  seoDescription String?
+  seoTitle    Json?    // { tr: string, en: string }
+  seoDescription Json? // { tr: string, en: string }
   products    Product[]
   order       Int       @default(0)
   createdAt   DateTime  @default(now())
