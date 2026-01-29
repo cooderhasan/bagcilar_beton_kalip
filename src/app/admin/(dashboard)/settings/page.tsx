@@ -158,20 +158,37 @@ export default function SettingsPage() {
                 <div className={activeTab === 'seo' ? 'block space-y-6' : 'hidden'}>
                     <h2 className="text-lg font-semibold text-gray-700 mb-4 pb-2 border-b">SEO Ayarları</h2>
                     <div className="space-y-6">
-                        <div>
-                            <label className="block text-sm font-medium text-gray-600 mb-1">Site Başlığı (Title)</label>
-                            <input name="seoTitle" defaultValue={settings?.seoTitle || ""} className="w-full !text-slate-900 !bg-white border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none placeholder:text-gray-400" />
-                            <p className="text-xs text-gray-500 mt-1">Tarayıcı sekmesinde ve Google aramalarında görünen başlık.</p>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-600 mb-1">Site Başlığı (TR)</label>
+                                <input name="seoTitle_tr" defaultValue={(settings?.seoTitle as any)?.tr || (typeof settings?.seoTitle === 'string' ? settings.seoTitle : "")} className="w-full !text-slate-900 !bg-white border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none placeholder:text-gray-400" />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-600 mb-1">Site Title (EN)</label>
+                                <input name="seoTitle_en" defaultValue={(settings?.seoTitle as any)?.en || ""} className="w-full !text-slate-900 !bg-white border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none placeholder:text-gray-400" />
+                            </div>
                         </div>
-                        <div>
-                            <label className="block text-sm font-medium text-gray-600 mb-1">Site Açıklaması (Description)</label>
-                            <textarea name="seoDescription" defaultValue={settings?.seoDescription || ""} className="w-full !text-slate-900 !bg-white border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none h-24 placeholder:text-gray-400" />
-                            <p className="text-xs text-gray-500 mt-1">Google aramalarında başlığın altında görünen açıklama metni.</p>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-600 mb-1">Site Açıklaması (TR)</label>
+                                <textarea name="seoDescription_tr" defaultValue={(settings?.seoDescription as any)?.tr || (typeof settings?.seoDescription === 'string' ? settings.seoDescription : "")} className="w-full !text-slate-900 !bg-white border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none h-24 placeholder:text-gray-400" />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-600 mb-1">Site Description (EN)</label>
+                                <textarea name="seoDescription_en" defaultValue={(settings?.seoDescription as any)?.en || ""} className="w-full !text-slate-900 !bg-white border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none h-24 placeholder:text-gray-400" />
+                            </div>
                         </div>
-                        <div>
-                            <label className="block text-sm font-medium text-gray-600 mb-1">Anahtar Kelimeler (Keywords)</label>
-                            <input name="seoKeywords" defaultValue={settings?.seoKeywords || ""} className="w-full !text-slate-900 !bg-white border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none placeholder:text-gray-400" placeholder="beton, kalıp, inşaat..." />
-                            <p className="text-xs text-gray-500 mt-1">Virgül ile ayırarak yazınız.</p>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-600 mb-1">Anahtar Kelimeler (TR)</label>
+                                <input name="seoKeywords_tr" defaultValue={(settings?.seoKeywords as any)?.tr || (typeof settings?.seoKeywords === 'string' ? settings.seoKeywords : "")} className="w-full !text-slate-900 !bg-white border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none placeholder:text-gray-400" placeholder="beton, kalıp, inşaat..." />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-600 mb-1">Keywords (EN)</label>
+                                <input name="seoKeywords_en" defaultValue={(settings?.seoKeywords as any)?.en || ""} className="w-full !text-slate-900 !bg-white border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none placeholder:text-gray-400" placeholder="concrete, formwork, construction..." />
+                            </div>
                         </div>
 
                         <div className="pt-4 border-t border-gray-100">

@@ -36,12 +36,22 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     ? `${settings.faviconUrl}?v=${Date.now()}`
     : '/favicon.ico';
 
+  // Helper to get localized value
+  const getLocalized = (val: any) => {
+    if (!val) return null;
+    if (typeof val === 'string') return val;
+    return val[locale] || val['tr'] || null;
+  };
+
+  const siteTitle = getLocalized(settings?.seoTitle) || t('title');
+  const siteDesc = getLocalized(settings?.seoDescription) || t('description');
+
   return {
     title: {
-      default: t('title'),
+      default: siteTitle,
       template: `%s | Bağcılar Beton Kalıp`,
     },
-    description: t('description'),
+    description: siteDesc,
     metadataBase: new URL(baseUrl),
     alternates: {
       canonical: `${baseUrl}/${locale}`,
@@ -51,8 +61,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       },
     },
     openGraph: {
-      title: t('title'),
-      description: t('description'),
+      title: siteTitle,
+      description: siteDesc,
       url: baseUrl,
       siteName: 'Bağcılar Beton Kalıp',
       locale: locale === 'tr' ? 'tr_TR' : 'en_US',
@@ -68,8 +78,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     },
     twitter: {
       card: 'summary_large_image',
-      title: t('title'),
-      description: t('description'),
+      title: siteTitle,
+      description: siteDesc,
       images: ['/images/og-image.jpg'],
     },
     icons: {
@@ -137,18 +147,25 @@ export default async function LocaleLayout({
     description: cat.description as any
   }));
 
+  // Helper to get localized value safely
+  const getLocalized = (val: any) => {
+    if (!val) return null;
+    if (typeof val === 'string') return val;
+    return val[locale] || val['tr'] || "";
+  };
+
   // Create dynamic schema based on settings
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "ConstructionBusiness",
-    "name": settings?.seoTitle || "Bağcılar Beton Kalıp Sistemleri",
+    "name": getLocalized(settings?.seoTitle) || "Bağcılar Beton Kalıp Sistemleri",
     "url": "https://bagcilarbetonkalip.com",
     "logo": settings?.logoUrl || "https://bagcilarbetonkalip.com/logo.png",
     "image": "https://bagcilarbetonkalip.com/hero-bg.jpg",
-    "description": settings?.seoDescription || "Profesyonel inşaat ve beton kalıp sistemleri, perde, kolon ve döşeme kalıpları üretimi ve satışı.",
+    "description": getLocalized(settings?.seoDescription) || "Profesyonel inşaat ve beton kalıp sistemleri, perde, kolon ve döşeme kalıpları üretimi ve satışı.",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": settings?.address || "Bağcılar Merkez",
+      "streetAddress": getLocalized(settings?.address) || "Bağcılar Merkez",
       "addressLocality": "İstanbul",
       "addressCountry": "TR"
     },

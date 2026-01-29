@@ -23,8 +23,19 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
     if (!product) return { title: 'Not Found' };
 
-    const title = product.seoTitle || ((product.title as any)?.[locale] || (product.title as any)?.tr) || 'Ürün Detayı';
-    const description = product.seoDescription || ((product.description as any)?.[locale] || (product.description as any)?.tr) || '';
+    const seoTitleObj = product.seoTitle as any;
+    const seoDescObj = product.seoDescription as any;
+
+    const seoTitle = (typeof seoTitleObj === 'object' && seoTitleObj !== null ? (seoTitleObj?.[locale] || seoTitleObj?.tr) : seoTitleObj)
+        || ((product.title as any)?.[locale] || (product.title as any)?.tr)
+        || 'Ürün Detayı';
+
+    const seoDesc = (typeof seoDescObj === 'object' && seoDescObj !== null ? (seoDescObj?.[locale] || seoDescObj?.tr) : seoDescObj)
+        || ((product.description as any)?.[locale] || (product.description as any)?.tr)
+        || '';
+
+    const title = seoTitle;
+    const description = seoDesc;
     const images = Array.isArray(product.images) && product.images.length > 0 ? product.images : [];
 
     return {

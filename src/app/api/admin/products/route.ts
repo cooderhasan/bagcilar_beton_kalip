@@ -28,8 +28,14 @@ export async function POST(req: Request) {
                 images: images,
                 videoUrl: body.videoUrl || null,
                 features: body.features, // JSON object or array
-                seoTitle: body.seoTitle,
-                seoDescription: body.seoDescription,
+                seoTitle: {
+                    tr: body.seoTitle?.tr,
+                    en: body.seoTitle?.en,
+                },
+                seoDescription: {
+                    tr: body.seoDescription?.tr,
+                    en: body.seoDescription?.en,
+                },
                 isActive: body.isActive ?? true,
                 order: body.order || 0,
             },

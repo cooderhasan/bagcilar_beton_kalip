@@ -58,8 +58,14 @@ export default function ProductForm({ categories }: { categories: Category[] }) 
             images: images, // Use state instead of form input
             videoUrl: formData.get("videoUrl") || null,
             features: features.filter((f) => f.tr.trim() !== "" || f.en.trim() !== ""), // Clean empty features
-            seoTitle: formData.get("seoTitle"),
-            seoDescription: formData.get("seoDescription"),
+            seoTitle: {
+                tr: formData.get("seoTitle_tr"),
+                en: formData.get("seoTitle_en"),
+            },
+            seoDescription: {
+                tr: formData.get("seoDescription_tr"),
+                en: formData.get("seoDescription_en"),
+            },
         };
 
         try {
@@ -251,13 +257,25 @@ export default function ProductForm({ categories }: { categories: Category[] }) 
                 {/* SEO TAB */}
                 <div className={activeTab === "seo" ? "block" : "hidden"}>
                     <div className="space-y-6">
-                        <div>
-                            <label className="block text-sm font-medium text-slate-700 mb-1">SEO Başlığı (Meta Title)</label>
-                            <input name="seoTitle" className="w-full border rounded-lg px-4 py-2 bg-white text-gray-900 placeholder-gray-400" placeholder="Google arama sonuçlarında görünecek başlık" />
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label className="block text-sm font-medium text-slate-700 mb-1">SEO Başlığı (TR)</label>
+                                <input name="seoTitle_tr" className="w-full border rounded-lg px-4 py-2 bg-white text-gray-900 placeholder-gray-400" placeholder="Örn: Osmanlı Modeli Taş Duvar" />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-slate-700 mb-1">SEO Title (EN)</label>
+                                <input name="seoTitle_en" className="w-full border rounded-lg px-4 py-2 bg-white text-gray-900 placeholder-gray-400" placeholder="Ex: Ottoman Model Stone Wall" />
+                            </div>
                         </div>
-                        <div>
-                            <label className="block text-sm font-medium text-slate-700 mb-1">SEO Açıklaması (Meta Description)</label>
-                            <textarea name="seoDescription" rows={3} className="w-full border rounded-lg px-4 py-2 bg-white text-gray-900 placeholder-gray-400" placeholder="Google arama sonuçlarında görünecek özet" />
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label className="block text-sm font-medium text-slate-700 mb-1">SEO Açıklaması (TR)</label>
+                                <textarea name="seoDescription_tr" rows={3} className="w-full border rounded-lg px-4 py-2 bg-white text-gray-900 placeholder-gray-400" placeholder="Google'da görünecek Türkçe açıklama" />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-slate-700 mb-1">SEO Description (EN)</label>
+                                <textarea name="seoDescription_en" rows={3} className="w-full border rounded-lg px-4 py-2 bg-white text-gray-900 placeholder-gray-400" placeholder="English description for search engines" />
+                            </div>
                         </div>
                     </div>
                 </div>

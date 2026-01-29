@@ -34,9 +34,18 @@ export async function updateSiteSettings(data: FormData) {
                 tr: data.get("addressTr") as string,
                 en: data.get("addressEn") as string,
             },
-            seoTitle: data.get("seoTitle") as string,
-            seoDescription: data.get("seoDescription") as string,
-            seoKeywords: data.get("seoKeywords") as string,
+            seoTitle: {
+                tr: data.get("seoTitle_tr") as string,
+                en: data.get("seoTitle_en") as string,
+            },
+            seoDescription: {
+                tr: data.get("seoDescription_tr") as string,
+                en: data.get("seoDescription_en") as string,
+            },
+            seoKeywords: {
+                tr: data.get("seoKeywords_tr") as string,
+                en: data.get("seoKeywords_en") as string,
+            },
             instagram: data.get("instagram") as string,
             facebook: data.get("facebook") as string,
             linkedin: data.get("linkedin") as string,
