@@ -4,6 +4,7 @@ import Link from "next/link";
 import DeleteProductButton from "@/components/admin/DeleteProductButton";
 import Pagination from "@/components/ui/Pagination";
 import ProductSearch from "@/components/admin/ProductSearch";
+import { Suspense } from "react";
 
 export const dynamic = 'force-dynamic';
 
@@ -84,7 +85,9 @@ export default async function AdminProductsPage({ searchParams }: Props) {
 
             {/* Search Bar */}
             <div className="max-w-md">
-                <ProductSearch />
+                <Suspense fallback={<div>Yükleniyor...</div>}>
+                    <ProductSearch />
+                </Suspense>
             </div>
 
             <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">

@@ -34,7 +34,7 @@ export default function Footer({ settings }: FooterProps) {
                         )}
                     </Link>
                     <p className="text-sm mb-4">
-                        {settings?.seoDescription || tHome('description')}
+                        {(settings?.seoDescription as any)?.[locale] || (settings?.seoDescription as any)?.['tr'] || tHome('description')}
                     </p>
                 </div>
 
