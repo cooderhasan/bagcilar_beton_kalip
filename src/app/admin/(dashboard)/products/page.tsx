@@ -18,38 +18,47 @@ export default async function AdminProductsPage({ searchParams }: Props) {
     const limit = 10;
     const skip = (page - 1) * limit;
 
-    // Filter logic
-    const whereClause: any = {
-        isActive: undefined // No filter on active status by default
-    };
+    let products: any[] = [];
+    let total = 0;
 
     if (search) {
-        whereClause.OR = [
-            {
-                title: {
-                    path: ['tr'],
-                    string_contains: search
-                }
-            },
-            {
-                title: {
-                    path: ['en'],
-                    string_contains: search
-                }
-            }
-        ];
-    }
+        // PostgreSQL JSON search using raw query for "title"->>'tr' or 'en'
+        // We fetch all matching IDs first (sorted) to handle pagination correctly in memory for the ID list
+        // Since this is an admin panel, expected result set size is manageable
+        const searchPattern = `%${search}%`;
+        const matchingIds = await prisma.$queryRaw<{ id: string }[]>`
+            SELECT id FROM "Product"
+            WHERE "title"->>'tr' ILIKE ${searchPattern} 
+            OR "title"->>'en' ILIKE ${searchPattern}
+            ORDER BY "order" ASC
+        `;
 
-    const [total, products] = await Promise.all([
-        prisma.product.count({ where: whereClause }),
-        prisma.product.findMany({
-            where: whereClause,
-            skip,
-            take: limit,
-            orderBy: { order: 'asc' },
-            include: { category: true }
-        })
-    ]);
+        total = matchingIds.length;
+
+        // Paginate IDs
+        const pageIds = matchingIds.slice(skip, skip + limit).map(p => p.id);
+
+        if (pageIds.length > 0) {
+            products = await prisma.product.findMany({
+                where: { id: { in: pageIds } },
+                include: { category: true },
+                orderBy: { order: 'asc' }
+            });
+        }
+    } else {
+        // Standard pagination without search
+        const [count, data] = await Promise.all([
+            prisma.product.count(),
+            prisma.product.findMany({
+                skip,
+                take: limit,
+                orderBy: { order: 'asc' },
+                include: { category: true }
+            })
+        ]);
+        total = count;
+        products = data;
+    }
 
     const totalPages = Math.ceil(total / limit);
 
