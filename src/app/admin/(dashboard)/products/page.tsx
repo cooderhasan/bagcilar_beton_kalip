@@ -22,21 +22,26 @@ export default async function AdminProductsPage({ searchParams }: Props) {
     let total = 0;
 
     if (search) {
-        // PostgreSQL JSON search using raw query for "title"->>'tr' or 'en'
-        // We fetch all matching IDs first (sorted) to handle pagination correctly in memory for the ID list
-        // Since this is an admin panel, expected result set size is manageable
-        const searchPattern = `%${search}%`;
-        const matchingIds = await prisma.$queryRaw<{ id: string }[]>`
-            SELECT id FROM "Product"
-            WHERE "title"->>'tr' ILIKE ${searchPattern} 
-            OR "title"->>'en' ILIKE ${searchPattern}
-            ORDER BY "order" ASC
-        `;
+        // Fetch distinct ID and Title for all products to filter in memory
+        // This guarantees correct Turkish case formatting (e.g. I -> ı, İ -> i) which database collations often miss
+        const allProducts = await prisma.product.findMany({
+            select: { id: true, title: true },
+            orderBy: { order: 'asc' }
+        });
 
-        total = matchingIds.length;
+        const searchLower = search.toLocaleLowerCase('tr');
 
-        // Paginate IDs
-        const pageIds = matchingIds.slice(skip, skip + limit).map(p => p.id);
+        // Filter using JavaScript's robust locale support
+        const filteredIds = allProducts.filter((p: any) => {
+            const titleTr = (p.title?.tr || '').toLocaleLowerCase('tr');
+            const titleEn = (p.title?.en || '').toLocaleLowerCase('en');
+            return titleTr.includes(searchLower) || titleEn.includes(searchLower);
+        }).map(p => p.id);
+
+        total = filteredIds.length;
+
+        // Paginate logic
+        const pageIds = filteredIds.slice(skip, skip + limit);
 
         if (pageIds.length > 0) {
             products = await prisma.product.findMany({
