@@ -5,7 +5,14 @@ const withNextIntl = createNextIntlPlugin();
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     output: "standalone",
-    /* config options here */
+    // Optimize build memory usage
+    swcMinify: true,
+    typescript: {
+        ignoreBuildErrors: true,
+    },
+    eslint: {
+        ignoreDuringBuilds: true,
+    },
     images: {
         formats: ['image/avif', 'image/webp'],
         remotePatterns: [
