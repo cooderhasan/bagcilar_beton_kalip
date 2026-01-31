@@ -3,22 +3,47 @@ import Image from "next/image";
 import Link from "next/link";
 import DeleteProductButton from "@/components/admin/DeleteProductButton";
 import Pagination from "@/components/ui/Pagination";
+import ProductSearch from "@/components/admin/ProductSearch";
 
 export const dynamic = 'force-dynamic';
 
 interface Props {
-    searchParams: Promise<{ page?: string }>;
+    searchParams: Promise<{ page?: string; search?: string }>;
 }
 
 export default async function AdminProductsPage({ searchParams }: Props) {
     const resolvedSearchParams = await searchParams;
     const page = Number(resolvedSearchParams.page) || 1;
+    const search = resolvedSearchParams.search || "";
     const limit = 10;
     const skip = (page - 1) * limit;
 
+    // Filter logic
+    const whereClause: any = {
+        isActive: undefined // No filter on active status by default
+    };
+
+    if (search) {
+        whereClause.OR = [
+            {
+                title: {
+                    path: ['tr'],
+                    string_contains: search
+                }
+            },
+            {
+                title: {
+                    path: ['en'],
+                    string_contains: search
+                }
+            }
+        ];
+    }
+
     const [total, products] = await Promise.all([
-        prisma.product.count(),
+        prisma.product.count({ where: whereClause }),
         prisma.product.findMany({
+            where: whereClause,
             skip,
             take: limit,
             orderBy: { order: 'asc' },
@@ -30,7 +55,7 @@ export default async function AdminProductsPage({ searchParams }: Props) {
 
     return (
         <div className="space-y-6">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
                 <h1 className="text-3xl font-bold text-slate-800">Ürün Yönetimi</h1>
                 <Link
                     href="/admin/products/new"
@@ -41,6 +66,11 @@ export default async function AdminProductsPage({ searchParams }: Props) {
                     </svg>
                     Yeni Ürün Ekle
                 </Link>
+            </div>
+
+            {/* Search Bar */}
+            <div className="max-w-md">
+                <ProductSearch />
             </div>
 
             <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
@@ -58,7 +88,7 @@ export default async function AdminProductsPage({ searchParams }: Props) {
                         {products.length === 0 ? (
                             <tr>
                                 <td colSpan={5} className="px-6 py-8 text-center text-slate-500">
-                                    {total === 0 ? "Henüz ürün eklenmemiş." : "Bu sayfada ürün bulunamadı."}
+                                    {total === 0 ? "Kayıt bulunamadı." : "Bu sayfada ürün yok."}
                                 </td>
                             </tr>
                         ) : (
@@ -129,6 +159,7 @@ export default async function AdminProductsPage({ searchParams }: Props) {
                     currentPage={page}
                     totalPages={totalPages}
                     baseUrl="/admin/products"
+                    searchParams={{ search }}
                 />
             </div>
         </div>
