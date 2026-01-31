@@ -5,6 +5,7 @@ import Image from 'next/image';
 import PageHeader from '@/components/ui/PageHeader';
 import { notFound } from 'next/navigation';
 import { Prisma } from '@prisma/client';
+import Pagination from '@/components/ui/Pagination';
 
 type CategoryWithCount = Prisma.CategoryGetPayload<{
     include: {
@@ -74,15 +75,22 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default async function CategoryPage({
     params,
+    searchParams
 }: {
     params: Promise<{ locale: string; slug: string }>;
+    searchParams: Promise<{ page?: string }>;
 }) {
     const { locale, slug } = await params;
+    const resolvedSearchParams = await searchParams;
+
+    const page = Number(resolvedSearchParams.page) || 1;
+    const limit = 12;
+    const skip = (page - 1) * limit;
 
     const t = await getTranslations({ locale, namespace: 'ProductCategories' });
     const tCommon = await getTranslations({ locale, namespace: 'Common' });
 
-    // 1. Fetch the specific category to validte it exists and get title/desc
+    // 1. Fetch the specific category to validate it exists and get title/desc
     const selectedCategory = await prisma.category.findUnique({
         where: { slug },
     });
@@ -101,19 +109,30 @@ export default async function CategoryPage({
         }
     });
 
-    // 3. Fetch products filtered by this category
-    const products = await prisma.product.findMany({
-        where: {
-            isActive: true,
-            category: { slug }
-        },
-        include: { category: true },
-        orderBy: { order: 'asc' }
-    });
+    // 3. Fetch products filtered by this category with pagination
+    const [totalProducts, products] = await Promise.all([
+        prisma.product.count({
+            where: {
+                isActive: true,
+                category: { slug }
+            }
+        }),
+        prisma.product.findMany({
+            where: {
+                isActive: true,
+                category: { slug }
+            },
+            include: { category: true },
+            orderBy: { order: 'asc' },
+            skip,
+            take: limit
+        })
+    ]);
+
+    const totalPages = Math.ceil(totalProducts / limit);
 
     const headerTitle = (selectedCategory.title as any)[locale] || (selectedCategory.title as any).tr;
     const headerDesc = (selectedCategory.description as any)?.[locale] || (selectedCategory.description as any)?.tr;
-    // const headerImage = selectedCategory.image || 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2070';
 
     const breadcrumbs = [
         { label: t('title'), href: '/products' },
@@ -124,7 +143,6 @@ export default async function CategoryPage({
         <div className="bg-gray-50 min-h-screen">
             <PageHeader
                 title={headerTitle}
-                // description={headerDesc} // Content moved below filters
                 simple={true}
                 breadcrumbs={breadcrumbs}
             />
@@ -137,10 +155,6 @@ export default async function CategoryPage({
                             href="/products"
                             className="px-4 py-2 rounded-full font-semibold transition-colors bg-gray-100 text-gray-700 hover:bg-gray-200"
                         >
-                            {/* We don't have total count here easily unless we fetch all products, 
-                                but standard practice is just "All" or fetching aggregate. 
-                                For now, let's keep it simple or fetch aggregate if needed. 
-                                Let's just say "Tümü" */}
                             {locale === 'tr' ? 'Tümü' : 'All'}
                         </Link>
                         {categories.map((cat: CategoryWithCount) => (
@@ -215,67 +229,78 @@ export default async function CategoryPage({
                             </p>
                         </div>
                     ) : (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                            {products.map((product: any) => {
-                                const title = (product.title as any)[locale] || (product.title as any).tr;
-                                const categoryTitle = (product.category.title as any)[locale] || (product.category.title as any).tr;
+                        <>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                                {products.map((product: any) => {
+                                    const title = (product.title as any)[locale] || (product.title as any).tr;
+                                    const categoryTitle = (product.category.title as any)[locale] || (product.category.title as any).tr;
 
-                                return (
-                                    <Link
-                                        key={product.id}
-                                        href={`/products/${product.slug}`}
-                                        className="group block bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1"
-                                    >
-                                        {/* Image */}
-                                        <div className="relative aspect-[4/3] bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
-                                            {product.images.length > 0 ? (
-                                                <Image
-                                                    src={product.images[0]}
-                                                    alt={title}
-                                                    fill
-                                                    className="object-cover group-hover:scale-110 transition-transform duration-500"
-                                                />
-                                            ) : (
-                                                <div className="absolute inset-0 flex items-center justify-center">
-                                                    <svg className="w-16 h-16 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                                    </svg>
-                                                </div>
-                                            )}
-
-                                            {/* Hover Overlay */}
-                                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                                <div className="absolute bottom-4 left-4 right-4">
-                                                    <span className="inline-flex items-center gap-2 text-white text-sm font-semibold">
-                                                        {tCommon('readMore')}
-                                                        <svg className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                    return (
+                                        <Link
+                                            key={product.id}
+                                            href={`/products/${product.slug}`}
+                                            className="group block bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1"
+                                        >
+                                            {/* Image */}
+                                            <div className="relative aspect-[4/3] bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
+                                                {product.images.length > 0 ? (
+                                                    <Image
+                                                        src={product.images[0]}
+                                                        alt={title}
+                                                        fill
+                                                        className="object-cover group-hover:scale-110 transition-transform duration-500"
+                                                    />
+                                                ) : (
+                                                    <div className="absolute inset-0 flex items-center justify-center">
+                                                        <svg className="w-16 h-16 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                                         </svg>
+                                                    </div>
+                                                )}
+
+                                                {/* Hover Overlay */}
+                                                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                                    <div className="absolute bottom-4 left-4 right-4">
+                                                        <span className="inline-flex items-center gap-2 text-white text-sm font-semibold">
+                                                            {tCommon('readMore')}
+                                                            <svg className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                                            </svg>
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                {/* Category Badge */}
+                                                <div className="absolute top-4 left-4">
+                                                    <span className="inline-block bg-gradient-to-r from-orange-500 to-amber-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+                                                        {categoryTitle}
                                                     </span>
                                                 </div>
                                             </div>
 
-                                            {/* Category Badge */}
-                                            <div className="absolute top-4 left-4">
-                                                <span className="inline-block bg-gradient-to-r from-orange-500 to-amber-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
-                                                    {categoryTitle}
-                                                </span>
+                                            {/* Content */}
+                                            <div className="p-5">
+                                                <h3 className="text-lg font-bold text-gray-800 mb-2 group-hover:text-orange-500 transition-colors line-clamp-1">
+                                                    {title}
+                                                </h3>
+                                                <p className="text-sm text-gray-500 line-clamp-2 leading-relaxed">
+                                                    {(product.description as any)[locale] || (product.description as any).tr}
+                                                </p>
                                             </div>
-                                        </div>
+                                        </Link>
+                                    );
+                                })}
+                            </div>
 
-                                        {/* Content */}
-                                        <div className="p-5">
-                                            <h3 className="text-lg font-bold text-gray-800 mb-2 group-hover:text-orange-500 transition-colors line-clamp-1">
-                                                {title}
-                                            </h3>
-                                            <p className="text-sm text-gray-500 line-clamp-2 leading-relaxed">
-                                                {(product.description as any)[locale] || (product.description as any).tr}
-                                            </p>
-                                        </div>
-                                    </Link>
-                                );
-                            })}
-                        </div>
+                            {/* Pagination Control */}
+                            <div className="mt-12">
+                                <Pagination
+                                    currentPage={page}
+                                    totalPages={totalPages}
+                                    baseUrl={`/products/category/${slug}`}
+                                />
+                            </div>
+                        </>
                     )}
                 </div>
             </section>

@@ -2,14 +2,31 @@ import { prisma } from "@/lib/prisma";
 import Image from "next/image";
 import Link from "next/link";
 import DeleteProductButton from "@/components/admin/DeleteProductButton";
+import Pagination from "@/components/ui/Pagination";
 
 export const dynamic = 'force-dynamic';
 
-export default async function AdminProductsPage() {
-    const products = await prisma.product.findMany({
-        orderBy: { order: 'asc' },
-        include: { category: true }
-    });
+interface Props {
+    searchParams: Promise<{ page?: string }>;
+}
+
+export default async function AdminProductsPage({ searchParams }: Props) {
+    const resolvedSearchParams = await searchParams;
+    const page = Number(resolvedSearchParams.page) || 1;
+    const limit = 10;
+    const skip = (page - 1) * limit;
+
+    const [total, products] = await Promise.all([
+        prisma.product.count(),
+        prisma.product.findMany({
+            skip,
+            take: limit,
+            orderBy: { order: 'asc' },
+            include: { category: true }
+        })
+    ]);
+
+    const totalPages = Math.ceil(total / limit);
 
     return (
         <div className="space-y-6">
@@ -41,7 +58,7 @@ export default async function AdminProductsPage() {
                         {products.length === 0 ? (
                             <tr>
                                 <td colSpan={5} className="px-6 py-8 text-center text-slate-500">
-                                    Henüz ürün eklenmemiş.
+                                    {total === 0 ? "Henüz ürün eklenmemiş." : "Bu sayfada ürün bulunamadı."}
                                 </td>
                             </tr>
                         ) : (
@@ -104,6 +121,15 @@ export default async function AdminProductsPage() {
                         )}
                     </tbody>
                 </table>
+            </div>
+
+            {/* Pagination */}
+            <div className="py-4">
+                <Pagination
+                    currentPage={page}
+                    totalPages={totalPages}
+                    baseUrl="/admin/products"
+                />
             </div>
         </div>
     );
