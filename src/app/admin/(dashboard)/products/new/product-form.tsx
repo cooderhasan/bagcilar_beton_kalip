@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import MultiImageUpload from "@/components/admin/MultiImageUpload";
 import toast from "react-hot-toast";
+import { slugify } from "@/lib/utils";
 
 interface Category {
     id: string;
@@ -17,11 +18,21 @@ export default function ProductForm({ categories }: { categories: Category[] }) 
     const [error, setError] = useState("");
     const [activeTab, setActiveTab] = useState("general");
 
+    // State for controlled inputs to handle auto-slug generation
+    const [titleTr, setTitleTr] = useState("");
+    const [slug, setSlug] = useState("");
+
     // State for dynamic features list
     const [features, setFeatures] = useState<{ tr: string; en: string }[]>([{ tr: "", en: "" }]);
 
     // State for images
     const [images, setImages] = useState<string[]>([]);
+
+    const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const title = e.target.value;
+        setTitleTr(title);
+        setSlug(slugify(title));
+    };
 
     const handleFeatureChange = (index: number, field: "tr" | "en", value: string) => {
         const newFeatures = [...features];
@@ -51,7 +62,7 @@ export default function ProductForm({ categories }: { categories: Category[] }) 
                 tr: formData.get("desc_tr"),
                 en: formData.get("desc_en"),
             },
-            slug: formData.get("slug"),
+            slug: slug, // Use state
             categoryId: formData.get("categoryId"),
             isActive: formData.get("isActive") === "on",
             order: Number(formData.get("order")),
@@ -148,12 +159,27 @@ export default function ProductForm({ categories }: { categories: Category[] }) 
 
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 mb-1">Slug (URL)</label>
-                                <input name="slug" required className="w-full border rounded-lg px-4 py-2 bg-white text-gray-900 placeholder-gray-400" placeholder="osmanli-modeli-tas-duvar" />
+                                <input
+                                    name="slug"
+                                    required
+                                    className="w-full border rounded-lg px-4 py-2 bg-white text-gray-900 placeholder-gray-400"
+                                    placeholder="osmanli-modeli-tas-duvar"
+                                    value={slug}
+                                    onChange={(e) => setSlug(e.target.value)}
+                                />
+                                <p className="text-xs text-slate-500 mt-1">Başlıktan otomatik oluşturulur.</p>
                             </div>
 
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 mb-1">Ürün Başlığı (TR)</label>
-                                <input name="title_tr" required className="w-full border rounded-lg px-4 py-2 bg-white text-gray-900 placeholder-gray-400" placeholder="Örn: Osmanlı Modeli" />
+                                <input
+                                    name="title_tr"
+                                    required
+                                    className="w-full border rounded-lg px-4 py-2 bg-white text-gray-900 placeholder-gray-400"
+                                    placeholder="Örn: Osmanlı Modeli"
+                                    value={titleTr}
+                                    onChange={handleTitleChange}
+                                />
                             </div>
 
                             <div>

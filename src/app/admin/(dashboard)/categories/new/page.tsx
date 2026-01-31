@@ -3,11 +3,30 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { slugify } from "@/lib/utils";
 
 export default function NewCategoryPage() {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+
+    // State for controlled inputs to handle auto-slug generation
+    const [titleTr, setTitleTr] = useState("");
+    const [slug, setSlug] = useState("");
+
+    const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const title = e.target.value;
+        setTitleTr(title);
+        // Only auto-generate slug if it hasn't been manually edited heavily
+        // But for simplicity/best UX in this context, usually we just update it
+        // until the user manually edits the slug field itself (advanced pattern),
+        // or just always update it which is requested here.
+        setSlug(slugify(title));
+    };
+
+    const handleSlugChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSlug(e.target.value);
+    };
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -28,7 +47,7 @@ export default function NewCategoryPage() {
             },
             seoTitle: formData.get("seoTitle"),
             seoDescription: formData.get("seoDescription"),
-            slug: formData.get("slug"),
+            slug: slug, // Use the state value
             order: Number(formData.get("order")),
             image: formData.get("image"), // For now simple URL, later upload
         };
@@ -73,7 +92,14 @@ export default function NewCategoryPage() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label className="block text-sm font-medium text-slate-700 mb-1">Kategori Başlığı (TR)</label>
-                            <input name="title_tr" required className="w-full border rounded-lg px-4 py-2 bg-white text-gray-900" placeholder="Örn: Duvar Kalıpları" />
+                            <input
+                                name="title_tr"
+                                required
+                                className="w-full border rounded-lg px-4 py-2 bg-white text-gray-900"
+                                placeholder="Örn: Duvar Kalıpları"
+                                value={titleTr}
+                                onChange={handleTitleChange}
+                            />
                         </div>
                         <div>
                             <label className="block text-sm font-medium text-slate-700 mb-1">Category Title (EN)</label>
@@ -95,8 +121,15 @@ export default function NewCategoryPage() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label className="block text-sm font-medium text-slate-700 mb-1">Slug (URL)</label>
-                            <input name="slug" required className="w-full border rounded-lg px-4 py-2 bg-white text-gray-900" placeholder="duvar-kaliplari" />
-                            <p className="text-xs text-gray-500 mt-1">Benzersiz olmalı. Örn: duvar-kaliplari</p>
+                            <input
+                                name="slug"
+                                required
+                                className="w-full border rounded-lg px-4 py-2 bg-white text-gray-900"
+                                placeholder="duvar-kaliplari"
+                                value={slug}
+                                onChange={handleSlugChange}
+                            />
+                            <p className="text-xs text-gray-500 mt-1">Otomatik oluşturulur, gerekirse düzenleyebilirsiniz. Benzersiz olmalı.</p>
                         </div>
                         <div>
                             <label className="block text-sm font-medium text-slate-700 mb-1">Sıralama</label>
