@@ -98,6 +98,19 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
     const tCommon = await getTranslations({ locale, namespace: 'Common' });
     const categorySlug = product.category?.slug || '#';
 
+    // 4. Benzer Ürünler (Related Products)
+    // Fetch 4 other products in the same category, excluding the current one
+    const relatedProducts = await prisma.product.findMany({
+        where: {
+            isActive: true,
+            categoryId: product.categoryId,
+            id: { not: product.id }
+        },
+        take: 4,
+        orderBy: { order: 'asc' }, // Or createdAt: 'desc'
+        include: { category: true }
+    });
+
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50 pb-20 pt-8">
             <JsonLd data={{
@@ -143,7 +156,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                         </li>
                         <li className="text-gray-300">/</li>
                         <li>
-                            <Link href={`/products?category=${categorySlug}`} className="hover:text-orange-500 transition-all duration-200">
+                            <Link href={`/products/category/${categorySlug}`} className="hover:text-orange-500 transition-all duration-200">
                                 {categoryTitle}
                             </Link>
                         </li>
@@ -152,7 +165,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                     </ol>
                 </nav>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 xl:gap-12 lg:items-start">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 xl:gap-12 lg:items-start mb-20">
                     {/* Left Column: Gallery & Video */}
                     <div className="lg:sticky lg:top-24 space-y-6">
                         {/* Product Gallery */}
@@ -198,7 +211,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                         <div className="bg-white rounded-3xl shadow-lg border border-gray-100 p-6 md:p-8">
                             <div className="flex items-center gap-2 mb-5">
                                 <Link
-                                    href={`/products?category=${categorySlug}`}
+                                    href={`/products/category/${categorySlug}`}
                                     className="inline-flex items-center gap-1.5 bg-gradient-to-r from-orange-500 to-orange-600 text-white px-4 py-1.5 rounded-full text-xs font-bold tracking-wide hover:from-orange-600 hover:to-orange-700 transition-all duration-200 shadow-md hover:shadow-lg"
                                 >
                                     <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -293,6 +306,70 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
 
                     </div>
                 </div>
+
+                {/* Related Products Section */}
+                {relatedProducts.length > 0 && (
+                    <div className="mt-20 border-t border-gray-100 pt-16">
+                        <div className="flex items-center gap-3 mb-10">
+                            <div className="w-1.5 h-10 bg-orange-500 rounded-full" />
+                            <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
+                                {locale === 'tr' ? 'Benzer Ürünler' : 'Related Products'}
+                            </h2>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                            {relatedProducts.map((relProduct: any) => {
+                                const relTitle = (relProduct.title as any)[locale] || (relProduct.title as any).tr;
+                                const relCategoryTitle = (relProduct.category?.title as any)?.[locale] || (relProduct.category?.title as any)?.tr || '';
+
+                                return (
+                                    <Link
+                                        key={relProduct.id}
+                                        href={`/products/${relProduct.slug}`}
+                                        className="group block bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1"
+                                    >
+                                        {/* Image */}
+                                        <div className="relative aspect-[4/3] bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
+                                            {relProduct.images && relProduct.images.length > 0 ? (
+                                                <Image
+                                                    src={relProduct.images[0]}
+                                                    alt={relTitle}
+                                                    fill
+                                                    className="object-cover group-hover:scale-110 transition-transform duration-500"
+                                                />
+                                            ) : (
+                                                <div className="absolute inset-0 flex items-center justify-center">
+                                                    <svg className="w-12 h-12 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                                    </svg>
+                                                </div>
+                                            )}
+
+                                            {/* Category Badge */}
+                                            {relCategoryTitle && (
+                                                <div className="absolute top-4 left-4">
+                                                    <span className="inline-block bg-white/90 backdrop-blur-sm text-orange-600 text-xs font-bold px-3 py-1 rounded-full shadow-sm">
+                                                        {relCategoryTitle}
+                                                    </span>
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        {/* Content */}
+                                        <div className="p-5">
+                                            <h3 className="text-lg font-bold text-gray-800 mb-2 group-hover:text-orange-500 transition-colors line-clamp-1">
+                                                {relTitle}
+                                            </h3>
+                                            <p className="text-sm text-gray-500 line-clamp-2 leading-relaxed">
+                                                {(relProduct.description as any)[locale] || (relProduct.description as any).tr}
+                                            </p>
+                                        </div>
+                                    </Link>
+                                );
+                            })}
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );

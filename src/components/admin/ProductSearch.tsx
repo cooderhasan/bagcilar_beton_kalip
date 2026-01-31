@@ -1,37 +1,29 @@
 "use client";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import { useDebounce } from "use-debounce";
-// Note: If use-debounce is not installed, I will implement a custom simple debounce. 
-// Checking package.json would be ideal but for a single file I can just write the logic.
-// Let's write a simple custom logic to avoid dependency issues if not present.
+import { useDebouncedCallback } from "use-debounce";
 
 export default function ProductSearch() {
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
 
-    // Initial value from URL
-    const [text, setText] = useState(searchParams.get("search") || "");
+    const handleSearch = useDebouncedCallback((term: string) => {
+        const params = new URLSearchParams(searchParams);
 
-    // Debounce logic
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            const params = new URLSearchParams(searchParams);
-            if (text) {
-                params.set("search", text);
-            } else {
-                params.delete("search");
-            }
-            // Reset page to 1 when searching
+        if (term) {
+            params.set("search", term);
+        } else {
+            params.delete("search");
+        }
+
+        // Only reset to page 1 if the 'search' parameter actually changes
+        // This prevents resetting when the user navigates pages (which changes searchParams but not the search query itself)
+        if (term !== (searchParams.get("search") || "")) {
             params.set("page", "1");
-
             router.replace(`${pathname}?${params.toString()}`);
-        }, 500); // 500ms delay
-
-        return () => clearTimeout(timer);
-    }, [text, router, pathname, searchParams]);
+        }
+    }, 500);
 
     return (
         <div className="relative">
@@ -42,10 +34,12 @@ export default function ProductSearch() {
             </div>
             <input
                 type="text"
-                className="block w-full pl-10 pr-3 py-2 border border-slate-200 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                className="block w-full pl-10 pr-3 py-2 border border-slate-200 rounded-lg leading-5 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
                 placeholder="Ürün ara..."
-                value={text}
-                onChange={(e) => setText(e.target.value)}
+                defaultValue={searchParams.get("search")?.toString()}
+                onChange={(e) => {
+                    handleSearch(e.target.value);
+                }}
             />
         </div>
     );
